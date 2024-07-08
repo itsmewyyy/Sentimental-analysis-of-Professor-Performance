@@ -1,0 +1,15 @@
+comment,output,flag,username,timestamp
+,,,,2024-01-11 02:03:47.113371
+"{""path"":""flagged\\Upload a file\\befe5a27dfdf98413b2a\\File_example.xlsx"",""url"":""http://127.0.0.1:7863/file=C:\\Users\\acer\\AppData\\Local\\Temp\\gradio\\8ecc1ed3f26c7380dc0bd60facf81875d8c5e5b9\\File_example.xlsx"",""size"":9166,""orig_name"":""File_example.xlsx"",""mime_type"":""""}","Very good teacher:  Positive
+She teaches very well:  Positive
+An average experience :  Neutral
+boring:  Positive
+She always give assignments but doesn’t even teach:  Negative
+Always late in class:  Positive
+not so good:  Positive
+not good:  Positive
+worst:  Positive
+bad experience:  Negative
+I love the way she teaches:  Positive
+She is very considerate to us:  Positive
+",,,2024-01-11 03:01:32.656679
