@@ -17,10 +17,10 @@ Codasdadasdas asdfabkabkabasdjk testing some codes blabla using diff algos and d
 sdfdsfadgfdfsg
 
 ### 4. Database Design and Development
-jasdkljaskl actual code akljsdlfhjs
+jasdkljaskl
 
 ### 5. Backend Development
-hjsjkhadjkssg
+hjsjkhadjkssg actual code akljsdlfhjs
 
 ### 6. Integration of Frontend and Backend
 sajdklasjdkl
