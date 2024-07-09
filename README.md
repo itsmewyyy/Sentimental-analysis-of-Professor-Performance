@@ -2,14 +2,28 @@
 Analyzing Pamantasan ng Lungsod ng Pasig Student Sentiments Towards Professor Performance A Naive Bayes Approach.
 
 
+## Development Phases
 
-
+### 1. Design Phase
 Access the design file [here.](https://www.figma.com/design/PlZzJbSWQX5gVi2vTSaCHK/AAAaa-thesis?node-id=0-1&t=BN8PqhEH9J4X3dU8-1)
 
+### 2. Code Testing and Simulation
 
-for code testing and simulation to work install the ff:
-matploblib
-gradio
-pandas
-scikitlearn
-numpy seaborn
+Install the following: matploblib, gradio, pandas, scikitlearn, numpy, seaborn
+
+Codasdadasdas asdfabkabkabasdjk testing some codes blabla using diff algos and dfgdfg
+
+### 3. Frontend Development
+sdfdsfadgfdfsg
+
+### 4. Database Design and Development
+jasdkljaskl actual code akljsdlfhjs
+
+### 5. Backend Development
+hjsjkhadjkssg
+
+### 6. Integration of Frontend and Backend
+sajdklasjdkl
+
+### 7. Testing and Debugging 
+dsjkfljdsklfjklad
