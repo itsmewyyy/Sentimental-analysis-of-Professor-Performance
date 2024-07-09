@@ -9,7 +9,7 @@ Access the design file [here.](https://www.figma.com/design/PlZzJbSWQX5gVi2vTSaC
 
 ### 2. Code Testing and Simulation
 
-Install the following: matploblib, gradio, pandas, scikitlearn, numpy, seaborn
+Install the following: matploblib, gradio, pandas, scikitlearn, numpy, seaborn, jupyter di ko alam
 
 Codasdadasdas asdfabkabkabasdjk testing some codes blabla using diff algos and dfgdfg
 
