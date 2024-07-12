@@ -9,12 +9,10 @@ Access the design file [here.](https://www.figma.com/design/PlZzJbSWQX5gVi2vTSaC
 
 ### 2. Code Testing and Simulation
 
-Install the following: matploblib, gradio, pandas, scikitlearn, numpy, seaborn, jupyter idk
-
-Codasdadasdas asdfabkabkabasdjk testing some codes blabla using diff algos and dfgdfg
+Install the following to run the simulation: matploblib, gradio, pandas, scikitlearn, numpy, seaborn, jupyter 
 
 ### 3. Frontend Development
-sdfdsfadgfdfsg
+  
 
 ### 4. Database Design and Development
 jasdkljaskl
