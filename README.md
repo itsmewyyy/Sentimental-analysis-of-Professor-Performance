@@ -51,17 +51,25 @@ College and Professors
 - Courses 
 
 Numerical and Questions
-- Each questions for the feedback
+- Each questions for the feedback and numerical
 
 Numerical ratings
 - Ratings for prof for each student
 
 Feedback answers 
 - answers for each prof
+- Comment/Feedback id
+- Student id
 
 Trained data
--Trained historically data
+- Trained historical data
 
+Sorted out comments
+- Feedback answers
+- Comment/Feedback id
+- Student id
+- Sentiment category
+- Sentiment score
 
 ### 5. Backend Development
 
