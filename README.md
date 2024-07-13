@@ -9,7 +9,7 @@ Analyzing Pamantasan ng Lungsod ng Pasig Student Sentiments Towards Professor Pe
 
 ### 1. Design Phase
 
-Designing the Student and Admin Side. Portal, Login Page, and Homepages.
+Designing the Portal. Student and Admin Side's Login Page, and Homepages.
 Access the design file [here.](https://www.figma.com/design/PlZzJbSWQX5gVi2vTSaCHK/AAAaa-thesis?node-id=0-1&t=BN8PqhEH9J4X3dU8-1)
 
 ### 2. Code Testing and Simulation
