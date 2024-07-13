@@ -78,7 +78,7 @@ Student Side
 - Submit button pushes each SET to the database to use for analysis generation
 
 Admin Side
-- Selection of faculty > Professor pulls the information from the database. 
+- Selection of faculty -> Professor, pulls the information from the database. 
 - Adding or Removing feedback questions and numerical
 - CRUD operations for admin
 - English, Tagalog, and Taglish Sentimental Analysis. Storing to database.
