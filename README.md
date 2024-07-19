@@ -35,8 +35,6 @@ Admin Side (in no particular order)
 ### 4. Database Design and Development
 
 Admin Login Information
-- ID no.
-- Password
 
 Student Information
 - Student no.
