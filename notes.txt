@@ -1,0 +1,3 @@
+--ACTIVATING VIRTUAL ENV--
+
+.\plpSET\Scripts\activate
