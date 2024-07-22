@@ -1,8 +1,8 @@
 <!-- Student Login -->
 <template> 
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <div class="min-h-screen flex items-center justify-center">
         <section class="bg-yellow-50 rounded-lg px-5">
             <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 grid lg:grid-cols-2 gap-8 lg:gap-16">
@@ -21,13 +21,13 @@
                         <h2 class="text-2xl font-bold text-yellow-300 font-raleway">
                             Student Login
                         </h2>
-                        <form action="{{ route('login.submit') }}" method="POST" class="mt-8 space-y-6">
+                        <form action="" method="POST" class="mt-8 space-y-6">
                             <div>
-                                <label for="student_no" class="block mb-2 text-sm font-normal text-gray-900 font-raleway">Student Number</label>
+                                <label for="student_no" class="block mb-2 text-sm font-medium text-gray-900 font-raleway">Student Number</label>
                                 <input type="student_no" name="student_no" id="student_no" class="font-raleway bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-purple-600 focus:border-purple-500 block w-full p-2.5" placeholder="Enter Student Number" required>
                             </div>
                             <div>
-                                <label for="password" class="block mb-2 text-sm font-normal text-gray-900 font-raleway">Your password</label>
+                                <label for="password" class="block mb-2 text-sm font-medium text-gray-900 font-raleway">Your password</label>
                                 <input type="password" name="password" id="password" placeholder="••••••••" class="font-raleway bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-purple-600 focus:border-purple-500 block w-full p-2.5" required>
                             </div>
                             
