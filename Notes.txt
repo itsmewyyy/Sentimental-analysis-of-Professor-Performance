@@ -1,3 +1,8 @@
 --ACTIVATING VIRTUAL ENV--
 
 .\venv\Scripts\activate
+
+
+
+--INSTALL REQS--
+pip install -r requirements.txt
