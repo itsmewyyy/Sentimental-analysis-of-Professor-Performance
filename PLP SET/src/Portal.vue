@@ -1,8 +1,8 @@
 <template>
+  <section class=" h-screen flex items-center justify-center font-raleway">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-  <section class=" h-screen flex items-center justify-center font-raleway">
     <div class=" py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 rounded-lg">
       <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-green-700 md:text-5xl lg:text-6xl">Pamantasan ng Lungsod ng Pasig</h1>
       <p class="mb-8 text-xl font-normal text-yellow-500 lg:text-2xl sm:px-16 lg:px-48">Welcome to Student Evaluation on Teachers.</p>

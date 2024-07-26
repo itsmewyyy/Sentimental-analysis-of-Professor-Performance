@@ -8,10 +8,12 @@ import Portal from './Portal.vue'
 import Admin from './Admin.vue'
 import Register from './Register.vue'
 import SET from './SET.vue'
+import Feedback from './Feedback.vue'
 
 
 //createApp(Login).mount('#app')
 //createApp(Portal).mount('#app')
 //createApp(Admin).mount('#app')
-createApp(Register).mount('#app')
+//createApp(Register).mount('#app')
 //createApp(SET).mount('#app')
+createApp(Feedback).mount('#app')
