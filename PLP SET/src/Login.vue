@@ -1,15 +1,15 @@
 <template>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <div class="min-h-screen flex items-center justify-center font-raleway">
         <section class="bg-yellow-50 rounded-3xl px-5">
+             <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
             <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 grid lg:grid-cols-2 gap-8 lg:gap-16">
                 <div class="flex flex-col justify-center">
                     <h1 class="mb-4 text-md font-bold tracking-tight leading-none text-green-700 md:text-5xl lg:text-4xl">
                         Help Us Improve Education at Pamantasan ng Lungsod ng Pasig!
                     </h1>
-                    <p class="mb-6 text-lg font-normal text-gray-500 lg:text-xl">
+                    <p class="mb-6 font-normal text-gray-500 lg:text-xl text-left rtl:text-right">
                         Your feedback is invaluable! Participate in the Student Evaluation of Teachers (SET) 
                         and help us enhance the quality of education at Pamantasan ng Lungsod ng Pasig. 
                         Share your thoughts and experiences to contribute to the continuous improvement of our academic environment.
@@ -38,7 +38,7 @@
                             
                             <button type="submit" class="w-full px-5 py-3 text-base font-medium text-center text-white bg-green-700 rounded-lg hover:bg-green-600 focus:ring-4 focus:ring-blue-300 sm:w-auto">Login to your account</button>
                             <div class="text-sm font-medium text-gray-900">
-                                Create your student account <a href class="text-blue-600 hover:underline dark:text-blue-500">here</a>
+                                Create your student account <a class="text-blue-600 hover:underline dark:text-blue-500">here</a>
                             </div>
                         </form>
                     </div>

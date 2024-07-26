@@ -1,20 +1,20 @@
 <template>
-     <link rel="preconnect" href="https://fonts.googleapis.com">
+  <section class="w-full h-screen flex items-center justify-center p-10 font-raleway">
+       <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-  <section class="w-full h-screen flex items-center justify-center p-10 font-raleway">
     <div class="flex rounded-2xl shadow-lg max-w-5xl w-full">
       <div class="w-3/5 p-10 flex flex-col items-start justify-center bg-yellow-50 rounded-l-2xl">
-        <h1 class="mb-10 tracking-relaxed text-green-700 lg:text-4xl leading-snug">
-          Welcome to Student Evaluation on Teachers
+        <h1 class="mb-10 tracking-relaxed font-semibold text-green-700 lg:text-4xl leading-snug">
+          Welcome to Student Evaluation of Teaching
         </h1>
-        <p class="mb-0 text-lg font-light text-gray-500 tracking-tight">
+        <p class="mb-0 text-lg font-light text-gray-500 tracking-tight text-left rtl:text-right">
           Get involved in shaping the future of education by registering today. Your feedback on teachers will play a key role in improving the quality of instruction and fostering a better learning environment.
         </p>
       </div>
       <div class="w-2/5 p-10 flex items-center justify-center">
         <div class="w-full max-w-sm p-10">
-          <h4 class="text-2xl font-medium text-green-700 mb-4">Sign in to our platform</h4>
+          <h4 class="text-2xl font-medium text-black mb-4">Sign in to our platform</h4>
           <p class="text-sm text-gray-500 mb-8">Create your account Now</p>
           <form class="w-full mx-auto">
             <div class="relative z-0 w-full mb-8 group">
