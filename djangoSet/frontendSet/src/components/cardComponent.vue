@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col rounded-lg border px-40 py-20 space-y-2 bg-slate-200 max-w-7xl"
+    class="flex flex-col rounded-lg border px-40 py-20 space-y-1 bg-slate-200 max-w-7xl"
   >
     <div class="space-y-16">
       <div class="ml-4">
@@ -10,7 +10,7 @@
         <slot name="default"></slot>
         <slot name="footer-slot"></slot>
       </div>
-      <div class="flex flex-row mr-2">
+      <div class="flex flex-row">
         <div class="flex-1"></div>
         <div class="flex items-center space-x-24 mr-8 pb-2">
           <p>5</p>

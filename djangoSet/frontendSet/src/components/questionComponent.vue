@@ -41,8 +41,8 @@ export default {
 
 <style scoped>
 .radio-large {
-  width: 24px; /* Adjusted width */
-  height: 24px; /* Adjusted height */
+  width: 22px; /* Adjusted width */
+  height: 22px; /* Adjusted height */
   accent-color: #5f965e; /* Optional: matches the color to your design */
 }
 </style>
