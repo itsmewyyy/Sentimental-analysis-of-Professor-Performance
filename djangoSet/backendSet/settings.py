@@ -37,8 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-     'corsheaders',
-    'setLogin',
+    'corsheaders',
+    
 ]
 
 CORS_ALLOW_CREDENTIALS = True
@@ -57,7 +57,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'django_plpSET.urls'
+ROOT_URLCONF = 'backendSet.urls'
 
 TEMPLATES = [
     {
@@ -75,7 +75,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'django_plpSET.wsgi.application'
+WSGI_APPLICATION = 'backendSet.wsgi.application'
 
 
 # Database

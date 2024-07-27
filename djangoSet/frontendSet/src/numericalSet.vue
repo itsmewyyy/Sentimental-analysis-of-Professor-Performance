@@ -7,20 +7,19 @@
 
   <section class="max-w-full">
     <section
-      class="relative bg-white min-h-screen pt-16 overflow-y-auto font-raleway pb-40 pl-36 pr-4"
+      class="relative bg-white min-h-screen pt-20 overflow-y-auto font-raleway pb-40 pl-36 pr-4"
     >
       <div
-        class="relative bg-darks-50 rounded-2xl w-full pt-12 pb-28 space-y-4 p-12 border border-black/10"
+        class="relative bg-darks-50 rounded-3xl w-full pt-12 pb-28 space-y-8 p-12 border border-black/10"
       >
-        <div class="flex flex-col space-y-20 text-darks-800">
-          <h1 class="text-4xl font-bold max-w-4xl">
-            Welcome to Pamantasan ng Lungsod ng Pasig Student Evaluation of
-            Teaching
-          </h1>
-          <div class="flex flex-row text-xl space-x-1">
-            <p>You are currently evaluating</p>
-            <p class="font-bold">Riegie D. Tan, DIT</p>
+        <div class="flex flex-col space-y-3 text-darks-700">
+          <div class="flex flex-row text-4xl space-x-2">
+            <h1>You are currently evaluating</h1>
+            <h1 class="font-bold text-plpgreen-400">Riegie D. Tan, DIT</h1>
           </div>
+          <p class="text-sm font-thin">
+            Want to evaluate a different instructor? Select a course from the dropdown menu to display the corresponding professor.
+          </p>
         </div>
 
         <div class="space-y-4">
@@ -29,7 +28,7 @@
               header="B. The use of social media platforms (Ex. Facebook, Google Classroom, and etc.) "
             >
               <template #content>
-                <questioncomponent body="Qasdasmndasm,dnasjkd" />
+                <questioncomponent body="Artculates course policies blablabalab and babla balab?" />
                 <questioncomponent body="Question 2" />
               </template>
             </cardComponent>

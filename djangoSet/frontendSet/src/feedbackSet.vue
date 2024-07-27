@@ -1,85 +1,61 @@
 <template>
-
   <div
     class="fixed top-0 left-0 z-40 w-collapsed-sidebar h-screen bg-darks-50"
     tabindex="-1"
     aria-labelledby="drawer-navigation-label"
   ></div>
 
-  <section
-    class="relative bg-white min-h-screen pt-16 overflow-y-auto font-raleway pb-40 pl-36 pr-4"
-  >
-    <div
-      class="relative bg-darks-50 rounded-2xl w-full pt-12 pb-28 space-y-12 p-12 border border-black/10"
+  <section class="max-w-full">
+    <section
+      class="relative bg-white min-h-screen pt-20 overflow-y-auto font-raleway pb-40 pl-36 pr-4"
     >
-      <div class="flex flex-col space-y-4 text-darks-800">
-        <h1 class="text-4xl font-bold max-w-4xl">
-          Welcome to Pamantasan ng Lungsod ng Pasig Student Evaluation of
-          Teaching
-        </h1>
-        <div class="flex flex-row text-xl space-x-1">
-          <p>You are currently evaluating</p>
-          <p class="font-semibold">Riegie D. Tan, DIT</p>
+      <div
+        class="relative bg-darks-50 rounded-3xl w-full pt-12 pb-28 space-y-8 p-12 border border-black/10"
+      >
+        <div class="flex flex-col space-y-3 text-darks-700">
+          <div class="flex flex-row text-4xl space-x-2">
+            <h1>You are currently evaluating</h1>
+            <h1 class="font-bold text-plpgreen-400">Riegie D. Tan, DIT</h1>
+          </div>
+          <p class="text-sm font-thin">
+            Want to evaluate a different instructor? Select a course from the dropdown menu to display the corresponding professor.
+          </p>
         </div>
-      </div>
 
-      <div class="space-y-4">
-        <div class="flex flex-col items-center space-y-8">
-          <CardFeedback>
+        <div class="space-y-4">
+          <div class="flex flex-col items-center space-y-12">
+            <CardFeedback>
             <template #content>
               <TextAreaComponent
-                id="feedback"
-                label="1. How do you feel under his/her class?"
-                placeholder="Write your feedback here..."
-                rows="default"
-                cols="default"
-                size="md"
-                color="blue-50"
+                id="editor"
+                label="1. How would you describe your experience in this class under him/her?"
+              
+              />
+              <TextAreaComponent
+                id="editor"
+                label="2. What are the 3 words that best describe your teacher/instructor?"
+              
+              />
+              <TextAreaComponent
+                id="editor"
+                label="3. What do you think are the areas of improvement of this teacher/instructor in terms of personal compotency and personality?"
+              
+              />
+              <TextAreaComponent
+                id="editor"
+                label="4. What do you think are the areas of improvement of this teacher/instructor in terms of professional competence?"
+              
+              />
+              <TextAreaComponent
+                id="editor"
+                label="5. Is there something else you think we should have asked you in this survey? What could it be? Please let us know."
+              
               />
 
-              <TextAreaComponent
-                id="feedback"
-                label="2. huwasap"
-                placeholder="Write your feedback here..."
-                rows="default"
-                cols="60"
-                size="md"
-                color="blue-50"
-              />
-
-              <TextAreaComponent
-                id="feedback"
-                label="Feedback"
-                placeholder="Write your feedback here..."
-                rows="default"
-                cols="60"
-                size="md"
-                color="blue-50"
-              />
-
-              <TextAreaComponent
-                id="feedback"
-                label="Feedback"
-                placeholder="Write your feedback here..."
-                rows="default"
-                cols="60"
-                size="md"
-                color="blue-50"
-              />
-              <TextAreaComponent
-                id="feedback"
-                label="Feedback"
-                placeholder="Write your feedback here..."
-                rows="default"
-                cols="60"
-                size="md"
-                color="blue-50"
-              />
             </template>
           </CardFeedback>
-        </div>
+          </div>
 
-        <div>
           <button
             type="button"
             class="text-plpgreen-400 bg-white border border-plpgreen-100 focus:outline-none hover:bg-darks-50 focus:ring-4 focus:ring-gray-100 font-semibold rounded-lg text-sm px-12 py-2.5 me-2 mb-2"
@@ -94,10 +70,10 @@
           </button>
         </div>
       </div>
-    </div>
+    </section>
   </section>
-
 </template>
+
 
 <script>
 import CardFeedback from "./components/cardFeedback.vue";

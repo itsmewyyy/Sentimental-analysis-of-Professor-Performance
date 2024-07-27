@@ -9,11 +9,11 @@
       <slot name="bs"></slot>
     </div>
     <div class="flex items-center space-x-20 p-4">
-      <input type="radio" :value="1" v-model="selected" class="radio-large" />
-      <input type="radio" :value="2" v-model="selected" class="radio-large" />
-      <input type="radio" :value="3" v-model="selected" class="radio-large" />
-      <input type="radio" :value="4" v-model="selected" class="radio-large" />
-      <input type="radio" :value="5" v-model="selected" class="radio-large" />
+      <input type="radio" :value="1" v-model="selected" class="radio-large text-plpgreen-400 focus:ring-plpgreen-200" />
+      <input type="radio" :value="2" v-model="selected" class="radio-large text-plpgreen-200 focus:ring-plpgreen-200" />
+      <input type="radio" :value="3" v-model="selected" class="radio-large text-plpgreen-200 focus:ring-plpgreen-200" />
+      <input type="radio" :value="4" v-model="selected" class="radio-large text-plpgreen-200 focus:ring-plpgreen-200" />
+      <input type="radio" :value="5" v-model="selected" class="radio-large text-plpgreen-200 focus:ring-plpgreen-200" />
     </div>
   </div>
 </template>
@@ -36,6 +36,6 @@ export default {
 .radio-large {
   width: 22px;
   height: 22px;
-  accent-color: #5f965e;
+
 }
 </style>
