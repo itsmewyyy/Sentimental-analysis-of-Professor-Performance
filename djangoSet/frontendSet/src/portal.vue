@@ -11,12 +11,12 @@
     >
       <div class="flex flex-col space-y-2 items-center">
         <h1
-          class="mb-4 text-4xl font-black tracking-tight leading-none text-green-700 md:text-5xl lg:text-6xl"
+          class="mb-4 text-4xl font-black tracking-tight leading-none text-plpgreen-200 md:text-5xl lg:text-6xl"
         >
           Pamantasan ng Lungsod ng Pasig
         </h1>
         <p
-          class="mb-8 text-xl font-bold text-yellow-500 lg:text-2xl sm:px-16 lg:px-48"
+          class="mb-8 text-xl font-bold text-plpyellow-200 lg:text-2xl sm:px-16 lg:px-48"
         >
           Welcome to Student Evaluation of Teaching.
         </p>
@@ -24,13 +24,13 @@
       <div class="flex flex-col space-y-4 items-center">
         <button
           type="button"
-          class="w-80 text-green-700 border border-green-700 hover:bg-green-700 hover:text-white font-medium rounded-lg text-base px-6 py-3 text-center mb-2 leading-loose"
+          class="w-80 text-plpgreen-200 border border-plpgreen-200 hover:bg-plpgreen-200 hover:text-white font-medium rounded-lg text-base px-6 py-3 text-center mb-2 leading-loose focus:ring-2 focus:ring-plpgreen-100"
         >
           Student
         </button>
         <button
           type="button"
-          class="w-80 text-green-700 border border-green-700 hover:bg-green-700 hover:text-white font-medium rounded-lg text-base px-6 py-3 text-center mb-2 leading-loose"
+          class="w-80 text-plpgreen-200 border border-plpgreen-200 hover:bg-plpgreen-200 hover:text-white font-medium rounded-lg text-base px-6 py-3 text-center mb-2 leading-loose focus:ring-2 focus:ring-plpgreen-100"
         >
           Admin
         </button>

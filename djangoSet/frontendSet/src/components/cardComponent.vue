@@ -1,18 +1,16 @@
 <template>
   <div
-    class="flex flex-col rounded-lg border px-40 py-20 space-y-1 bg-slate-200 max-w-5xl"
+    class="flex flex-col round-16 border px-28 py-20 space-y-1 bg-plpgreen-100/30 min-w-full"
   >
     <div class="space-y-16">
-      <div class="ml-4">
-        <div v-if="header" class="flex text-xl font-semibold">
+      <div class="ml-4 font-bold text-darks-800">
+        <div v-if="header" class="flex text-2xl">
           <div>{{ header }}</div>
         </div>
-        <slot name="default"></slot>
-        <slot name="footer-slot"></slot>
       </div>
-      <div class="flex flex-row">
+      <div class="flex flex-row font-bold">
         <div class="flex-1"></div>
-        <div class="flex items-center space-x-24 mr-8 pb-2">
+        <div class="flex items-center space-x-24 mr-12 pb-2 text-darks-700">
           <p>5</p>
           <p>4</p>
           <p>3</p>
@@ -23,16 +21,7 @@
     </div>
 
     <div class="space-y-2 items-center">
-      <questioncomponent
-        body="Articulates course policies, procedures and gnfdngkdj hdsfjkhsdfjkhsdfjkhsdf
-      hajskdads asdasdad sdhasjkdhsajkd asdkasdkjlahsdjkashd adasda sd jashdajksdhasjkd?"
-      />
-      <questioncomponent
-        body="2Articulates course policies, procedures and gnfdngkdj"
-      />
-      <questioncomponent body="Question 2" />
-      <questioncomponent body="Question 2" />
-      <questioncomponent body="Question 2" />
+      <slot name="content"></slot>
     </div>
   </div>
 </template>
@@ -47,24 +36,7 @@ export default {
   props: {
     header: String,
   },
-  computed: {
-    computedClassesMain() {
-      const styleClasses = {
-        white: "bg-white",
-        "yellow-50": "bg-yellow-50",
-      };
-
-      const sizeClasses = {
-        lg: "max-w-lg",
-        "3xl": "max-w-3xl",
-      };
-
-      return [
-        styleClasses[this.type] || styleClasses["white"],
-        sizeClasses[this.size],
-      ];
-    },
-  },
+  computed: {},
 };
 </script>
 
@@ -79,5 +51,9 @@ export default {
   position: absolute;
   top: 1rem; /* Adjust top spacing as needed */
   right: 1rem; /* Adjust right spacing as needed */
+}
+
+.round-16 {
+  border-radius: 16px;
 }
 </style>

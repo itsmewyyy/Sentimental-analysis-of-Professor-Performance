@@ -1,17 +1,11 @@
 <template>
   <div
-    class="rounded-lg flex flex-row items-center question-container bg-white px-4 py-8 max-w-full"
+    class="rounded-lg flex flex-row items-center question-container bg-white p-8 min-w-full"
   >
     <div class="flex-1">
-      <slot name="ts"></slot>
-      <div
-        v-if="header"
-        class="flex mb-2 text-xl font-semibold tracking-tight justify-between items-center"
-      >
-        <div>{{ header }}</div>
-        <slot name="hs" class="max-h-8"></slot>
-      </div>
-      <span v-if="body" class="mb-3 font-normal block">{{ body }}</span>
+      <span v-if="body" class="mb-3 font-medium text-darks-800 block">{{
+        body
+      }}</span>
       <slot name="bs"></slot>
     </div>
     <div class="flex items-center space-x-20 p-4">
@@ -33,7 +27,6 @@ export default {
     };
   },
   props: {
-    header: String,
     body: String,
   },
 };
@@ -41,8 +34,8 @@ export default {
 
 <style scoped>
 .radio-large {
-  width: 22px; /* Adjusted width */
-  height: 22px; /* Adjusted height */
-  accent-color: #5f965e; /* Optional: matches the color to your design */
+  width: 22px;
+  height: 22px;
+  accent-color: #5f965e;
 }
 </style>
