@@ -7,7 +7,7 @@
         class="w-3/5 p-10 flex flex-col items-start justify-center bg-plpyellow-100/20 rounded-l-2xl"
       >
         <h1
-          class="mb-8 tracking-relaxed font-black text-plpgreen-400 lg:text-4xl leading-snug"
+          class="mb-8 tracking-relaxed font-black text-plpgreen-200 lg:text-4xl leading-snug"
         >
           Welcome to Student Evaluation of Teaching
         </h1>
