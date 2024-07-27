@@ -9,7 +9,7 @@
     class="relative bg-white min-h-screen pt-16 overflow-auto font-raleway pb-40 pl-52 pr-24"
   >
     <div
-      class="relative bg-darks-50 round-16 w-full pt-16 pb-32 space-y-12 p-12 border border-black/10"
+      class="relative bg-darks-50 rounded-2xl w-full pt-16 pb-32 space-y-12 p-12 border border-black/10"
     >
       <div class="flex flex-col space-y-4 text-darks-800">
         <h1 class="text-4xl font-bold max-w-4xl">
@@ -41,7 +41,7 @@
 
         <button
           type="button"
-          class="text-plpgreen-400 bg-white border border-plpgreen-100 focus:outline-none hover:bg-plpgreen-200 hover:text-white focus:ring-4 focus:ring-gray-100 font-semibold rounded-lg text-sm px-12 py-2.5 me-2 mb-2"
+          class="text-plpgreen-400 bg-white border border-plpgreen-100 focus:outline-none hover:bg-plpgreen-400 hover:text-white focus:ring-4 focus:ring-gray-100 font-semibold rounded text-sm px-12 py-2.5 me-2 mb-2"
         >
           Next
         </button>
@@ -56,7 +56,6 @@ import CardFeedback from "./components/cardFeedback.vue";
 import questioncomponent from "./components/questionComponent.vue";
 
 export default {
-  name: "ParentComponent",
   components: {
     cardComponent,
     questioncomponent,
@@ -65,9 +64,7 @@ export default {
 </script>
 
 <style scoped>
-.round-16 {
-  border-radius: 16px;
-}
+
 .w-collapsed-sidebar {
   width: 102px;
 }

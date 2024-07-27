@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col round-16 px-28 py-20 space-y-1 bg-plpgreen-100/30 min-w-full"
+    class="flex flex-col rounded-xl px-28 py-20 space-y-1 bg-plpgreen-100/30 min-w-full"
   >
     <div class="space-y-16">
       <div class="ml-4 font-bold text-darks-800">
@@ -36,19 +36,5 @@ export default {
 </script>
 
 <style scoped>
-.header-container {
-  padding-top: 1rem; /* Add top padding */
-  padding-left: 1rem; /* Add left padding */
-}
 
-/* Position the number container in the upper-right corner of the card */
-.number-container {
-  position: absolute;
-  top: 1rem; /* Adjust top spacing as needed */
-  right: 1rem; /* Adjust right spacing as needed */
-}
-
-.round-16 {
-  border-radius: 16px;
-}
 </style>

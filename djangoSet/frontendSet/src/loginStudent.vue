@@ -1,7 +1,7 @@
 <!-- Student Login -->
 <template>
   <div class="min-h-screen flex items-center justify-center font-raleway">
-    <section class="bg-plpyellow-100/20 rounded-3xl px-5">
+    <section class="bg-plpyellow-100/15 rounded-xl px-5">
       <div
         class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 grid lg:grid-cols-2 gap-8 lg:gap-16"
       >
@@ -21,7 +21,7 @@
         </div>
         <div>
           <div
-            class="w-full lg:max-w-xl p-6 space-y-8 sm:p-8 bg-white rounded-lg shadow-xl"
+            class="w-full lg:max-w-xl p-6 space-y-8 sm:p-8 bg-white rounded-lg shadow-md"
           >
             <h2 class="text-2xl font-bold text-plpyellow-200">Student Login</h2>
             <form action="" method="POST" class="mt-8 space-y-6">

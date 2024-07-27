@@ -12,7 +12,7 @@
         <p
           class="mb-8 text-xl font-bold text-plpyellow-200 lg:text-2xl sm:px-16 lg:px-48"
         >
-          Welcome to Student Evaluation of Teaching.
+          Welcome to Student Evaluation of Teaching
         </p>
       </div>
       <div class="flex flex-col space-y-4 items-center">

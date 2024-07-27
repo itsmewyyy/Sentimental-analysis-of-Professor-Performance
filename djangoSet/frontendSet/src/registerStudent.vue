@@ -2,7 +2,7 @@
   <section
     class="w-full h-screen flex items-center justify-center p-10 font-raleway"
   >
-    <div class="flex rounded-2xl shadow-lg max-w-5xl w-full">
+    <div class="flex rounded-2xl shadow-md max-w-5xl w-full border">
       <div
         class="w-3/5 p-10 flex flex-col items-start justify-center bg-plpyellow-100/15 rounded-l-2xl"
       >

@@ -8,7 +8,7 @@
     class="relative bg-white min-h-screen pt-16 overflow-auto font-raleway pb-40 pl-52 pr-24"
   >
     <div
-      class="relative bg-darks-50 round-16 w-full pt-16 pb-32 space-y-12 p-12 border border-black/10"
+      class="relative bg-darks-50 rounded-2xl w-full pt-16 pb-32 space-y-12 p-12 border border-black/10"
     >
       <div class="flex flex-col space-y-4 text-darks-800">
         <h1 class="text-4xl font-bold max-w-4xl">
@@ -94,15 +94,7 @@
       </div>
     </div>
   </section>
-  <section class="font-raleway">
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
-      rel="stylesheet"
-    />
-    <div></div>
-  </section>
+
 </template>
 
 <script>
