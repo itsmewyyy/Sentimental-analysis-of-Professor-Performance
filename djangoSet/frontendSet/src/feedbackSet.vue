@@ -1,14 +1,16 @@
 <template>
+
   <div
     class="fixed top-0 left-0 z-40 w-collapsed-sidebar h-screen bg-darks-50"
     tabindex="-1"
     aria-labelledby="drawer-navigation-label"
   ></div>
+
   <section
-    class="relative bg-white min-h-screen pt-16 overflow-auto font-raleway pb-40 pl-52 pr-24"
+    class="relative bg-white min-h-screen pt-16 overflow-y-auto font-raleway pb-40 pl-36 pr-4"
   >
     <div
-      class="relative bg-darks-50 rounded-2xl w-full pt-16 pb-32 space-y-12 p-12 border border-black/10"
+      class="relative bg-darks-50 rounded-2xl w-full pt-12 pb-28 space-y-12 p-12 border border-black/10"
     >
       <div class="flex flex-col space-y-4 text-darks-800">
         <h1 class="text-4xl font-bold max-w-4xl">
@@ -108,3 +110,11 @@ export default {
   },
 };
 </script>
+
+
+<style scoped>
+
+.w-collapsed-sidebar {
+  width: 102px;
+}
+</style>

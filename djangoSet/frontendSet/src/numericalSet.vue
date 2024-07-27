@@ -5,33 +5,27 @@
     aria-labelledby="drawer-navigation-label"
   ></div>
 
+<section class="max-w-full">
   <section
-    class="relative bg-white min-h-screen pt-16 overflow-auto font-raleway pb-40 pl-52 pr-24"
-  >
+    class="relative bg-white min-h-screen pt-16 overflow-y-auto font-raleway pb-40 pl-36 pr-4"
+  > 
     <div
-      class="relative bg-darks-50 rounded-2xl w-full pt-16 pb-32 space-y-12 p-12 border border-black/10"
+      class="relative bg-darks-50 rounded-2xl w-full pt-12 pb-28 space-y-4 p-12 border border-black/10"
     >
-      <div class="flex flex-col space-y-4 text-darks-800">
+      <div class="flex flex-col space-y-20 text-darks-800">
         <h1 class="text-4xl font-bold max-w-4xl">
           Welcome to Pamantasan ng Lungsod ng Pasig Student Evaluation of
           Teaching
         </h1>
         <div class="flex flex-row text-xl space-x-1">
           <p>You are currently evaluating</p>
-          <p class="font-semibold">Riegie D. Tan, DIT</p>
+          <p class="font-bold">Riegie D. Tan, DIT</p>
         </div>
       </div>
 
       <div class="space-y-4">
         <div class="flex flex-col items-center space-y-8">
-          <cardComponent header="A. The Teacher ">
-            <template #content>
-              <questioncomponent body="Qasdasmndasm,dnasjkd" />
-              <questioncomponent body="Question 2" />
-              <questioncomponent body="Question 2" />
-            </template>
-          </cardComponent>
-          <cardComponent header="A. The Teacher ">
+          <cardComponent header="B. The use of social media platforms (Ex. Facebook, Google Classroom, and etc.) ">
             <template #content>
               <questioncomponent body="Qasdasmndasm,dnasjkd" />
               <questioncomponent body="Question 2" />
@@ -48,10 +42,13 @@
       </div>
     </div>
   </section>
+
+</section>
+  
 </template>
 
 <script>
-import cardComponent from "./components/cardComponent.vue";
+import cardComponent from "./components/cardNumerical.vue";
 import CardFeedback from "./components/cardFeedback.vue";
 import questioncomponent from "./components/questionComponent.vue";
 

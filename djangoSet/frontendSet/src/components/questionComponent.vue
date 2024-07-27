@@ -1,8 +1,8 @@
 <template>
   <div
-    class="rounded-lg flex flex-row items-center question-container bg-white p-8 min-w-full"
+    class="rounded-lg flex flex-row items-center content-center bg-white p-4 min-w-full"
   >
-    <div class="flex-1">
+    <div class="pt-4 flex-1 pl-2">
       <span v-if="body" class="mb-3 font-medium text-darks-800 block">{{
         body
       }}</span>
