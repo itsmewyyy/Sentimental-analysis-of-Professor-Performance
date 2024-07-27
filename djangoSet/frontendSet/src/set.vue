@@ -7,26 +7,27 @@
   />
 
   <div
-    class="fixed top-0 left-0 z-40 w-collapsed-sidebar bg-black h-screen"
+    class="fixed top-0 left-0 z-40 w-collapsed-sidebar bg-black h-screen "
     tabindex="-1"
     aria-labelledby="drawer-navigation-label"
   ></div>
-  <section class="bg-white max-w-full max-h-screen p-16 pt-20 overflow-scroll">
+  <section class=" relative bg-white max-w-full max-h-screen p-16 pt-20 overflow-y-scroll font-raleway">
     <div
-      class="bg-gray-100 round-16 max-w-screen-2xl ml-32 max-h-max flex flex-col items-center pt-16 pb-40 space-y-12"
+      class=" relative bg-gray-100 round-16 max-w-screen-2xl ml-32 pt-16 pb-40 space-y-12 "
     >
-      <div class="flex flex-col">
-        <h1>
-          Welcome to Pamantasan ng Lungsod ng Pasig Student Evaluation on
+      <div class="flex flex-col space-y-4 ml-24">
+        <h1 class="text-3xl font-bold">
+          Welcome to Pamantasan ng Lungsod ng Pasig 
+          <br> Student Evaluation on
           Teaching
         </h1>
-        <div class="flex flex-row">
+        <div class="flex flex-row text-xl">
           <p>You are currently evaluating</p>
-          <p>Riegie D. Tan, DIT</p>
+          <p class="font-semibold">Riegie D. Tan, DIT</p>
         </div>
       </div>
 
-      <div class="flex flex-col space-y-4">
+      <div class="flex flex-col space-y-4 items-center">
         <cardComponent header="A. Teacher "></cardComponent>
         <cardComponent header="A. ewan ko "></cardComponent>
       </div>

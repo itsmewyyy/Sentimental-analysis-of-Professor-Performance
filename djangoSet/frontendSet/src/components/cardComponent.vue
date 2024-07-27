@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col rounded-lg border px-40 py-20 space-y-1 bg-slate-200 max-w-7xl"
+    class="flex flex-col rounded-lg border px-40 py-20 space-y-1 bg-slate-200 max-w-5xl"
   >
     <div class="space-y-16">
       <div class="ml-4">
