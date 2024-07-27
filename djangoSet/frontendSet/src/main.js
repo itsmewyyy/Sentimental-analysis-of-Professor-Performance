@@ -8,4 +8,4 @@ import register from "./registerStudent.vue";
 import numericalSet from "./numericalSet.vue";
 import feedbackSet from "./feedbackSet.vue";
 
-createApp(numericalSet).mount("#app");
+createApp(loginAdmin).mount("#app");

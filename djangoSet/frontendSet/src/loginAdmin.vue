@@ -1,13 +1,13 @@
 <!-- Admin Login -->
 <template>
   <div class="min-h-screen flex items-center justify-center">
-    <section class="bg-plpyellow-100/20 rounded-lg px-5 font-raleway">
+    <section class="bg-plpyellow-100/15 rounded-lg px-5 font-raleway">
       <div
         class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 grid lg:grid-cols-2 gap-8 lg:gap-16"
       >
         <div class="flex flex-col justify-center">
           <h1
-            class="mb-4 text-md font-black tracking-tight leading-none text-plpgreen-400 md:text-5xl lg:text-4xl"
+            class="mb-4 text-md font-black tracking-tight leading-none text-plpgreen-200 md:text-5xl lg:text-4xl"
           >
             Help Us Improve Education at Pamantasan ng Lungsod ng Pasig!
           </h1>

@@ -26,7 +26,7 @@
         <div class="flex flex-col items-center space-y-8">
           <cardComponent header="A. The Teacher ">
             <template #content>
-              <questioncomponent body="Qasdasmndasm,dnasjkd the teacher blabla eme jkfsdf" />
+              <questioncomponent body="Qasdasmndasm,dnasjkd" />
               <questioncomponent body="Question 2" />
               <questioncomponent body="Question 2" />
             </template>

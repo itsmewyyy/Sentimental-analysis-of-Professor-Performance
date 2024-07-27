@@ -4,7 +4,7 @@
   >
     <div class="flex rounded-2xl shadow-lg max-w-5xl w-full">
       <div
-        class="w-3/5 p-10 flex flex-col items-start justify-center bg-plpyellow-100/20 rounded-l-2xl"
+        class="w-3/5 p-10 flex flex-col items-start justify-center bg-plpyellow-100/15 rounded-l-2xl"
       >
         <h1
           class="mb-8 tracking-relaxed font-black text-plpgreen-200 lg:text-4xl leading-snug"
