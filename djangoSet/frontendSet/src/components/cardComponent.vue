@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col round-16 border px-28 py-20 space-y-1 bg-plpgreen-100/30 min-w-full"
+    class="flex flex-col round-16 px-28 py-20 space-y-1 bg-plpgreen-100/30 min-w-full"
   >
     <div class="space-y-16">
       <div class="ml-4 font-bold text-darks-800">
@@ -27,16 +27,11 @@
 </template>
 
 <script>
-import questioncomponent from "./questionComponent.vue";
 export default {
   name: "CardComponent",
-  components: {
-    questioncomponent,
-  },
   props: {
     header: String,
   },
-  computed: {},
 };
 </script>
 

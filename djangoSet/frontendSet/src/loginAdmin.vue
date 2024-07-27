@@ -1,12 +1,5 @@
 <!-- Admin Login -->
-
 <template>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
-    rel="stylesheet"
-  />
   <div class="min-h-screen flex items-center justify-center">
     <section class="bg-plpyellow-100/20 rounded-lg px-5 font-raleway">
       <div

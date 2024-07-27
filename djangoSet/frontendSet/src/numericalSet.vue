@@ -1,11 +1,4 @@
 <template>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
-    rel="stylesheet"
-  />
-
   <div
     class="fixed top-0 left-0 z-40 w-collapsed-sidebar h-screen bg-darks-50"
     tabindex="-1"
@@ -16,11 +9,11 @@
     class="relative bg-white min-h-screen pt-16 overflow-auto font-raleway pb-40 pl-52 pr-24"
   >
     <div
-      class="relative bg-darks-50 round-16 w-full pt-16 pb-32 space-y-12 p-12"
+      class="relative bg-darks-50 round-16 w-full pt-16 pb-32 space-y-12 p-12 border border-black/10"
     >
       <div class="flex flex-col space-y-4 text-darks-800">
         <h1 class="text-4xl font-bold max-w-4xl">
-          Welcome to Pamantasan ng Lungsod ng Pasig Student Evaluation on
+          Welcome to Pamantasan ng Lungsod ng Pasig Student Evaluation of
           Teaching
         </h1>
         <div class="flex flex-row text-xl space-x-1">
