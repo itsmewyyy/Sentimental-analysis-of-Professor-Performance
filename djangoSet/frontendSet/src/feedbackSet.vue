@@ -7,7 +7,7 @@
 
   <section class="max-w-full">
     <section
-      class="relative bg-white min-h-screen pt-20 overflow-y-auto font-raleway pb-40 pl-36 pr-4"
+      class="relative bg-white min-h-screen pt-20 overflow-y-auto font-raleway pb-40 pl-40 pr-8"
     >
       <div
         class="relative bg-darks-50 rounded-3xl w-full pt-12 pb-28 space-y-8 p-12 border border-black/10"
@@ -17,12 +17,13 @@
             <h1>You are currently evaluating</h1>
             <h1 class="font-bold text-plpgreen-400">Riegie D. Tan, DIT</h1>
           </div>
-          <p class="text-sm font-thin">
+          <p class="text-sm font-thin text-darks-800">
             Want to evaluate a different instructor? Select a course from the dropdown menu to display the corresponding professor.
           </p>
         </div>
 
-        <div class="space-y-4">
+        <form action="">
+          <div class="space-y-4">
           <div class="flex flex-col items-center space-y-12">
             <CardFeedback>
             <template #content>
@@ -69,6 +70,9 @@
             Submit
           </button>
         </div>
+
+        </form>
+      
       </div>
     </section>
   </section>

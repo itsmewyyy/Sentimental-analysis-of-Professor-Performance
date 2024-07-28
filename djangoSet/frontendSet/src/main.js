@@ -9,4 +9,4 @@ import numericalSet from "./numericalSet.vue";
 import feedbackSet from "./feedbackSet.vue";
 import "flowbite";
 
-createApp(loginStudent).mount("#app");
+createApp(feedbackSet).mount("#app");
