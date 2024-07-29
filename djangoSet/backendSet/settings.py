@@ -38,12 +38,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',
+    'rest_framework',
+    'userLogin'
     
 ]
 
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOWED_ORIGINS = ["http://localhost:5173"]  # We add your frontend URL here.
-CSRF_TRUSTED_ORIGINS = ['http://localhost:5173']  # We add your frontend URL here.
+CORS_ALLOWED_ORIGINS = ["http://localhost:5173"]  
+CSRF_TRUSTED_ORIGINS = ['http://localhost:5173']  
 
 
 MIDDLEWARE = [

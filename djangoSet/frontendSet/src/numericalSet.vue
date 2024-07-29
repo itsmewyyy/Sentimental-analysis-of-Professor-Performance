@@ -15,7 +15,7 @@
         <div class="flex flex-col space-y-3 text-darks-700">
           <div class="flex flex-row text-4xl space-x-2">
             <h1>You are currently evaluating</h1>
-            <h1 class="font-bold text-plpgreen-400">Riegie D. Tan, DIT</h1>
+            <h1 class="font-bold text-plpgreen-400">Riegie D. Tan</h1>
           </div>
           <p class="text-sm font-thin text-darks-800">
             Want to evaluate a different instructor? Select a course from the dropdown menu to display the corresponding professor.

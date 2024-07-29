@@ -81,7 +81,7 @@
 
 <script>
 import CardFeedback from "./components/cardFeedback.vue";
-import TextAreaComponent from "./components/textareaComponent.vue"; // Adjusted path
+import TextAreaComponent from "./components/textareaComponent.vue"; 
 
 export default {
   components: {

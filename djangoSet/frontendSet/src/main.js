@@ -1,12 +1,16 @@
 import { createApp } from "vue";
-
+import { createPinia } from 'pinia';
 import "./index.css";
-import portal from "./portal.vue";
-import loginAdmin from "./loginAdmin.vue";
-import loginStudent from "./loginStudent.vue";
-import register from "./registerStudent.vue";
-import numericalSet from "./numericalSet.vue";
-import feedbackSet from "./feedbackSet.vue";
+import App from './App.vue'
 import "flowbite";
+import './axios-config';
+import router from './router'
 
-createApp(feedbackSet).mount("#app");
+
+const app = createApp(App);
+const pinia = createPinia();
+
+
+app.use(pinia);
+app.use(router);
+app.mount('#app');
