@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'rest_framework',
-    'userLogin'
+    'userLogin',
+    'SET'
     
 ]
 
@@ -89,8 +90,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'plpset',
-        'USER': 'admin',
-        'PASSWORD': 'plpsetadmin',
+        'USER': 'plpsetadmin',
+        'PASSWORD': 'plpset_admin',
         'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
         'PORT': '3306',        # Default MySQL port
     }

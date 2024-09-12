@@ -11,10 +11,11 @@ to install dependencies
 pip install -r requirements.txt
 
 
---DATABASE MIGRATE--
+--DATABASE MIGRATION--
 
 Create a username and password for mysql
-CREATE USER 'admin'@'localhost' IDENTIFIED BY 'plpsetadmin';
+CREATE USER 'plpsetadmin'@'localhost' IDENTIFIED BY 'plpset_admin';
+GRANT ALL PRIVILEGES ON plpset.* TO 'plpsetadmin'@'localhost';
 
 create a database named "plpset" 
 

@@ -1,15 +1,22 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .models import student_info, student_acc
+from .models import student_acc
 from .serializers import StudentAccSerializer
 from django.contrib.auth.hashers import check_password
+from datetime import datetime
+from SET.models import student_info
 
 class RegisterView(APIView):
     def post(self, request):
+
         student_id = request.data.get('student_id')
         password = request.data.get('password')
         confirm_password = request.data.get('confirm_password')
+        dateofbirth = request.data.get('formattedDate')
+        email = request.data.get('student_email')
+
+
 
         if password != confirm_password:
             return Response({'error': 'Passwords do not match'}, status=status.HTTP_400_BAD_REQUEST)
@@ -19,7 +26,18 @@ class RegisterView(APIView):
         except student_info.DoesNotExist:
             return Response({'error': 'Student ID does not exist'}, status=status.HTTP_400_BAD_REQUEST)
 
-        student_acc_data = {'student_acc_number': student_id, 'password': password}
+        if dateofbirth:
+            # In RegisterView
+            try:
+                dateofbirth_parsed = datetime.strptime(dateofbirth, '%Y-%m-%d').date()
+            except ValueError:
+                return Response({'error': 'Invalid date format. Use yyyy-mm-dd.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        else:
+            return Response({'error': 'Date of birth is missing.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        
+        student_acc_data = {'student_acc_number': student_id, 'password': password, 'date_of_birth': dateofbirth_parsed, 'plp_email': email}
         serializer = StudentAccSerializer(data=student_acc_data)
 
         if serializer.is_valid():
