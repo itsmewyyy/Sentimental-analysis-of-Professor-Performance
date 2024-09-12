@@ -5,8 +5,6 @@ import App from './pages/App.vue'
 import "flowbite";
 import './axios-config';
 import router from './router'
-import 'flowbite-datepicker/dist/datepicker.css';
-
 
 
 const app = createApp(App);
