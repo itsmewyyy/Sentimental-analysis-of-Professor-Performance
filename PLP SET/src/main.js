@@ -13,7 +13,7 @@ import Feedback from './Feedback.vue'
 
 //createApp(Login).mount('#app')
 //createApp(Portal).mount('#app')
-//createApp(Admin).mount('#app')
+createApp(Admin).mount('#app')
 //createApp(Register).mount('#app')
 //createApp(SET).mount('#app')
-createApp(Feedback).mount('#app')
+//createApp(Feedback).mount('#app')
