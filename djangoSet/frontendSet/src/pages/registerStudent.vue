@@ -138,7 +138,6 @@
 <script>
 import { useAuthStore } from '@/store/student';
 
-
 export default {
   data() {
     return {
@@ -147,56 +146,59 @@ export default {
       confirm_password: '',
       dateofbirth: '',
       student_email: '',
-      formattedDate: '',
+      formatted_date: '',
     };
   },
   mounted() {
     this.initializeDatepicker();
   },
   methods: {
-  initializeDatepicker() {
-    const datepickerElement = document.getElementById('datepicker-autohide');
-    if (datepickerElement) {
-      new Datepicker(datepickerElement, {
-        autohide: true,
-        format: 'mm/dd/yyyy',
-        onSelect: (date) => {
-          console.log('Selected Date:', date);
-          this.dateofbirth = date;  // Directly set date without using value
-          this.formatDate();
-        },
-      });
-    }
-  },
+    initializeDatepicker() {
+      const datepickerElement = document.getElementById('datepicker-autohide');
+      if (datepickerElement) {
+        const datepicker = new Datepicker(datepickerElement, {
+          autohide: true,
+          format: 'mm/dd/yyyy',
+        });
 
-  formatDate() {
-    if (this.dateofbirth) {
-      // Convert date to 'YYYY-MM-DD' format
-      const [month, day, year] = this.dateofbirth.split('/');
-      console.log('Formatted Date:', `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`);  
-      this.formattedDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
-    }
-  },
+        
+        datepickerElement.addEventListener('changeDate', (event) => {
+          this.dateofbirth = event.target.value;  
+          this.formatDate();  
+        });
+      }
+    },
 
-  async register() {
-    const authStudentRegister = useAuthStore();
-    if (this.dateofbirth && !this.formattedDate) {
-      this.formatDate();
-    }
+    formatDate() {
+      if (this.dateofbirth) {
+        const [month, day, year] = this.dateofbirth.split('/');
+        this.formatted_date = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+        console.log('Formatted Date:', this.formatted_date);
+      }
+    },
 
-    try {
-      await authStudentRegister.register(
-        this.student_id,
-        this.password,
-        this.confirm_password,
-        this.formattedDate,
-        this.student_email
-      );
-      this.$router.push('/Student Login');
-    } catch (error) {
-      console.error(error);
-    }
+    async register() {
+      const authStudentRegister = useAuthStore();
+      if (this.dateofbirth) {
+        this.formatDate();  // Ensure formatted_date is updated
+      }
+
+      console.log('Registering student with date of birth:', this.formatted_date);
+      console.log('Original Date of birth:', this.dateofbirth);
+
+      try {
+        await authStudentRegister.register(
+          this.student_id,
+          this.password,
+          this.confirm_password,
+          this.formatted_date,
+          this.student_email
+        );
+        this.$router.push('/Student Login');
+      } catch (error) {
+        console.error(error);
+      }
+    },
   },
-}
 }
 </script>

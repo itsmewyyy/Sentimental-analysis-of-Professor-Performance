@@ -5,21 +5,21 @@
     aria-labelledby="drawer-navigation-label"
   ></div>
     <section  class="relative bg-white min-h-screen pt-20 overflow-y-auto font-raleway pb-40 pl-40 pr-12 space-y-10">
-        <studentinfoComponent></studentinfoComponent>
-        <studentcoursesComponent></studentcoursesComponent>
+        <subjectComponent></subjectComponent>
+        <subjectComponent></subjectComponent>
+     
     </section>
 </template>
 
 <script>
-import studentinfoComponent from '@/components/studentinfoComponent.vue';
-import studentcoursesComponent from '@/components/studentcoursesComponent.vue';
+import subjectComponent from '@/components/subjectComponent.vue';
 
 
 
 export default {
   components: {
-    studentinfoComponent,
-    studentcoursesComponent,
+   subjectComponent,
+    
   },
 };
 </script>

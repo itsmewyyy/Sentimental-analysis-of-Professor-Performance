@@ -28,28 +28,12 @@
           <div class="space-y-4">
             <div class="flex flex-col items-center space-y-12">
               <CardFeedback>
-                <template #content>
                   <TextAreaComponent
-                    id="editor"
-                    label="1. How would you describe your experience in this class under him/her?"
+                      v-for="question in questions"
+                      :key = "question.feedback_question_id"
+                      :id="question.feedback_question_id"
+                      :label = "question.feedback_question_id + '. ' + question.question"
                   />
-                  <TextAreaComponent
-                    id="editor"
-                    label="2. What are the 3 words that best describe your teacher/instructor?"
-                  />
-                  <TextAreaComponent
-                    id="editor"
-                    label="3. What do you think are the areas of improvement of this teacher/instructor in terms of personal compotency and personality?"
-                  />
-                  <TextAreaComponent
-                    id="editor"
-                    label="4. What do you think are the areas of improvement of this teacher/instructor in terms of professional competence?"
-                  />
-                  <TextAreaComponent
-                    id="editor"
-                    label="5. Is there something else you think we should have asked you in this survey? What could it be? Please let us know."
-                  />
-                </template>
               </CardFeedback>
             </div>
             <div>
@@ -77,6 +61,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 import CardFeedback from "@/components/cardFeedback.vue";
 import TextAreaComponent from "@/components/textareaComponent.vue"; 
 
@@ -85,6 +70,28 @@ export default {
     TextAreaComponent,
     CardFeedback,
   },
+
+  data() {
+    return {
+     questions: [], 
+    };
+  },
+
+  mounted() {
+    this.fetchData();
+  },
+  methods: {
+    async fetchData() {
+    try {
+      const response = await axios.get("http://127.0.0.1:8000/api/feedback-questions/");
+      this.questions = response.data;
+      console.log("Questions:", this.questions); 
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }
+
+  }
 };
 </script>
 

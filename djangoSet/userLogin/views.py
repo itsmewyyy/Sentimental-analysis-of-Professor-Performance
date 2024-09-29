@@ -7,16 +7,15 @@ from django.contrib.auth.hashers import check_password
 from datetime import datetime
 from SET.models import student_info
 
+
 class RegisterView(APIView):
     def post(self, request):
 
         student_id = request.data.get('student_id')
         password = request.data.get('password')
         confirm_password = request.data.get('confirm_password')
-        dateofbirth = request.data.get('formattedDate')
+        dateofbirth = request.data.get('formatted_date')
         email = request.data.get('student_email')
-
-
 
         if password != confirm_password:
             return Response({'error': 'Passwords do not match'}, status=status.HTTP_400_BAD_REQUEST)
@@ -26,8 +25,8 @@ class RegisterView(APIView):
         except student_info.DoesNotExist:
             return Response({'error': 'Student ID does not exist'}, status=status.HTTP_400_BAD_REQUEST)
 
+
         if dateofbirth:
-            # In RegisterView
             try:
                 dateofbirth_parsed = datetime.strptime(dateofbirth, '%Y-%m-%d').date()
             except ValueError:

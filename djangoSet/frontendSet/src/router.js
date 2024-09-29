@@ -5,6 +5,7 @@ import numericalSet_page from './pages/numericalSet.vue'
 import feedbackSet_page from './pages/feedbackSet.vue'
 import loginAdmin_page from './pages/loginAdmin.vue'
 import dashboardStudent from './pages/dashboardStudent.vue'
+import adminstudentSections from './pages/adminstudentSections.vue'
 import { createRouter, createWebHistory } from 'vue-router';
 
 const routes = [
@@ -16,7 +17,8 @@ const routes = [
     {path: '/SETFeedback', component: feedbackSet_page
     },
     {path: '/StudentDashboard', component: dashboardStudent
-    }
+    },
+    {path: '/Colleges', component: adminstudentSections}
 ]
 
 const router = createRouter({

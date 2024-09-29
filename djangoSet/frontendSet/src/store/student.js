@@ -9,12 +9,14 @@ export const useAuthStore = defineStore('student', {
     alertType: '', //success or error, will use for alert component
   }),
   actions: {
-    async register(student_id,password, confirm_password) {
+    async register(student_id, password, confirm_password, student_email, formatted_date) {
       try {
         const response = await axios.post('http://localhost:8000/api/register/', {
           student_id,
           password,
-          confirm_password
+          confirm_password,
+          student_email,
+          dateofbirth: formatted_date
         });
         this.userInfo = response.data.student;
         return response.data;

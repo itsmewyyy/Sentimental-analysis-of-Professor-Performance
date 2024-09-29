@@ -15,7 +15,7 @@ pip install -r requirements.txt
 
 Create a username and password for mysql
 CREATE USER 'plpsetadmin'@'localhost' IDENTIFIED BY 'plpset_admin';
-GRANT ALL PRIVILEGES ON plpset.* TO 'plpsetadmin'@'localhost';
+GRANT ALL PRIVILEGES ON plpset.* TO 'plpset_admin'@'localhost';
 
 create a database named "plpset" 
 
@@ -25,8 +25,8 @@ python manage.py migrate
 create a superuser same as the system
 python manage.py createsuperuser
 
-username: plpsetadmin
-pw: plpset@admin_1234
+username: plpset_admin
+pw: admin
 
 
 --RUNNING THE SYSTEM--

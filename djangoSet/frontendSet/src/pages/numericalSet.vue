@@ -22,67 +22,22 @@
             dropdown menu and the corresponding professor will be displayed
             automatically.
           </p>
+       
         </div>
 
         <form action="">
           <div class="space-y-4">
-            <div class="flex flex-col items-center space-y-8">
-              <cardComponent
-                header=" A. The Teacher"
-              >
-                <template #content>
-                  <questioncomponent
-                    body="Articulates course policies, procedures, and grading criteria clearly"
-                  />
-                  <questioncomponent body="Communicates clearly and utilizes synchronous and asynchronous methods effectively." />
-                  <questioncomponent body="Demonstrates mastery of the subject matter and effectively relates it to other disciplines." />
-                  <questioncomponent body="Stimulates the student to think critically." />
-                  <questioncomponent body="Provides timely, constructive feedback to students." />
-                 
-                </template>
-              </cardComponent>
-              <cardComponent  header="B. The Module/Learning Materials">
-                <template #content>
-                  <questioncomponent
-                    body="The module/learning materials are clearly structured and well-organized."
-                  />
-                  <questioncomponent body="The module/learning materials are structured in a logical sequence." />
-                  <questioncomponent body="The module/learning materials provide a balanced representation of the course content." />
-                  <questioncomponent body="The length and difficulty level of the module/learning materials are appropriate." />
-                  <questioncomponent body="The module/learning materials are easily accessible." />
-                </template>
-              </cardComponent>
-              <cardComponent  header="C. The Use of Learning Management System (LMS)">
-                <template #content>
-                  <questioncomponent
-                    body="The teacher creates and manages classes, assignments, and resources on the LMS effectively."
-                  />
-                  <questioncomponent body="The teacher adds material to the assignments regularly." />
-                  <questioncomponent body="The teacher uses the LMS to post announcements and updates promptly." />
-                  <questioncomponent body="The teacher engages students in question-driven discussions using the LMS." />
-                  <questioncomponent body="The teacher uses a video conferencing app to conduct synchronous classes effectively." />
-                </template>
-              </cardComponent>
-              <cardComponent  header="C-1. The Use of Social Media Platforms (e.g., Facebook, Google Classroom)">
-                <template #content>
-                  <questioncomponent
-                    body="The teacher uses the Social Media platform effectively for class activities."
-                  />
-                  <questioncomponent body="The teacher communicates regularly using the Social Media platform." />
-                  <questioncomponent body="TThe teacher provides opportunities for student interaction on the Social Media platform." />
-                  <questioncomponent body="The teacher invites students to post information and resources on the Social Media platform." />
-                  <questioncomponent body="The teacher uses the Social Media platform to post important information and updates." />
-                </template>
-              </cardComponent>
-              <cardComponent  header="D. General Observation">
-                <template #content>
-                  <questioncomponent
-                    body="Rapport between teacher and students."
-                  />
-                  <questioncomponent body="Overall teacher impact." />
-                </template>
-              </cardComponent>
-            </div>
+              <div v-for="(category, index) in categories" :key="index" class="flex flex-col items-center space-y-8">
+                <cardComponent :header="category.category_id + ' ' + category.category_desc"  :categoryId="category.category_id">
+                    <questioncomponent
+                      v-for="question in category.questions"
+                      :id="question.numerical_question_id"
+                      :key="question.numerical_question_id"
+                      :body="question.question"
+                    />
+                </cardComponent>
+              </div>
+          
             <div>
             <router-link to = "/SETFeedback">
               <button
@@ -101,15 +56,36 @@
 </template>
 
 <script>
+import axios from 'axios';
 import cardComponent from "@/components/cardNumerical.vue";
 import questioncomponent from "@/components/questionComponent.vue";
-
 
 export default {
   components: {
     cardComponent,
     questioncomponent,
   },
+  data() {
+    return {
+      categories: [], 
+    };
+  },
+
+  mounted() {
+    this.fetchData();
+  },
+  methods: {
+    async fetchData() {
+    try {
+      const response = await axios.get("http://127.0.0.1:8000/api/categories-and-questions/");
+      this.categories = response.data; 
+      console.log("Categories:", this.categories); 
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }
+
+  }
 };
 </script>
 

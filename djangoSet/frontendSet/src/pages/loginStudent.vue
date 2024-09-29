@@ -33,7 +33,7 @@
                         <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
                       </svg>
                   </div>
-                    <input id="datepicker-autohide" datepicker datepicker-autohide type="text" class="py-3 px-0 bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-plpgreen-200 focus:border-plpgreen-200 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 cursor-pointer caret-transparent" placeholder="Date of Birth" required>
+                    <input v-model="dateofbirth" id="datepicker-autohide" datepicker datepicker-autohide type="text" class="py-3 px-0 bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-plpgreen-200 focus:border-plpgreen-200 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 cursor-pointer caret-transparent" placeholder="Date of Birth" required>
                   </div>
                   <div>
                     <label
@@ -113,6 +113,8 @@ export default {
     return {
       student_acc_number: '',
       password: '',
+      dateofbirth: '',
+      formatted_date: ''
     };
   },
   mounted() {
@@ -126,12 +128,30 @@ export default {
           autohide: true, 
           format: 'mm/dd/yyyy', 
         });
+
+        datepickerElement.addEventListener('changeDate', (event) => {
+          this.dateofbirth = event.target.value;  
+          this.formatDate();  
+        });
       }
     },
+    formatDate() {
+      if (this.dateofbirth) {
+        const [month, day, year] = this.dateofbirth.split('/');
+        this.formatted_date = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+        console.log('Formatted Date:', this.formatted_date);
+      }
+    },
+
     async login() {
       const authStudentLogin = useAuthStore();
+
+      if (this.dateofbirth) {
+        this.formatDate(); 
+      }
+
       try {
-        await authStudentLogin.login(this.student_acc_number, this.password);
+        await authStudentLogin.login(this.student_acc_number, this.password, this.formatted_date);
         this.$router.push('/StudentDashboard');
       } catch (error) {
         console.error(error);

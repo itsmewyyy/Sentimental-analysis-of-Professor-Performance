@@ -11,7 +11,7 @@
   
  
     <div class="space-y-2 items-center">
-      <slot name="content"></slot>
+      <slot></slot>
     </div>
   </div>
 </template>

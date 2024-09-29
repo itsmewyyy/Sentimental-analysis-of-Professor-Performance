@@ -57,13 +57,14 @@
                   />
                 </div>
               </div>
-
+              <router-link to = '/Colleges'>
               <button
                 type="submit"
                 class="w-fit px-5 py-3 text-sm font-medium text-center text-white bg-plpgreen-200 rounded-lg hover:bg-plpgreen-400 focus:ring-2 focus:ring-plpgreen-100"
               >
                 Login to your account
               </button>
+            </router-link>
             </form>
           </div>
         </div>
