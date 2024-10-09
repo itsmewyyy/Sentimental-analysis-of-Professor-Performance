@@ -1,0 +1,45 @@
+
+--ACTIVATING VIRTUAL ENVIRONMENT--
+activate the virtual env first
+.\venv\Scripts\activate
+
+if error, delete venv and reinstall
+python -m venv venv
+
+--INSTALL REQS--
+to install dependencies
+pip install -r requirements.txt
+
+
+--DATABASE MIGRATION--
+
+Create a username and password for mysql
+CREATE USER 'plpsetadmin'@'localhost' IDENTIFIED BY 'plpset_admin';
+GRANT ALL PRIVILEGES ON plpset.* TO 'plpset_admin'@'localhost';
+
+create a database named "plpset" 
+
+run these commands:
+python manage.py migrate 
+
+create a superuser same as the system
+python manage.py createsuperuser
+
+username: plpset_admin
+pw: plpsetadmin
+
+
+--RUNNING THE SYSTEM--
+Use 2 terminals, one for backend (django) and one for frontend (vue)
+
+DJANGO
+Ensure that venv is running 
+.\venv\Scripts\activate
+cd djangoSet
+python manage.py runserver
+
+VUE 
+.\venv\Scripts\activate
+cd djangoSet
+cd frontendSet
+npm run dev
