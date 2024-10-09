@@ -1,4 +1,5 @@
 from django.db import models
+from SET.models import department
 
 class student_acc(models.Model): 
     student_acc_number = models.CharField(max_length=8, primary_key=True)
@@ -13,7 +14,10 @@ class admin_acc(models.Model):
     admin_acc_id = models.CharField(max_length=8, primary_key=True)
     admin_username = models.CharField(max_length=100)
     password = models.CharField(max_length=100)
+    is_mis = models.BooleanField(default=False)
+    dept_id = models.ForeignKey(department, on_delete=models.CASCADE, null=True, blank = True)
     
+
     def __str__(self):
         return f'{self.admin_acc_id} - {self.admin_username}'
 

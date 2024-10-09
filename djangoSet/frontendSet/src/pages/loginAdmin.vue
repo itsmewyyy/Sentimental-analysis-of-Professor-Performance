@@ -52,19 +52,17 @@
                     name="password"
                     id="password"
                     placeholder="••••••••"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-plpgreen-200 focus:border-plpgreen-200  block w-full p-2.5"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-plpgreen-200 focus:border-plpgreen-200 block w-full p-2.5"
                     required
                   />
                 </div>
               </div>
-              <router-link to = '/Colleges'>
               <button
                 type="submit"
                 class="w-fit px-5 py-3 text-sm font-medium text-center text-white bg-plpgreen-200 rounded-lg hover:bg-plpgreen-400 focus:ring-2 focus:ring-plpgreen-100"
               >
                 Login to your account
               </button>
-            </router-link>
             </form>
           </div>
         </div>

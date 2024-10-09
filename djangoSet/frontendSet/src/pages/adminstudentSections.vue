@@ -7,9 +7,10 @@
     <div class="fixed top-0 z-40 h-navbar w-full bg-darks-100"></div>
     
     
- <section class="pl-44 pt-32 space-y-40 font-raleway">
+ <section class="pl-44 pt-32 space-y-40 font-raleway overflow-hidden">
     <div class="flex flex-wrap w-fit">
         <collegeDropdown></collegeDropdown>
+      
     </div>
  </section>   
    
@@ -17,17 +18,8 @@
 
 </template>
 
-<script>
+<script setup lang = "ts">
 import collegeDropdown from '@/components/collegesDropdown.vue';
-
-
-
-
-export default {
-    components:{
-        collegeDropdown
-    }
-}
 </script>
 
 <style scoped>

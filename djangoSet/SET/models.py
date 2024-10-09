@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import datetime
 
 class year_level(models.Model): 
     year_level_id = models.PositiveSmallIntegerField(primary_key=True)
@@ -47,12 +48,22 @@ class student_info(models.Model):
     section = models.ForeignKey(section, on_delete=models.CASCADE, related_name='students')
     status = models.ForeignKey(student_status, on_delete=models.CASCADE, related_name='students')
 
-    def __str__(self):
-        return f'{self.student_id} {self.surname} {self.first_name} {self.middle_name} - {self.section}'
+    def full_name(self):
+        names = [self.surname, self.first_name]
+        if self.middle_name:
+            names.insert(1, self.middle_name)  # Insert middle name if it exists
+        return ' '.join(names)
 
+    def __str__(self):
+        # Use the full_name method to get the full name for the string representation
+        return f'{self.student_id} - {self.full_name()} - {self.section}'
+    
 class academic_year(models.Model):
     acad_year = models.CharField(max_length=6, primary_key=True, default="24-25")
     academic_year_desc = models.CharField(max_length=20)
+   
+    def __str__(self):
+        return f'{self.acad_year}'
 
 class academic_yearsem(models.Model):
     year_sem_id = models.CharField(max_length=10, primary_key=True)
@@ -65,6 +76,7 @@ class academic_yearsem(models.Model):
 class subjects(models.Model):
     subject_code = models.CharField(max_length=10, primary_key=True)
     subject_desc = models.CharField(max_length=100)
+    assoc_college = models.ForeignKey(department, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return f'{self.subject_code} {self.subject_desc}'
@@ -89,7 +101,7 @@ class professor_info(models.Model):
         return f'{self.surname} {self.first_name} {self.department}'
 
 class professor_subjs(models.Model):  
-    prof_subjects_id = models.AutoField(primary_key=True)
+    prof_subjects_id = models.CharField(primary_key=True, max_length=100)
     year_sem_id = models.ForeignKey(academic_yearsem, on_delete=models.CASCADE, related_name='professor_subjects')
     professor_id = models.ForeignKey(professor_info, on_delete=models.CASCADE, related_name='professor_subjects')
     subject_code = models.ForeignKey(subjects, on_delete=models.CASCADE, related_name='professor_subjects')
@@ -99,13 +111,13 @@ class professor_subjs(models.Model):
         return f'{self.year_sem_id} {self.subject_code} -- {self.professor_id}'
 
 class student_enrolled_subjs(models.Model):
-    student_enrolled_subj_id = models.AutoField(primary_key=True)
+    student_enrolled_subj_id = models.CharField(primary_key=True, max_length=100)
     student_id = models.ForeignKey(student_info, on_delete=models.CASCADE, default="21-00260", related_name='enrolled_subjects')
     prof_subj_id = models.ForeignKey(professor_subjs, on_delete=models.CASCADE, related_name='enrolled_students')
     is_evaluated = models.BooleanField(default=False)
 
     def __str__(self):
-        return f'{self.student_id} -- {self.prof_subj_id}'
+        return f'{self.student_enrolled_subj_id}'
 
 class categories(models.Model):
     category_id = models.CharField(max_length=5, primary_key=True)
@@ -120,42 +132,33 @@ class numerical_questions(models.Model):
     question = models.CharField(max_length=150)
 
     def __str__(self):
-        return f'{self.category} {self.question}'
+        return f'{self.numerical_question_id}'
 
 class numerical_ratings(models.Model):
-    numerical_id = models.AutoField(primary_key=True)
+    numerical_id = models.CharField(primary_key=True, max_length=100)
     student_subj_id = models.ForeignKey(student_enrolled_subjs, on_delete=models.CASCADE, null=True, related_name='numerical_ratings')
     numerical_question_id = models.ForeignKey(numerical_questions, on_delete=models.CASCADE, related_name='numerical_ratings')
     numerical_rating = models.PositiveSmallIntegerField()
-    numerical_date = models.DateField()
+    numerical_rating_date = models.DateTimeField(default=datetime.now) 
 
     def __str__(self):
-        return f'{self.numerical_question_id} - {self.numerical_rating}'
+        return f'{self.numerical_id}'
 
 class feedback_questions(models.Model): 
     feedback_question_id = models.IntegerField(primary_key=True)
     question = models.CharField(max_length=150)
 
     def __str__(self):
-        return f'{self.feedback_question_id} {self.question}'
+        return f'{self.feedback_question_id}'
 
 class feedbacks(models.Model):
-    feedback_id = models.AutoField(primary_key=True)
+    feedback_id = models.CharField(primary_key=True, max_length=100)
     student_subj_id = models.ForeignKey(student_enrolled_subjs, on_delete=models.CASCADE, null=True, related_name='feedbacks')
     feedback_question_id = models.ForeignKey(feedback_questions, on_delete=models.CASCADE, related_name='feedbacks')
     feedback_text = models.TextField()
     pre_processed_text = models.TextField(default="this is a pre_processed text.")
-    feedback_date = models.DateField()
+    feedback_date = models.DateTimeField(default=datetime.now) 
 
     def __str__(self):
         return f'{self.feedback_id}'
 
-class filtered_feedbacks(models.Model):
-    sentiment_id = models.AutoField(primary_key=True)
-    feedback_id = models.ForeignKey(feedbacks, on_delete=models.CASCADE, related_name='filtered_feedbacks')
-    sentiment_rating = models.IntegerField()
-    sentiment_label = models.CharField(max_length=12)
-    analysis_date = models.DateField(null=True)
-
-    def __str__(self):
-        return f'{self.feedback_id} - {self.sentiment_label}'

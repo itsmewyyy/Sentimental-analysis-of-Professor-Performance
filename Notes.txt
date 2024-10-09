@@ -26,18 +26,20 @@ create a superuser same as the system
 python manage.py createsuperuser
 
 username: plpset_admin
-pw: admin
+pw: plpsetadmin
 
 
 --RUNNING THE SYSTEM--
 Use 2 terminals, one for backend (django) and one for frontend (vue)
 
 DJANGO
-Ensure that venv is running
+Ensure that venv is running 
+.\venv\Scripts\activate
 cd djangoSet
 python manage.py runserver
 
 VUE 
+.\venv\Scripts\activate
 cd djangoSet
 cd frontendSet
 npm run dev
