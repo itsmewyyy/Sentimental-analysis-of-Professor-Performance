@@ -1,8 +1,9 @@
 from rest_framework import serializers
 from datetime import datetime
-from .models import section, programs, year_level, department, student_info, numerical_ratings, feedbacks, student_enrolled_subjs, numerical_questions, feedback_questions
-
+from .models import section, programs, year_level, department, student_info, numerical_ratings, feedbacks, student_enrolled_subjs, numerical_questions, feedback_questions, professor_subjs, professor_info, subjects
+from django.utils import timezone
 class SectionSerializer(serializers.ModelSerializer):
+
     name = serializers.CharField(source='section')
 
     class Meta:
@@ -74,7 +75,7 @@ class SubmitRatingsSerializer(serializers.Serializer):
                     student_subj_id=student_enrolled_subj_instance, 
                     numerical_question_id=numerical_question_instance,  # Use the instance here
                     numerical_rating=rating,
-                    numerical_rating_date=datetime.now() 
+                    numerical_rating_date=timezone.now() 
                 )
             except numerical_questions.DoesNotExist:  # Fixed exception reference
                 raise serializers.ValidationError(f"Numerical question with ID {numerical_question_id} does not exist.")
@@ -95,9 +96,9 @@ class SubmitRatingsSerializer(serializers.Serializer):
                     student_subj_id=student_enrolled_subj_instance, 
                     feedback_question_id=feedback_question_instance,
                     feedback_text=feedback,
-                    feedback_date=datetime.now() 
+                    feedback_date=timezone.now() 
                 )
-            except Exception as e:  # You might want to be more specific here based on your model
+            except Exception as e:  
                 raise serializers.ValidationError(f"Error creating feedback for question ID {question_id}: {str(e)}")
 
         # Update is_evaluated to True for the student enrolled in the subject
@@ -107,7 +108,34 @@ class SubmitRatingsSerializer(serializers.Serializer):
             )
             student_enrolled_subj.is_evaluated = True
             student_enrolled_subj.save()
-        except student_enrolled_subjs.DoesNotExist:  # Fixed exception reference
+        except student_enrolled_subjs.DoesNotExist:  
             raise serializers.ValidationError(f"Student enrolled subject with ID {validated_data['student_enrolled_subj_id']} does not exist.")
 
         return validated_data
+    
+
+# Serializer for Professor Info
+class ProfessorInfoSerializer(serializers.ModelSerializer):
+    department_desc = serializers.SerializerMethodField()
+
+    class Meta:
+        model = professor_info
+        fields = ['surname', 'first_name', 'department_desc']  # Add department description
+
+    # Method to get department description
+    def get_department_desc(self, obj):
+        return obj.department.department_desc if obj.department else None
+# Serializer for Subject Info
+class SubjectInfoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = subjects
+        fields = ['subject_code', 'subject_desc' ]
+
+# Serializer for Student Enrolled Subjects
+class EnrolledSubjectsSerializer(serializers.ModelSerializer):
+    prof_info = ProfessorInfoSerializer(source='prof_subj_id.professor_id', read_only=True)
+    subj_name = SubjectInfoSerializer(source='prof_subj_id.subject_code', read_only=True)
+
+    class Meta:
+        model = student_enrolled_subjs
+        fields = ['student_enrolled_subj_id', 'prof_info', 'subj_name', 'is_evaluated']

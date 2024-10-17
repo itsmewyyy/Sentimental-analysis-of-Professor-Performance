@@ -1,6 +1,46 @@
-<!-- Student Login -->
+<script setup lang="ts">
+import { ref } from "vue";
+import { useAuthStore } from "@/store/student";
+import { format } from "date-fns";
+import { Calendar as CalendarIcon } from "lucide-vue-next";
+import { Calendar } from "@/components/ui/v-calendar";
+import { Button } from "@/components/ui/button";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+const student_acc_number = ref("");
+const password = ref("");
+const dateofbirth = ref<Date>();
+
+const login = async () => {
+  const formattedDateOfBirth = dateofbirth.value
+    ? format(dateofbirth.value, "yyyy-MM-dd")
+    : "";
+
+  const authStudentLogin = useAuthStore();
+
+  try {
+    await authStudentLogin.login(
+      student_acc_number.value,
+      password.value,
+      formattedDateOfBirth
+    );
+
+    router.push("/StudentDashboard");
+  } catch (error) {
+    console.error(error);
+  }
+};
+</script>
+
 <template>
-  <div class="min-h-screen flex items-center justify-center font-raleway">
+  <div class="min-h-screen flex items-center justify-center">
     <section class="bg-plpyellow-100/15 rounded-xl px-5">
       <div
         class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 grid lg:grid-cols-2 gap-8 lg:gap-16"
@@ -21,39 +61,39 @@
         </div>
         <div>
           <div
-            class="w-full lg:max-w-xl p-6 space-y-8 sm:p-8 bg-white rounded-lg shadow-md"
+            class="w-full lg:max-w-xl p-6 space-y-8 sm:p-8 bg-white rounded-lg border border-black/15"
           >
             <h2 class="text-2xl font-bold text-plpyellow-200">Student Login</h2>
             <form @submit.prevent="login" class="mt-8 space-y-6">
               <div class="space-y-2">
                 <div class="space-y-6">
-                  <div class="relative w-full mb-4">
-                    <div
-                      class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
-                    >
-                      <svg
-                        class="w-4 h-4 text-gray-500 dark:text-gray-400"
-                        aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                      >
-                        <path
-                          d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"
-                        />
-                      </svg>
-                    </div>
-                    <input
-                      v-model="dateofbirth"
-                      id="datepicker-autohide"
-                      datepicker
-                      datepicker-autohide
-                      type="text"
-                      class="py-3 px-0 bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-plpgreen-200 focus:border-plpgreen-200 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 cursor-pointer caret-transparent"
-                      placeholder="Date of Birth"
-                      required
-                    />
+                  <div class="text-darks-200">
+                    <Popover>
+                      <PopoverTrigger as-child>
+                        <Button
+                          :variant="'outline'"
+                          class="bg-gray-50"
+                          :class="
+                            cn(
+                              'w-full justify-start text-left font-normal',
+                              !dateofbirth && 'text-muted-foreground'
+                            )
+                          "
+                        >
+                          <CalendarIcon class="mr-2 h-4 w-4" />
+                          <span>{{
+                            dateofbirth
+                              ? format(dateofbirth, "PPP")
+                              : "Date of Birth"
+                          }}</span>
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent class="w-auto p-0">
+                        <Calendar v-model="dateofbirth" />
+                      </PopoverContent>
+                    </Popover>
                   </div>
+
                   <div>
                     <label
                       for="stud_accnumber"
@@ -123,66 +163,3 @@
     </section>
   </div>
 </template>
-
-<script>
-import { useAuthStore } from "@/store/student";
-
-export default {
-  data() {
-    return {
-      student_acc_number: "",
-      password: "",
-      dateofbirth: "",
-      formatted_date: "",
-    };
-  },
-  mounted() {
-    this.initializeDatepicker();
-  },
-  methods: {
-    initializeDatepicker() {
-      const datepickerElement = document.getElementById("datepicker-autohide");
-      if (datepickerElement) {
-        const datepicker = new Datepicker(datepickerElement, {
-          autohide: true,
-          format: "mm/dd/yyyy",
-        });
-
-        datepickerElement.addEventListener("changeDate", (event) => {
-          this.dateofbirth = event.target.value;
-          this.formatDate();
-        });
-      }
-    },
-    formatDate() {
-      if (this.dateofbirth) {
-        const [month, day, year] = this.dateofbirth.split("/");
-        this.formatted_date = `${year}-${month.padStart(2, "0")}-${day.padStart(
-          2,
-          "0"
-        )}`;
-        console.log("Formatted Date:", this.formatted_date);
-      }
-    },
-
-    async login() {
-      const authStudentLogin = useAuthStore();
-
-      if (this.dateofbirth) {
-        this.formatDate();
-      }
-
-      try {
-        await authStudentLogin.login(
-          this.student_acc_number,
-          this.password,
-          this.formatted_date
-        );
-        this.$router.push("/StudentDashboard");
-      } catch (error) {
-        console.error(error);
-      }
-    },
-  },
-};
-</script>

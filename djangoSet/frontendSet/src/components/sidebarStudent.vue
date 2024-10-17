@@ -15,7 +15,7 @@ const props = defineProps<{
 <template>
   <div
     :class="[
-      'fixed left-0 top-16 h-full bg-darks-50/50 border-r border-black/15 text-white transition-all duration-300 z-0 overflow-y-auto font-raleway',
+      'fixed left-0 top-16 h-full bg-white border-r border-black/20 text-white transition-all duration-300 z-10 overflow-y-auto font-raleway',
       isSidebarOpen ? 'w-72' : 'w-20',
     ]"
   >

@@ -27,8 +27,8 @@ watch(inputValue, (newValue) => {
 </script>
 
 <template>
-  <div class="px-12 py-8 bg-white rounded-lg space-y-4">
-    <label :for="id" class="block text-base font-medium text-darks-800">{{
+  <div class="px-12 py-10 bg-white rounded-lg space-y-4">
+    <label :for="id" class="block text-base font-medium text-darks-300">{{
       label
     }}</label>
     <div class="relative">

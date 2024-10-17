@@ -1,14 +1,9 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useAuthStore } from "@/store/student";
-import {
-  DateFormatter,
-  type DateValue,
-  getLocalTimeZone,
-} from "@internationalized/date";
-
+import { format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-vue-next";
-import { Calendar } from "@/components/ui/calendar";
+import { Calendar } from "@/components/ui/v-calendar";
 import { Button } from "@/components/ui/button";
 import {
   Popover,
@@ -16,54 +11,40 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
+import { useRouter } from "vue-router";
 
-const df = new DateFormatter("en-US", {
-  dateStyle: "long",
-});
-
-const value = ref<DateValue>();
+const router = useRouter();
+const dateofbirth = ref<Date>();
 
 // Define reactive variables
 const student_id = ref("");
 const password = ref("");
 const confirm_password = ref("");
-const dateofbirth = ref("");
 const student_email = ref("");
-const formatted_date = ref("");
-
-// Function to format the date
-const formatDate = () => {
-  if (dateofbirth.value) {
-    const [month, day, year] = dateofbirth.value.split("/");
-    formatted_date.value = `${year}-${month.padStart(2, "0")}-${day.padStart(
-      2,
-      "0"
-    )}`;
-    console.log("Formatted Date:", formatted_date.value);
-  }
-};
 
 // Register function
 const register = async () => {
-  const authStudentRegister = useAuthStore();
-  if (dateofbirth.value) {
-    formatDate(); // Ensure formatted_date is updated
-  }
+  const formattedDateOfBirth = dateofbirth.value
+    ? format(dateofbirth.value, "yyyy-MM-dd")
+    : "";
 
-  console.log("Registering student with date of birth:", formatted_date.value);
+  const authStudentRegister = useAuthStore();
+
+  console.log("Formatted Date of birth:", formattedDateOfBirth);
   console.log("Original Date of birth:", dateofbirth.value);
+  console.log(student_email.value);
 
   try {
     await authStudentRegister.register(
       student_id.value,
       password.value,
       confirm_password.value,
-      formatted_date.value,
+      formattedDateOfBirth,
       student_email.value
     );
     // Assuming you're using vue-router
 
-    //router.push("/Student Login");
+    router.push("/StudentLogin");
   } catch (error) {
     console.error(error);
   }
@@ -71,10 +52,8 @@ const register = async () => {
 </script>
 
 <template>
-  <section
-    class="w-full h-screen flex items-center justify-center p-10 font-raleway"
-  >
-    <div class="flex rounded-2xl shadow-md max-w-5xl w-full border">
+  <section class="w-full h-screen flex items-center justify-center p-10">
+    <div class="flex rounded-lg max-w-5xl w-full border border-black/15">
       <div
         class="w-3/5 p-10 flex flex-col items-center justify-center bg-plpyellow-100/15 rounded-l-2xl"
       >
@@ -140,7 +119,7 @@ const register = async () => {
         </div>
       </div>
       <div class="w-2/5 p-6 flex items-center justify-center">
-        <div class="w-full max-w-sm p-10">
+        <div class="w-full p-10">
           <h4 class="text-2xl font-bold mb-1 text-plpyellow-200">
             Register as a Student
           </h4>
@@ -152,24 +131,22 @@ const register = async () => {
               <Popover>
                 <PopoverTrigger as-child>
                   <Button
-                    variant="outline"
+                    :variant="'outline'"
                     :class="
                       cn(
-                        'w-[280px] justify-start text-left font-normal',
-                        !value && 'text-muted-foreground'
+                        'w-full justify-start text-left font-normal',
+                        !dateofbirth && 'text-muted-foreground'
                       )
                     "
                   >
                     <CalendarIcon class="mr-2 h-4 w-4" />
-                    {{
-                      value
-                        ? df.format(value.toDate(getLocalTimeZone()))
-                        : "Date of Birth"
-                    }}
+                    <span>{{
+                      dateofbirth ? format(dateofbirth, "PPP") : "Date of Birth"
+                    }}</span>
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent class="w-auto p-0">
-                  <Calendar v-model="value" initial-focus />
+                  <Calendar v-model="dateofbirth" />
                 </PopoverContent>
               </Popover>
             </div>

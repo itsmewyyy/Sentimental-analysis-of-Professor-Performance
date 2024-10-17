@@ -11,7 +11,7 @@ const { toggleSidebar } = defineProps<{
 
 <template>
   <div
-    class="grid-cols-5 grid-rows-2 gap-4 w-full bg-darks-50 h-16 border-b-[1px] border-black/15 flex items-center z-10 fixed top-0"
+    class="grid-cols-5 grid-rows-2 gap-4 w-full bg-white h-16 border-b-[1px] border-black/20 flex items-center z-10 fixed top-0"
   >
     <div class="flex items-center col-span-5 space-x-8 pl-4">
       <!-- Sidebar toggle button with hover effect -->
@@ -35,7 +35,9 @@ const { toggleSidebar } = defineProps<{
           />
           <AvatarFallback>PLP</AvatarFallback>
         </Avatar>
-        <p class="text-black text-base">Pamantasan ng Lungsod ng Pasig</p>
+        <p class="font-regular text-base text-darks-700">
+          Pamantasan ng Lungsod ng Pasig
+        </p>
       </div>
     </div>
   </div>

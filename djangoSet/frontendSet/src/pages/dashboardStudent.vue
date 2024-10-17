@@ -1,33 +1,44 @@
 <template>
-    <div
-    class="fixed top-0 left-0 z-40 w-collapsed-sidebar h-screen bg-darks-50"
-    tabindex="-1"
-    aria-labelledby="drawer-navigation-label"
-  ></div>
-    <section  class="relative bg-white min-h-screen pt-20 overflow-y-auto font-raleway pb-40 pl-40 pr-12 space-y-10">
+  <Toaster />
+  <navbar :toggleSidebar="toggleSidebar" />
+  <sidebarStudent :isSidebarOpen="isSidebarOpen" />
+  <section
+    class="transition-all duration-300"
+    :class="{
+      'ml-72': isSidebarOpen,
+      'ml-20': !isSidebarOpen,
+    }"
+  >
+    <section
+      class="relative bg-white min-h-screen pt-32 overflow-y-auto pb-40 pl-20 pr-4 space-y-16"
+    >
+      <div class="pl-8">
+        <h1 class="font-semibold text-4xl text-darks-500">Enrolled Courses</h1>
+        <p class="font-light text-xl text-darks-300">
+          Academic Year 2023 - 2024 2nd Semester
+        </p>
+      </div>
+      <div>
         <subjectComponent></subjectComponent>
-        <subjectComponent></subjectComponent>
-     
+      </div>
     </section>
+  </section>
 </template>
 
-<script>
-import subjectComponent from '@/components/subjectComponent.vue';
+<script setup lang="ts">
+import subjectComponent from "@/components/subjectComponent.vue";
+import navbar from "@/components/navbar.vue";
+import sidebarStudent from "@/components/sidebarStudent.vue";
+import { ref, onMounted } from "vue";
+import { useAuthStore } from "@/store/student";
+import { Toaster } from "@/components/ui/toast";
 
+const authStore = useAuthStore();
+authStore.restoreSession();
 
-
-export default {
-  components: {
-   subjectComponent,
-    
-  },
-};
-</script>
-
-<style scoped>
-.w-collapsed-sidebar {
-  width: 102px;
+//Sidebar
+const isSidebarOpen = ref(false);
+function toggleSidebar() {
+  isSidebarOpen.value = !isSidebarOpen.value;
 }
-</style>
-
-
+</script>

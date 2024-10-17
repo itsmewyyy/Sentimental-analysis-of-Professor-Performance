@@ -71,7 +71,7 @@ onMounted(() => {
   <div
     v-for="(college, collegeIndex) in colleges"
     :key="collegeIndex"
-    class="pb-8 pl-8 font-raleway"
+    class="pb-8 pl-6"
     :id="`college-${college.name}`"
   >
     <DropdownMenu>

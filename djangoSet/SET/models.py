@@ -56,7 +56,7 @@ class student_info(models.Model):
 
     def __str__(self):
         # Use the full_name method to get the full name for the string representation
-        return f'{self.student_id} - {self.full_name()} - {self.section}'
+        return f'{self.student_id}'
     
 class academic_year(models.Model):
     acad_year = models.CharField(max_length=6, primary_key=True, default="24-25")
@@ -156,7 +156,6 @@ class feedbacks(models.Model):
     student_subj_id = models.ForeignKey(student_enrolled_subjs, on_delete=models.CASCADE, null=True, related_name='feedbacks')
     feedback_question_id = models.ForeignKey(feedback_questions, on_delete=models.CASCADE, related_name='feedbacks')
     feedback_text = models.TextField()
-    pre_processed_text = models.TextField(default="this is a pre_processed text.")
     feedback_date = models.DateTimeField(default=datetime.now) 
 
     def __str__(self):

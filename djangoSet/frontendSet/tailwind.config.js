@@ -1,14 +1,14 @@
-const animate = require("tailwindcss-animate")
+const animate = require("tailwindcss-animate");
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ["class"],
   content: [
-    './pages/**/*.{js,jsx,vue}',
-    './components/**/*.{js,jsx,vue}',
-    './app/**/*.{js,jsx,vue}',
-    './src/**/*.{js,jsx,vue}',
-	],
+    "./pages/**/*.{js,jsx,vue}",
+    "./components/**/*.{js,jsx,vue}",
+    "./app/**/*.{js,jsx,vue}",
+    "./src/**/*.{js,jsx,vue}",
+  ],
   prefix: "",
   theme: {
     container: {
@@ -20,7 +20,7 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        raleway: ["Raleway", "sans-serif"],
+        roboto: ["Roboto", "sans-serif"],
       },
       colors: {
         darks: {
@@ -64,6 +64,6 @@ module.exports = {
       },
     },
   },
-  plugins: [animate], 
+  plugins: [animate],
   plugins: [require("flowbite/plugin")],
 };

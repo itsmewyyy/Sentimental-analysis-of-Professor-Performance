@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'rest_framework',
+    'rest_framework.authtoken',
     'userLogin',
     'SET',
     'reportsAnalysis'
@@ -63,6 +64,9 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'backendSet.urls'
 
+SESSION_ENGINE = 'django.contrib.sessions.backends.db' 
+
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -74,6 +78,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                
             ],
         },
     },
@@ -138,3 +143,7 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Session expiration 
+SESSION_COOKIE_AGE = 1209600  # 2 weeks
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # Expire session when the browser closes

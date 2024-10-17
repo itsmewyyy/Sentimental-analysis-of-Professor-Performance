@@ -1,4 +1,26 @@
 <!-- Admin Login -->
+<script setup lang="ts">
+import { ref } from "vue";
+import { cn } from "@/lib/utils";
+import { useRouter } from "vue-router";
+import { useAuthStore } from "@/store/adminStore";
+
+const router = useRouter();
+const adminUsername = ref("");
+const password = ref("");
+
+const login = async () => {
+  const authAdminLogin = useAuthStore();
+
+  try {
+    await authAdminLogin.login(adminUsername.value, password.value);
+    router.push("/");
+  } catch (error) {
+    console.error(error);
+  }
+};
+</script>
+
 <template>
   <div class="min-h-screen flex items-center justify-center">
     <section class="bg-plpyellow-100/15 rounded-lg px-5 font-raleway">
@@ -21,10 +43,10 @@
         </div>
         <div>
           <div
-            class="w-full lg:max-w-xl p-6 space-y-8 sm:p-8 bg-white rounded-lg shadow-xl"
+            class="w-full lg:max-w-xl p-6 space-y-8 sm:p-8 bg-white rounded-lg border border-black/15"
           >
             <h2 class="text-2xl font-bold text-plpyellow-200">Admin Login</h2>
-            <form action="" method="POST" class="mt-8 space-y-8">
+            <form @submit.prevent="login" class="mt-8 space-y-8">
               <div class="space-y-6">
                 <div>
                   <label
@@ -33,6 +55,7 @@
                     >Username</label
                   >
                   <input
+                    v-model="adminUsername"
                     type="text"
                     name="username"
                     id="username"
@@ -48,6 +71,7 @@
                     >Your password</label
                   >
                   <input
+                    v-model="password"
                     type="password"
                     name="password"
                     id="password"

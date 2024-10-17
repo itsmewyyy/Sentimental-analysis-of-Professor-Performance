@@ -16,7 +16,9 @@ class admin_acc(models.Model):
     password = models.CharField(max_length=100)
     is_mis = models.BooleanField(default=False)
     dept_id = models.ForeignKey(department, on_delete=models.CASCADE, null=True, blank = True)
-    
+    is_dean = models.BooleanField(default=False)
+    is_secretary = models.BooleanField(default=False)
+   
 
     def __str__(self):
         return f'{self.admin_acc_id} - {self.admin_username}'
