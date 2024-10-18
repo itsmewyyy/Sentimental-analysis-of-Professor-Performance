@@ -147,3 +147,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Session expiration 
 SESSION_COOKIE_AGE = 1209600  # 2 weeks
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # Expire session when the browser closes
+
+
+# Celery settings
+CELERY_BROKER_URL = 'redis://localhost:6379/0'  # This points Celery to your Redis server.
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
