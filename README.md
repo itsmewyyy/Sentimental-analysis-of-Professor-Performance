@@ -2,7 +2,7 @@
 Analyzing Pamantasan ng Lungsod ng Pasig Student Sentiments Towards Professor Performance A Naive Bayes Approach.
 
 ### TECH STACK:
- Django 
- Vue
- MySQL
- Redis and Celery
+ Django,
+ Vue,
+ MySQ,
+ Redis, and Celery
