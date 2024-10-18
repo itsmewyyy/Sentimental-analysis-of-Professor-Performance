@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref, onMounted, computed, watch } from "vue";
-import CardFeedback from "@/components/cardFeedback.vue";
 import TextAreaComponent from "@/components/textareaComponent.vue";
 import sidebarStudent from "@/components/sidebarStudent.vue";
 import navbar from "@/components/navbar.vue";
@@ -11,7 +10,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import questioncomponent from "@/components/questionComponent.vue";
 // @ts-ignore
 import type { CarouselApi } from "@/components/ui/carousel";
-import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel,
   CarouselContent,
@@ -19,7 +17,6 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { watchOnce } from "@vueuse/core";
 import { useRouter } from "vue-router";
 import { useRatingsStore } from "@/store/ratingStore";
 import axios from "axios";
@@ -445,6 +442,7 @@ function goToPrev() {
 
           <div>
             <div>
+              <!--Buttons for navigation and submission-->
               <button
                 v-if="currentStep === 2"
                 @click.prevent="goToPrev"

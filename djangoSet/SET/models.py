@@ -51,11 +51,10 @@ class student_info(models.Model):
     def full_name(self):
         names = [self.surname, self.first_name]
         if self.middle_name:
-            names.insert(1, self.middle_name)  # Insert middle name if it exists
+            names.insert(1, self.middle_name) 
         return ' '.join(names)
 
     def __str__(self):
-        # Use the full_name method to get the full name for the string representation
         return f'{self.student_id}'
     
 class academic_year(models.Model):

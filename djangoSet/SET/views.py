@@ -116,7 +116,7 @@ class SubmitRatingsView(APIView):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-        # Load sentiment analysis model and vectorizer
+        # Load sentiment analysis model and vectorizer from pickle
         model_path = os.path.join(settings.BASE_DIR, 'reportsAnalysis', 'model.pkl')
         vectorizer_path = os.path.join(settings.BASE_DIR, 'reportsAnalysis', 'vectorizer.pkl')
         
@@ -168,7 +168,7 @@ class SubmitRatingsView(APIView):
                     # Fetch the feedback question instance
                     feedback_question_instance = feedback_questions.objects.get(feedback_question_id=question_id)
 
-                    # Fetch the corresponding feedback instance that was just created
+                    # Fetch the corresponding feedback instance
                     feedback_instance = feedbacks.objects.get(
                         student_subj_id=validated_data['student_enrolled_subj_id'],
                         feedback_question_id=feedback_question_instance
