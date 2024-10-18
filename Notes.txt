@@ -30,16 +30,19 @@ pw: plpsetadmin
 
 
 --RUNNING THE SYSTEM--
-Use 2 terminals, one for backend (django) and one for frontend (vue)
+Use 3 terminals, one for backend (django) and one for frontend (vue), one for celery
+
+CELERY
+celery -A backendSet worker --pool=threads --loglevel=info
 
 DJANGO
 Ensure that venv is running 
 .\venv\Scripts\activate
-cd djangoSet
+cd plpSet
 python manage.py runserver
 
 VUE 
 .\venv\Scripts\activate
-cd djangoSet
+cd plpSet
 cd frontendSet
 npm run dev
