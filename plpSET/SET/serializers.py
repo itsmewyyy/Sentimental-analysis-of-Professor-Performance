@@ -125,6 +125,7 @@ class ProfessorInfoSerializer(serializers.ModelSerializer):
     # Method to get department description
     def get_department_desc(self, obj):
         return obj.department.department_desc if obj.department else None
+
 # Serializer for Subject Info
 class SubjectInfoSerializer(serializers.ModelSerializer):
     class Meta:

@@ -1,6 +1,6 @@
 const animate = require("tailwindcss-animate");
+const flowbite = require("flowbite/plugin");
 
-/** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ["class"],
   content: [
@@ -35,17 +35,19 @@ module.exports = {
           800: "#252525",
           900: "#000000",
         },
-
         plpyellow: {
           100: "#EBE186",
           200: "#ECCC35",
         },
-
         plpgreen: {
           100: "#C9D8C2",
           200: "#5F965E",
           300: "#5C925C",
           400: "#5E8C5E",
+        },
+        reds: {
+          200: "#C33232",
+          800: "#B40D0D",
         },
       },
       keyframes: {
@@ -64,6 +66,5 @@ module.exports = {
       },
     },
   },
-  plugins: [animate],
-  plugins: [require("flowbite/plugin")],
+  plugins: [animate, flowbite],
 };

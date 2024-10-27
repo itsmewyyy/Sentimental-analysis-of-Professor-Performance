@@ -51,8 +51,7 @@ class RegisterView(APIView):
             return Response({'message': 'Student Account registration successful'}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-from django.contrib.auth import login, logout
-from django.contrib.sessions.models import Session
+
 
 class LoginView(APIView):
     def post(self, request):
@@ -97,21 +96,33 @@ class LoginAdmin(APIView):
         password = request.data.get('password')
 
         try:
+            # Fetch the admin account based on the provided username
             admin_account = admin_acc.objects.get(admin_username=username)
         except admin_acc.DoesNotExist:
             return Response({'error': 'Invalid credentials'}, status=status.HTTP_400_BAD_REQUEST)
 
+        # Check if the password is correct
         if check_password(password, admin_account.password):
-            # Create session
-            request.session['admin_id'] = admin_account.admin_username 
-            request.session['user_type'] = 'admin'
-           
+            # Create session for the admin
+            request.session['admin_id'] = admin_account.admin_username
             
-            # Return admin information along with the success message
+            if admin_account.is_dean:
+                user_type = 'Dean'
+            elif admin_account.is_secretary:
+                user_type = 'Secretary'
+            elif admin_account.is_mis:
+                user_type = 'MIS'
+            else:
+                user_type = 'Admin' 
+
             return Response({
                 'message': 'Login successful',
                 'admin_id': admin_account.admin_username,
-                'user_type': 'admin',
+                'user_type': user_type,
+                'dept_id': admin_account.dept_id.department_id if admin_account.dept_id else None,  # Ensure dept_id exists
+                'is_dean': admin_account.is_dean,
+                'is_secretary': admin_account.is_secretary,
+                'is_mis': admin_account.is_mis,
             }, status=status.HTTP_200_OK)
 
         return Response({'error': 'Invalid credentials'}, status=status.HTTP_400_BAD_REQUEST)

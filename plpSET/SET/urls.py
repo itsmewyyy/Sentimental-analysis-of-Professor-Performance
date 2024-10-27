@@ -11,5 +11,4 @@ urlpatterns = [
     path('submit-ratings/', SubmitRatingsView.as_view(), name='submit-ratings'),
     path('enrolled_subjs/<str:student_id>/', EnrolledSubjsView.as_view(), name='enrolled-subjects'),
 
-
 ]

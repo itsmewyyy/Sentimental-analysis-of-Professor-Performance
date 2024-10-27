@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from .models import categories, numerical_questions, feedback_questions, programs, department, year_level, student_info, student_enrolled_subjs, feedbacks
 from .serializers import StudentSerializer, SubmitRatingsSerializer, EnrolledSubjectsSerializer
 from rest_framework import status
-from .tasks import process_feedback_task
+from .tasks import (process_feedback_task)
 
 
 class CategoriesAndQuestionsView(APIView):
@@ -112,6 +112,25 @@ class SubmitRatingsView(APIView):
             # Trigger the Celery task to process feedback asynchronously
             process_feedback_task.delay(validated_data)
 
+            
+
             return Response({"message": "Ratings and feedback submitted successfully. Processing in background."}, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
+class SubjectTaggingView(APIView):
+    def get(self, requset):
+
+        Subjects = [
+
+        ]
+        return Response(Subjects, status=status.HTTP_200_OK)
+
+class SectionTaggingView(APIView):
+    def get(self, requset):
+
+        Sections = [
+
+        ]
+        return Response(Sections, status=status.HTTP_200_OK)

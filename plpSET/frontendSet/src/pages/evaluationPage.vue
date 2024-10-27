@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { ref, onMounted, computed, watch } from "vue";
-import TextAreaComponent from "@/components/textareaComponent.vue";
-import sidebarStudent from "@/components/sidebarStudent.vue";
-import navbar from "@/components/navbar.vue";
+import TextAreaComponent from "@/components/SET/textareaComponent.vue";
+import sidebarStudent from "@/components/navigation/sidebarStudent.vue";
+import navbar from "@/components/navigation/navbar.vue";
 import { Toaster } from "@/components/ui/toast";
 import { useToast } from "@/components/ui/toast/use-toast";
-import cardComponent from "@/components/cardNumerical.vue";
+import cardComponent from "@/components/SET/cardNumerical.vue";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import questioncomponent from "@/components/questionComponent.vue";
+import questioncomponent from "@/components/SET/questionComponent.vue";
 // @ts-ignore
 import type { CarouselApi } from "@/components/ui/carousel";
 import {
@@ -200,9 +200,10 @@ async function fetchFeedbackData() {
 
 // Store feedback ratings in the store
 function handleFeedback(questionId, feedback) {
-  ratingsStore.setFeedbackRating(questionId, feedback); // Store feedback
+  if (ratingsStore.feedbackRatings[questionId] !== feedback) {
+    ratingsStore.setFeedbackRating(questionId, feedback);
+  }
 }
-
 // Submit both numerical ratings and feedback
 async function submitAll() {
   // Get the student_enrolled_subj_id from the localstorage
@@ -216,6 +217,17 @@ async function submitAll() {
   }
 
   ratingsStore.setStudentEnrolledSubjId(student_enrolled_subj_id);
+
+  const allFeedbackAnswered = questions.value.every((question) => {
+    return ratingsStore.feedbackRatings.hasOwnProperty(
+      question.feedback_question_id
+    );
+  });
+
+  if (!allFeedbackAnswered) {
+    alert("Please answer all feedback questions before submitting.");
+    return;
+  }
 
   // Prepare the data for submission
   const data = {
@@ -293,9 +305,9 @@ function goToPrev() {
       'ml-20': !isSidebarOpen,
     }"
   >
-    <section class="pt-36 pb-12 pl-32 pr-32">
+    <section class="pt-32 pl-32 pr-32 pb-auto">
       <form>
-        <div class="sliding-container w-full space-y-4">
+        <div class="sliding-container w-full space-y-2">
           <transition
             :name="isNext ? 'slide-next' : 'slide-prev'"
             mode="out-in"
@@ -304,9 +316,9 @@ function goToPrev() {
               <!-- Numerical -->
               <div
                 v-if="currentStep === 1"
-                class="slide w-11/12 bg-white border border-black/15 h-5/6 pb-12 pt-14 px-16 rounded-lg"
+                class="slide w-11/12 bg-white border border-black/15 h-5/6 pb-6 pt-8 px-16 rounded-lg"
               >
-                <div class="flex flex-wrap space-y-12">
+                <div class="flex flex-wrap space-y-8">
                   <div class="flex space-x-4 items-center">
                     <Avatar class="w-20 h-20">
                       <AvatarImage
@@ -316,7 +328,7 @@ function goToPrev() {
                     </Avatar>
                     <div class="flex flex-col">
                       <!-- Dynamic professor name and department -->
-                      <h1 class="text-4xl font-bold text-darks-700">
+                      <h1 class="text-4xl font-bold text-darks-500">
                         {{
                           professorInfo
                             ? professorInfo.first_name +
@@ -325,17 +337,17 @@ function goToPrev() {
                             : "Loading..."
                         }}
                       </h1>
-                      <p class="text-base text-darks-800">
+                      <p class="text-base text-darks-200/80">
                         {{ departmentDesc }}
                       </p>
                     </div>
                   </div>
-                  <div class="w-full justify-center space-y-10">
+                  <div class="w-full justify-center space-y-6">
                     <Carousel
-                      class="w-full bg-plpgreen-100/40 rounded-lg p-2 pt-8 h-fit"
+                      class="w-full bg-plpgreen-100/40 rounded-lg pt-9 pb-6"
                       @init-api="setCategoryApi"
                     >
-                      <CarouselContent class="h-fit">
+                      <CarouselContent>
                         <!-- Iterate through categories to create CarouselItems -->
                         <CarouselItem
                           v-for="(category, index) in categories"
@@ -364,7 +376,7 @@ function goToPrev() {
                       <CarouselPrevious @click.prevent />
                       <CarouselNext @click.prevent />
                     </Carousel>
-                    <div class="py-2 text-center text-sm text-darks-100">
+                    <div class="text-center text-sm text-darks-100">
                       Category {{ currentCategory }} of {{ totalCategoryCount }}
                     </div>
                   </div>
@@ -374,9 +386,9 @@ function goToPrev() {
               <!-- Feedback -->
               <div
                 v-if="currentStep === 2"
-                class="slide w-11/12 bg-white border border-black/15 h-5/6 pb-12 pt-14 px-16 rounded-lg"
+                class="slide w-11/12 bg-white border border-black/15 h-5/6 pb-6 pt-8 px-16 rounded-lg"
               >
-                <div class="flex flex-wrap space-y-12">
+                <div class="flex flex-wrap space-y-8">
                   <div class="flex space-x-4 items-center">
                     <Avatar class="w-20 h-20">
                       <AvatarImage
@@ -400,7 +412,7 @@ function goToPrev() {
                       </p>
                     </div>
                   </div>
-                  <div class="w-full justify-center space-y-10">
+                  <div class="w-full justify-center space-y-6">
                     <Carousel
                       class="w-full h-64 bg-plpgreen-100/40 rounded-lg p-12"
                       @init-api="setFeedbackApi"
@@ -411,7 +423,7 @@ function goToPrev() {
                           :key="question.feedback_question_id"
                         >
                           <TextAreaComponent
-                            :id="question.feedback_question_id + '.'"
+                            :id="String(question.feedback_question_id)"
                             :label="
                               question.feedback_question_id +
                               '. ' +
@@ -430,7 +442,7 @@ function goToPrev() {
                       <CarouselPrevious @click.prevent />
                       <CarouselNext @click.prevent />
                     </Carousel>
-                    <div class="py-2 text-center text-sm text-darks-100">
+                    <div class="text-center text-sm text-darks-100">
                       Question {{ currentFeedback }} of
                       {{ totalFeedbackQuestionCount }}
                     </div>
@@ -506,7 +518,7 @@ function goToPrev() {
 /* Slide for Previous */
 .slide-prev-enter-active,
 .slide-next-leave-active {
-  transition: transform 600ms ease-in-out;
+  transition: transform 800ms ease-in-out;
 }
 
 .slide-prev-enter {

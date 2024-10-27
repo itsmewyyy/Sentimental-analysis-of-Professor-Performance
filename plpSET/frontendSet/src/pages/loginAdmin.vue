@@ -14,7 +14,7 @@ const login = async () => {
 
   try {
     await authAdminLogin.login(adminUsername.value, password.value);
-    router.push("/");
+    router.push("/dashboardDean");
   } catch (error) {
     console.error(error);
   }

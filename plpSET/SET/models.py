@@ -15,13 +15,12 @@ class student_status(models.Model):
     def __str__(self):
         return f'{self.student_status_desc}'
     
-
 class department(models.Model):
     department_id = models.CharField(max_length=6, primary_key=True)
     department_desc = models.CharField(max_length=100)
     
     def __str__(self):
-        return f'{self.department_desc}'
+        return f'{self.department_id}'
 
 class programs(models.Model):
     program_id = models.CharField(max_length=8, primary_key=True)
@@ -52,7 +51,7 @@ class student_info(models.Model):
         names = [self.surname, self.first_name]
         if self.middle_name:
             names.insert(1, self.middle_name) 
-        return ' '.join(names)
+        return ', '.join(names)
 
     def __str__(self):
         return f'{self.student_id}'
@@ -70,7 +69,7 @@ class academic_yearsem(models.Model):
     semester_desc = models.CharField(max_length=100)
 
     def __str__(self):
-        return f'{self.year_sem_id} {self.semester_desc}'
+        return f'{self.year_sem_id}'
 
 class subjects(models.Model):
     subject_code = models.CharField(max_length=10, primary_key=True)
@@ -123,7 +122,7 @@ class categories(models.Model):
     category_desc = models.CharField(max_length=100)
 
     def __str__(self):
-        return f'{self.category_id} {self.category_desc}'
+        return f'{self.category_id}'
 
 class numerical_questions(models.Model):
     numerical_question_id = models.CharField(max_length=4, primary_key=True)

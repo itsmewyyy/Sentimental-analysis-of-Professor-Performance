@@ -10,7 +10,7 @@
     }"
   >
     <section
-      class="relative bg-white min-h-screen pt-32 overflow-y-auto pb-40 pl-20 pr-4 space-y-16"
+      class="relative bg-white min-h-screen pt-32 overflow-y-auto p-20 pt-32 space-y-16"
     >
       <div class="pl-8">
         <h1 class="font-semibold text-4xl text-darks-500">Enrolled Courses</h1>
@@ -26,9 +26,9 @@
 </template>
 
 <script setup lang="ts">
-import subjectComponent from "@/components/subjectComponent.vue";
-import navbar from "@/components/navbar.vue";
-import sidebarStudent from "@/components/sidebarStudent.vue";
+import subjectComponent from "@/components/SET/subjectComponent.vue";
+import navbar from "@/components/navigation/navbar.vue";
+import sidebarStudent from "@/components/navigation/sidebarStudent.vue";
 import { ref, onMounted } from "vue";
 import { useAuthStore } from "@/store/student";
 import { Toaster } from "@/components/ui/toast";
