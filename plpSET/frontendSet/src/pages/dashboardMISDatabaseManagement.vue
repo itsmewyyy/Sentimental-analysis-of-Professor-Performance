@@ -12,6 +12,9 @@ import MISNavbar from "@/components/navigation/MISNavbar.vue";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import adminList from "@/components/databaseManagement/admins/adminList.vue";
 import professorList from "@/components/databaseManagement/professors/professorList.vue";
+import collegeList from "@/components/databaseManagement/departments/collegeList.vue";
+import programList from "@/components/databaseManagement/programs/programList.vue";
+import sectionList from "@/components/databaseManagement/sections/sectionList.vue";
 </script>
 
 <template>
@@ -66,11 +69,13 @@ import professorList from "@/components/databaseManagement/professors/professorL
                 <TabsTrigger value="4"> Subjects </TabsTrigger>
               </TabsList>
               <TabsContent value="1" class="w-full">
-                <div class="w-full">1</div>
+                <div class="w-full"><collegeList></collegeList></div>
               </TabsContent>
-              <TabsContent value="2"> <div class="w-full">22</div></TabsContent>
+              <TabsContent value="2">
+                <div class="w-full"><programList></programList></div
+              ></TabsContent>
               <TabsContent value="3"
-                >33
+                ><sectionList></sectionList>
                 <div class="w-full"></div
               ></TabsContent>
               <TabsContent value="4"

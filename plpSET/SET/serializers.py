@@ -140,7 +140,7 @@ class ProfessorInfoSerializer(serializers.ModelSerializer):
 class SubjectInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = subjects
-        fields = ['subject_code', 'subject_desc' ]
+        fields = ['subject_code', 'subject_desc', 'assoc_college' ]
 
 # Serializer for Student Enrolled Subjects
 class EnrolledSubjectsSerializer(serializers.ModelSerializer):
