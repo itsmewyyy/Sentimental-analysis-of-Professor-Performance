@@ -1,14 +1,16 @@
 from rest_framework import serializers
 from datetime import datetime
-from .models import section, programs, year_level, department, student_info, numerical_ratings, feedbacks, student_enrolled_subjs, numerical_questions, feedback_questions, professor_subjs, professor_info, subjects
+from .models import section, programs, year_level, department, student_info, numerical_ratings, feedbacks, student_enrolled_subjs, numerical_questions, feedback_questions, professor_subjs, professor_info, subjects, categories
+from userLogin.models import admin_acc
 from django.utils import timezone
+
 class SectionSerializer(serializers.ModelSerializer):
 
     name = serializers.CharField(source='section')
 
     class Meta:
         model = section
-        fields = ['section_id', 'name']
+        fields = ['section_id', 'name', 'program', 'year_level']
 
 
 class ProgramSerializer(serializers.ModelSerializer):
@@ -16,7 +18,13 @@ class ProgramSerializer(serializers.ModelSerializer):
 
     class Meta: 
         model = programs
-        fields = ['program_id', 'program_desc', 'sections']
+        fields = ['program_id', 'program_desc', 'sections', 'dept_id']
+
+class ProgramsSerializer(serializers.ModelSerializer):
+
+    class Meta: 
+        model = programs
+        fields = ['program_id', 'program_desc', 'dept_id']
 
 
 class YearLevelSerializer(serializers.ModelSerializer):
@@ -118,9 +126,11 @@ class SubmitRatingsSerializer(serializers.Serializer):
 class ProfessorInfoSerializer(serializers.ModelSerializer):
     department_desc = serializers.SerializerMethodField()
 
+    full_name = serializers.ReadOnlyField()
+
     class Meta:
         model = professor_info
-        fields = ['surname', 'first_name', 'department_desc']  # Add department description
+        fields = ['professor_id', 'surname', 'first_name','middle_name', 'full_name', 'department', 'department_desc',   'is_dean', 'status'] 
 
     # Method to get department description
     def get_department_desc(self, obj):
@@ -140,3 +150,34 @@ class EnrolledSubjectsSerializer(serializers.ModelSerializer):
     class Meta:
         model = student_enrolled_subjs
         fields = ['student_enrolled_subj_id', 'prof_info', 'subj_name', 'is_evaluated']
+
+#Serizalier for Admin List
+class AdminSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = admin_acc
+        # Include the editable fields
+        fields = ['admin_acc_id', 'admin_username', 'is_mis', 'is_dean', 'is_secretary', 'dept_id']  
+
+
+#Serizalier for Feedback Questions
+class FeedbackQuestionsSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = feedback_questions
+        fields = ['feedback_question_id', 'question']  
+
+#Serizalier for Category
+class NumericalCategorySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = categories
+        fields = ['category_id', 'category_desc']  
+
+#Serizalier for Numerical Questions
+class NumericalQuestionsSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = numerical_questions
+        fields = ['category', 'numerical_question_id', 'question']  
+

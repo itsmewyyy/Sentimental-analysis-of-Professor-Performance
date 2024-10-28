@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Row } from "@tanstack/vue-table";
-import type { Student } from "./columns";
+import type { Admin } from "./columns";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -19,7 +19,7 @@ import { Ellipsis } from "lucide-vue-next";
 import { computed } from "vue";
 
 interface DataTableRowActionsProps {
-  row: Row<Student>;
+  row: Row<Admin>;
 }
 
 const props = defineProps<DataTableRowActionsProps>();

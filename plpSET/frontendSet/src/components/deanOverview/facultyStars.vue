@@ -200,7 +200,7 @@ onMounted(() => {
             </TableCell>
             <TableCell>
               <div class="flex flex-col items-center text-center">
-                <p class="text-xs font-bold">
+                <p class="text-xs font-medium">
                   {{ calculateFeedbackScore(professor) }}
                 </p>
               </div>

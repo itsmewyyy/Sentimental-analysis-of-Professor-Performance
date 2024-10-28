@@ -46,7 +46,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="container py-10 mx-auto">
+  <div class="py-10 mx-auto w-full">
     <DataTable :columns="columns" :data="data" />
   </div>
 </template>

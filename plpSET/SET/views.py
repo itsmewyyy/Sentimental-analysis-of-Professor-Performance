@@ -1,8 +1,9 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import categories, numerical_questions, feedback_questions, programs, department, year_level, student_info, student_enrolled_subjs, feedbacks
-from .serializers import StudentSerializer, SubmitRatingsSerializer, EnrolledSubjectsSerializer
+from .models import categories, numerical_questions, feedback_questions, programs, department, year_level, student_info, student_enrolled_subjs, feedbacks, professor_info, section, subjects
+from .serializers import StudentSerializer, SubmitRatingsSerializer, EnrolledSubjectsSerializer, AdminSerializer, ProfessorInfoSerializer, ProgramsSerializer, DepartmentSerializer, SectionSerializer, SubjectInfoSerializer, FeedbackQuestionsSerializer, NumericalCategorySerializer, NumericalQuestionsSerializer
 from rest_framework import status
+from userLogin.models import admin_acc
 from .tasks import (process_feedback_task)
 
 
@@ -18,14 +19,6 @@ class CategoriesAndQuestionsView(APIView):
                 'category_desc': category.category_desc,
                 'questions': [{'numerical_question_id': q.numerical_question_id, 'question': q.question} for q in questions]
             })
-        return Response(data)
-    
-class FeedbackQuestionsView(APIView):
-     #feedback questions
-
-     def get(self, request):
-        questions = feedback_questions.objects.all()
-        data = [{'feedback_question_id': q.feedback_question_id, 'question': q.question} for q in questions]
         return Response(data)
 
 
@@ -134,3 +127,95 @@ class SectionTaggingView(APIView):
 
         ]
         return Response(Sections, status=status.HTTP_200_OK)
+
+# Views for Databases
+class AdminListView(APIView):
+
+    def get(self, request):
+      
+        admins = admin_acc.objects.all()
+        
+        serializer = AdminSerializer(admins, many=True)
+        
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class ProfessorListView(APIView):
+
+    def get(self, request):
+ 
+        professors = professor_info.objects.all()
+     
+        serializer = ProfessorInfoSerializer(professors, many=True)
+        
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+class DepartmentListView(APIView):
+
+    def get(self, request):
+ 
+        departments = department.objects.all()
+     
+        serializer = DepartmentSerializer(departments, many=True)
+        
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+class ProgramListView(APIView):
+
+    def get(self, request):
+ 
+        program = programs.objects.all()
+
+        serializer = ProgramsSerializer(program, many=True)
+        
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class SectionListView(APIView):
+
+    def get(self, request):
+ 
+        sections = section.objects.all()
+
+        serializer = SectionSerializer(sections, many=True)
+        
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+class SubjectListView(APIView):
+
+    def get(self, request):
+ 
+        subject = subjects.objects.all()
+
+        serializer = SubjectInfoSerializer(subject, many=True)
+        
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+class FeedbackQuestionsView(APIView):
+
+     def get(self, request):
+        feedbackquestion = feedback_questions.objects.all()
+
+        serializer = FeedbackQuestionsSerializer(feedbackquestion, many=True)
+        
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class NumericalCategoryView(APIView):
+
+     def get(self, request):
+        category = categories.objects.all()
+
+        serializer = NumericalCategorySerializer(category, many=True)
+        
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class NumericalQuestionsView(APIView):
+
+     def get(self, request):
+        numericalquestion = numerical_questions.objects.all()
+
+        serializer = NumericalQuestionsSerializer(numericalquestion, many=True)
+        
+        return Response(serializer.data, status=status.HTTP_200_OK)

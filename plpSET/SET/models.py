@@ -95,6 +95,12 @@ class professor_info(models.Model):
     department = models.ForeignKey(department, on_delete=models.CASCADE, related_name='professors')
     is_dean = models.BooleanField(default=False)
 
+    def full_name(self):
+        names = [self.surname, self.first_name]
+        if self.middle_name:
+            names.insert(1, self.middle_name) 
+        return ', '.join(names)
+
     def __str__(self):
         return f'{self.surname} {self.first_name} {self.department}'
 

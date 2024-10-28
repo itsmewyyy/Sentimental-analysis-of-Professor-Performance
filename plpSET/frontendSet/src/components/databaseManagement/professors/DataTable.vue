@@ -1,6 +1,6 @@
 <script setup lang="ts" generic="TData, TValue">
 import type { ColumnDef, ColumnFiltersState } from "@tanstack/vue-table";
-import type { Student } from "./columns";
+import type { Professor } from "./columns";
 import {
   Table,
   TableBody,
@@ -23,12 +23,12 @@ import { Button } from "@/components/ui/button";
 import ScrollArea from "@/components/ui/scroll-area/ScrollArea.vue";
 import { FileUp } from "lucide-vue-next";
 import { valueUpdater } from "@/lib/utils";
-import DataTablePagination from "./DataTablePagination.vue";
-import DataTableToolbar from "@/components/databaseStudent/DataTableToolbar.vue";
+import DataTablePagination from "@/components/databaseManagement/professors/DataTablePagination.vue";
+import DataTableToolbar from "@/components/databaseManagement/professors/DataTableToolbar.vue";
 
 interface DataTableProps {
-  columns: ColumnDef<Student, any>[];
-  data: Student[];
+  columns: ColumnDef<Professor, any>[];
+  data: Professor[];
 }
 
 const props = defineProps<DataTableProps>();
@@ -99,15 +99,7 @@ const table = useVueTable({
             <TableRow v-else>
               <TableCell :colspan="columns.length" class="text-center py-40">
                 <div class="space-y-4">
-                  <p class="text-reds-200">
-                    No student records available. Upload a class list of the
-                    corresponding section to add students.
-                  </p>
-                  <Button
-                    class="items-center space-x-2 bg-plpgreen-200 hover:bg-plpgreen-400"
-                    ><FileUp class="w-5 h-5" />
-                    <p>Upload</p>
-                  </Button>
+                  <p class="text-reds-200">No results.</p>
                 </div>
               </TableCell>
             </TableRow>
