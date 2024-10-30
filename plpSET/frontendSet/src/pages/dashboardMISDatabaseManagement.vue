@@ -8,20 +8,26 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import MISNavbar from "@/components/navigation/MISNavbar.vue";
+import MISNavbar from "@/components/navigation/NavBarMIS.vue";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import Toaster from "@/components/ui/toast/Toaster.vue";
 import adminList from "@/components/databaseManagement/admins/adminList.vue";
 import professorList from "@/components/databaseManagement/professors/professorList.vue";
-import collegeList from "@/components/databaseManagement/departments/collegeList.vue";
+import collegeList from "@/components/databaseManagement/colleges/collegeList.vue";
 import programList from "@/components/databaseManagement/programs/programList.vue";
 import sectionList from "@/components/databaseManagement/sections/sectionList.vue";
+import subjectList from "@/components/databaseManagement/subjects/subjectList.vue";
+import categoryList from "@/components/databaseManagement/categories/categoryList.vue";
+import NumQuestionList from "@/components/databaseManagement/numericalQuestions/NumQuestionList.vue";
+import feedbackquestionlist from "@/components/databaseManagement/feedbackquestions/feedbackquestionlist.vue";
 </script>
 
 <template>
   <MISNavbar></MISNavbar>
-  <section class="p-20 pt-32 min-h-full">
+  <Toaster />
+  <section class="p-20 pt-20 min-h-full">
     <div
-      class="w-full border border-black/15 rounded-md space-y-8 pb-4 px-9 pt-9"
+      class="w-full border border-black/25 rounded-md space-y-8 pb-4 px-9 pt-9"
     >
       <div class="w-full border-b border-black/15 pb-6">
         <h1 class="font-bold text-3xl">Database Management</h1>
@@ -32,7 +38,7 @@ import sectionList from "@/components/databaseManagement/sections/sectionList.vu
       </div>
 
       <Tabs default-value="1" class="w-full pr-1">
-        <TabsList class="grid w-full grid-cols-3 w-5/12">
+        <TabsList class="grid w-full grid-cols-3 w-5/12 bg-plpgreen-100/40">
           <TabsTrigger value="1"> Admins and Professors </TabsTrigger>
           <TabsTrigger value="2">
             Colleges, Programs, Sections, and Subjects
@@ -43,17 +49,17 @@ import sectionList from "@/components/databaseManagement/sections/sectionList.vu
         <TabsContent value="1" class="w-full">
           <div class="w-full">
             <Tabs default-value="1" class="w-full -space-y-1">
-              <TabsList class="grid w-full grid-cols-2 w-5/12">
+              <TabsList
+                class="grid w-full grid-cols-2 w-5/12 bg-plpyellow-100/30"
+              >
                 <TabsTrigger value="1"> Admins </TabsTrigger>
                 <TabsTrigger value="2"> Professors </TabsTrigger>
               </TabsList>
               <TabsContent value="1" class="w-full">
-                <div class="w-full flex-col">
-                  <adminList></adminList>
-                </div>
+                <adminList></adminList>
               </TabsContent>
               <TabsContent value="2">
-                <div class="w-full"><professorList></professorList></div
+                <professorList></professorList
               ></TabsContent>
             </Tabs>
           </div>
@@ -62,45 +68,44 @@ import sectionList from "@/components/databaseManagement/sections/sectionList.vu
         <TabsContent value="2">
           <div class="w-full">
             <Tabs default-value="1" class="w-full -space-y-1">
-              <TabsList class="grid w-full grid-cols-4 w-5/12">
+              <TabsList
+                class="grid w-full grid-cols-4 w-5/12 bg-plpyellow-100/30"
+              >
                 <TabsTrigger value="1"> Colleges </TabsTrigger>
                 <TabsTrigger value="2"> Progams </TabsTrigger>
                 <TabsTrigger value="3"> Sections </TabsTrigger>
                 <TabsTrigger value="4"> Subjects </TabsTrigger>
               </TabsList>
               <TabsContent value="1" class="w-full">
-                <div class="w-full"><collegeList></collegeList></div>
+                <collegeList></collegeList>
               </TabsContent>
               <TabsContent value="2">
-                <div class="w-full"><programList></programList></div
-              ></TabsContent>
-              <TabsContent value="3"
-                ><sectionList></sectionList>
-                <div class="w-full"></div
-              ></TabsContent>
-              <TabsContent value="4"
-                >44
-                <div class="w-full"></div
-              ></TabsContent>
+                <programList></programList>
+              </TabsContent>
+              <TabsContent value="3"><sectionList></sectionList> </TabsContent>
+              <TabsContent value="4"><subjectList></subjectList> </TabsContent>
             </Tabs></div
         ></TabsContent>
         <!---Group 3-->
         <TabsContent value="3">
           <div class="w-full">
             <Tabs default-value="1" class="w-full -space-y-1">
-              <TabsList class="grid w-full grid-cols-3 w-5/12">
+              <TabsList
+                class="grid w-full grid-cols-3 w-5/12 bg-plpyellow-100/30"
+              >
                 <TabsTrigger value="1"> Categories </TabsTrigger>
                 <TabsTrigger value="2"> Numerical Questions </TabsTrigger>
                 <TabsTrigger value="3"> Feedback Questions </TabsTrigger>
               </TabsList>
               <TabsContent value="1" class="w-full">
-                <div class="w-full">111</div>
+                <categoryList></categoryList>
               </TabsContent>
-              <TabsContent value="2"> <div class="w-full">2</div></TabsContent>
+              <TabsContent value="2">
+                <NumQuestionList></NumQuestionList>
+              </TabsContent>
               <TabsContent value="3">
-                3
-                <div class="w-full"></div
-              ></TabsContent>
+                <feedbackquestionlist></feedbackquestionlist>
+              </TabsContent>
             </Tabs></div
         ></TabsContent>
       </Tabs>

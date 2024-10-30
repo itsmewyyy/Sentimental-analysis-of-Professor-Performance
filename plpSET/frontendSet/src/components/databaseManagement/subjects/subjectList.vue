@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
-import { columns, type Department } from "./columns";
-import DataTable from "@/components/databaseManagement/departments/DataTable.vue";
+import { columns, type Subject } from "./columns";
+import DataTable from "@/components/databaseManagement/subjects/DataTable.vue";
 
-const data = ref<Department[]>([]);
+const data = ref<Subject[]>([]);
 
-async function getData(): Promise<Department[]> {
+async function getData(): Promise<Subject[]> {
   try {
-    const response = await fetch(`http://127.0.0.1:8000/api/department-list/`);
+    const response = await fetch(`http://127.0.0.1:8000/api/subject-list/`);
 
     if (!response.ok) {
       throw new Error("Failed to fetch professor");
@@ -19,13 +19,13 @@ async function getData(): Promise<Department[]> {
       return result;
     } else {
       console.warn(
-        "No departments found or unexpected response structure:",
+        "No professors found or unexpected response structure:",
         result
       );
       return [];
     }
   } catch (error) {
-    console.error("Error fetching departments:", error);
+    console.error("Error fetching professors:", error);
     return [];
   }
 }

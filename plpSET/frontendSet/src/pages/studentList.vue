@@ -3,7 +3,7 @@ import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import axios from "axios";
 import StudentList from "@/components/databaseStudent/studentListTable.vue";
-import MISNavbar from "@/components/navigation/MISNavbar.vue";
+import MISNavbar from "@/components/navigation/NavBarMIS.vue";
 
 interface Student {
   student_id: string;
@@ -14,6 +14,7 @@ interface Student {
 const route = useRoute();
 const sectionId = ref<string>(route.params.sectionId as string);
 const students = ref<Student[]>([]);
+import Toaster from "@/components/ui/toast/Toaster.vue";
 
 const fetchStudents = async () => {
   if (!sectionId.value) {
@@ -47,9 +48,10 @@ onMounted(() => {
 </script>
 
 <template>
+  <Toaster />
   <MISNavbar></MISNavbar>
-  <section class="p-20 pt-32 min-h-full">
-    <div class="w-full border border-black/15 rounded-md px-9 pt-9">
+  <section class="p-20 pt-20 min-h-full">
+    <div class="w-full border border-black/25 rounded-md px-9 pt-9">
       <div class="border-b border-black/15 pb-6">
         <h1 class="font-bold text-3xl">{{ sectionId }}</h1>
         <p class="font-medium text-base text-darks-200/60">

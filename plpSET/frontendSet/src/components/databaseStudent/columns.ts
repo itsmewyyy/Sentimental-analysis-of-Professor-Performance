@@ -1,12 +1,9 @@
 import { h } from "vue";
 import type { ColumnDef } from "@tanstack/vue-table";
 import DataTableRowActions from "./DataTableRowActions.vue";
-
-export interface Student {
-  student_id: string;
-  full_name: string;
-  section: string;
-}
+import axios from "axios";
+import type { Student } from "./type";
+import { studentDelete } from "@/components/addEditForms/composables/studentDelete";
 
 export const columns: ColumnDef<Student>[] = [
   {
@@ -44,6 +41,14 @@ export const columns: ColumnDef<Student>[] = [
   },
   {
     id: "actions",
-    cell: ({ row }) => h(DataTableRowActions, { row }),
+    cell: ({ row }) => {
+      const { handleDelete, handleStoreItem } = studentDelete();
+
+      return h(DataTableRowActions, {
+        row,
+        onDelete: (item: Student) => handleDelete(item),
+        onStoreItem: (item: Student) => handleStoreItem(item),
+      });
+    },
   },
 ];

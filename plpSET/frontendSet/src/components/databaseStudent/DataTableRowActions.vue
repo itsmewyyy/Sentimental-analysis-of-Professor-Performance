@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Row } from "@tanstack/vue-table";
-import type { Student } from "./columns";
+import type { Student } from "./type";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -15,30 +15,63 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Pencil } from "lucide-vue-next";
+import { Trash } from "lucide-vue-next";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { Ellipsis } from "lucide-vue-next";
-import { computed } from "vue";
-
+import { computed, ref } from "vue";
+import editStudent from "../addEditForms/editStudent.vue";
 interface DataTableRowActionsProps {
   row: Row<Student>;
 }
 
 const props = defineProps<DataTableRowActionsProps>();
-</script>
+const emit = defineEmits(["edit", "delete", "storeItem"]);
 
+const deleteRow = () => {
+  emit("delete", props.row.original);
+};
+
+const storeStudent_id = () => {
+  emit("storeItem", props.row.original);
+};
+</script>
 <template>
-  <DropdownMenu>
-    <DropdownMenuTrigger as-child>
-      <Button
-        variant="ghost"
-        class="flex h-8 w-8 p-0 data-[state=open]:bg-muted"
-      >
-        <Ellipsis class="h-4 w-4" />
-        <span class="sr-only">Open menu</span>
-      </Button>
-    </DropdownMenuTrigger>
-    <DropdownMenuContent align="center" class="w-[160px]">
-      <DropdownMenuItem>Edit</DropdownMenuItem>
-      <DropdownMenuItem> Delete </DropdownMenuItem>
-    </DropdownMenuContent>
-  </DropdownMenu>
+  <TooltipProvider>
+    <Tooltip>
+      <TooltipTrigger as-child>
+        <Button
+          variant="ghost"
+          class="flex h-8 w-8 p-0 data-[state=open]:bg-muted"
+        >
+          <DropdownMenu>
+            <DropdownMenuTrigger as-child @click="storeStudent_id">
+              <Ellipsis class="h-4 w-4" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="center" class="w-[160px]">
+              <DropdownMenuItem>
+                <editStudent></editStudent>
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                class="flex justify-between items-center cursor-pointer"
+                @click="deleteRow"
+              >
+                Delete
+                <Trash color="red" width="12" />
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <span class="sr-only">Open menu</span>
+        </Button>
+      </TooltipTrigger>
+      <TooltipContent>
+        <p>Actions</p>
+      </TooltipContent>
+    </Tooltip>
+  </TooltipProvider>
 </template>

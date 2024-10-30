@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Table } from "@tanstack/vue-table";
-import type { Department } from "@/components/databaseManagement/departments/columns";
+import type { Department } from "./type";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -50,15 +50,15 @@ defineProps<DataTablePaginationProps>();
         </Select>
       </div>
       <div
-        class="flex w-[440px] items-center text-sm font-medium text-darks-200"
+        class="flex w-[480px] items-center text-sm font-medium text-darks-200"
       >
         Page {{ table.getState().pagination.pageIndex + 1 }} of
         {{ table.getPageCount() }}
       </div>
-      <div class="flex items-center space-x-2 pl-[470px]">
+      <div class="flex items-center space-x-2 pl-[420px]">
         <Button
           variant="outline"
-          class="hidden h-4 w-4 p-0 lg:flex"
+          class="hidden h-8 w-8 p-0 lg:flex"
           :disabled="!table.getCanPreviousPage()"
           @click="table.setPageIndex(0)"
         >

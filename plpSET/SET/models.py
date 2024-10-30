@@ -44,6 +44,7 @@ class student_info(models.Model):
     surname = models.CharField(max_length=100)
     middle_name = models.CharField(max_length=100, blank=True, null=True)
     first_name = models.CharField(max_length=100)
+    extension_name = models.CharField(max_length=5, blank=True, null=True)
     section = models.ForeignKey(section, on_delete=models.CASCADE, related_name='students')
     status = models.ForeignKey(student_status, on_delete=models.CASCADE, related_name='students')
 
@@ -149,7 +150,7 @@ class numerical_ratings(models.Model):
         return f'{self.numerical_id}'
 
 class feedback_questions(models.Model): 
-    feedback_question_id = models.IntegerField(primary_key=True)
+    feedback_question_id = models.CharField(max_length=4, primary_key=True)
     question = models.CharField(max_length=150)
 
     def __str__(self):

@@ -1,10 +1,11 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import categories, numerical_questions, feedback_questions, programs, department, year_level, student_info, student_enrolled_subjs, feedbacks, professor_info, section, subjects
-from .serializers import StudentSerializer, SubmitRatingsSerializer, EnrolledSubjectsSerializer, AdminSerializer, ProfessorInfoSerializer, ProgramsSerializer, DepartmentSerializer, SectionSerializer, SubjectInfoSerializer, FeedbackQuestionsSerializer, NumericalCategorySerializer, NumericalQuestionsSerializer
+from .models import categories, numerical_questions, feedback_questions, programs, department, year_level, student_info, student_enrolled_subjs, feedbacks, professor_info, section, subjects, student_status
+from .serializers import StudentSerializer, SubmitRatingsSerializer, EnrolledSubjectsSerializer, AdminSerializer, ProfessorInfoSerializer, ProgramsSerializer, DepartmentSerializer, SectionSerializer, SubjectInfoSerializer, FeedbackQuestionsSerializer, NumericalCategorySerializer, NumericalQuestionsSerializer, StudentStatusSerializer
 from rest_framework import status
 from userLogin.models import admin_acc
 from .tasks import (process_feedback_task)
+from django.shortcuts import get_object_or_404
 
 
 class CategoriesAndQuestionsView(APIView):
@@ -219,3 +220,393 @@ class NumericalQuestionsView(APIView):
         serializer = NumericalQuestionsSerializer(numericalquestion, many=True)
         
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+class StudentStatusView(APIView):
+
+     def get(self, request):
+        statuses = student_status.objects.all()
+
+        serializer = StudentStatusSerializer(statuses, many=True)
+        
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+
+#ADD, EDIT, AND DELETE
+#STUDENT
+class StudentDetailView(APIView):
+    def get_object(self, student_id):
+        try:
+            return student_info.objects.get(student_id=student_id)
+        except student_info.DoesNotExist:
+            return None
+
+    def get(self, request, student_id):
+        student = self.get_object(student_id)
+        if not student:
+            return Response({"error": "Student not found"}, status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = StudentSerializer(student)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request):
+        serializer = StudentSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "Student added successfully!"}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def put(self, request, student_id):
+        student = self.get_object(student_id)
+        if not student:
+            return Response({"error": "Student not found"}, status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = StudentSerializer(student, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, student_id):
+        student = self.get_object(student_id)
+        if not student:
+            return Response({"error": "Student not found"}, status=status.HTTP_404_NOT_FOUND)
+        
+        student.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class NumericalQuestionDetailView(APIView):
+    def get_object(self, numerical_question_id):
+        try:
+            return numerical_questions.objects.get(numerical_question_id=numerical_question_id)
+        except numerical_questions.DoesNotExist:
+            return None
+
+    def get(self, request, numerical_question_id):
+        numerical_question = self.get_object(numerical_question_id)
+        if not numerical_question :
+            return Response({"error": "not found"}, status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = NumericalQuestionsSerializer(numerical_question)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request):
+        serializer =  NumericalQuestionsSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "added successfully!"}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def put(self, request, numerical_question_id):
+        numerical_question  = self.get_object(numerical_question_id)
+        if not numerical_question :
+            return Response({"error": "not found"}, status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = NumericalQuestionsSerializer(numerical_question , data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, numerical_question_id):
+        numerical_question  = self.get_object(numerical_question_id)
+        if not numerical_question :
+            return Response({"error": "not found"}, status=status.HTTP_404_NOT_FOUND)
+        
+        numerical_question.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    
+class NumericalCategoryDetailView(APIView):
+    def get_object(self, category_id):
+        try:
+            return categories.objects.get(category_id=category_id)
+        except categories.DoesNotExist:
+            return None
+
+    def get(self, request, category_id):
+        category = self.get_object(category_id)
+        if not category:
+            return Response({"error": "Category not found"}, status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = NumericalCategorySerializer(category)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request):
+        serializer =  NumericalCategorySerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "Category added successfully!"}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def put(self, request, category_id):
+        category = self.get_object(category_id)
+        if not category:
+            return Response({"error": "Category not found"}, status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = NumericalCategorySerializer(category, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, category_id):
+        category = self.get_object(category_id)
+        if not category:
+            return Response({"error": "Category not found"}, status=status.HTTP_404_NOT_FOUND)
+        
+        category.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    
+class FeedbackQuestionDetailView(APIView):
+    def get_object(self, feedback_question_id):
+        try:
+            return feedback_questions.objects.get(feedback_question_id=feedback_question_id)
+        except feedback_questions.DoesNotExist:
+            return None
+
+    def get(self, request, feedback_question_id):
+        feedback_question = self.get_object(feedback_question_id)
+        if not feedback_question :
+            return Response({"error": "not found"}, status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = FeedbackQuestionsSerializer(feedback_question)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request):
+        serializer =  FeedbackQuestionsSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "added successfully!"}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def put(self, request, feedback_question_id):
+        feedback_question  = self.get_object(feedback_question_id)
+        if not feedback_question :
+            return Response({"error": "not found"}, status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = FeedbackQuestionsSerializer(feedback_question , data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, feedback_question_id):
+        feedback_question  = self.get_object(feedback_question_id)
+        if not feedback_question :
+            return Response({"error": "not found"}, status=status.HTTP_404_NOT_FOUND)
+        
+        feedback_question.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    
+class CollegeDetailView(APIView):
+    def get_object(self, department_id):
+        try:
+            return department.objects.get(department_id=department_id)
+        except department_id.DoesNotExist:
+            return None
+
+    def get(self, request, department_id):
+        dept = self.get_object(department_id)
+        if not dept :
+            return Response({"error": "not found"}, status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = DepartmentSerializer(dept)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request):
+        serializer =  DepartmentSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "added successfully!"}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def put(self, request, department_id):
+        dept  = self.get_object(department_id)
+        if not dept :
+            return Response({"error": "not found"}, status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = DepartmentSerializer(dept , data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, department_id):
+        dept  = self.get_object(department_id)
+        if not dept :
+            return Response({"error": "not found"}, status=status.HTTP_404_NOT_FOUND)
+        
+        dept.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class ProgramDetailView(APIView):
+    def get_object(self, program_id):
+        try:
+            return programs.objects.get(program_id=program_id)
+        except program_id.DoesNotExist:
+            return None
+
+    def get(self, request, program_id):
+        program = self.get_object(program_id)
+        if not  program :
+            return Response({"error": "not found"}, status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = ProgramsSerializer( program)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request):
+        serializer =  ProgramsSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "added successfully!"}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def put(self, request, program_id):
+        program  = self.get_object(program_id)
+        if not  program :
+            return Response({"error": "not found"}, status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = ProgramsSerializer( program , data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, program_id):
+        program  = self.get_object(program_id)
+        if not program :
+            return Response({"error": "not found"}, status=status.HTTP_404_NOT_FOUND)
+        
+        program.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class SectionDetailView(APIView):
+    def get_object(self, section_id):
+        try:
+            return section.objects.get(section_id=section_id)
+        except section_id.DoesNotExist:
+            return None
+
+    def get(self, request, section_id):
+        sections = self.get_object(section_id)
+        if not sections :
+            return Response({"error": "not found"}, status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = SectionSerializer( sections)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request):
+        serializer =  SectionSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "added successfully!"}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def put(self, request, section_id):
+        sections  = self.get_object(section_id)
+        if not  sections :
+            return Response({"error": "not found"}, status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = SectionSerializer(  sections , data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, section_id):
+        sections  = self.get_object(section_id)
+        if not sections:
+            return Response({"error": "not found"}, status=status.HTTP_404_NOT_FOUND)
+        
+        sections.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+class SubjectDetailView(APIView):
+    def get_object(self, subject_code):
+        try:
+            return subjects.objects.get(subject_code=subject_code)
+        except subject_code.DoesNotExist:
+            return None
+
+    def get(self, request, subject_code):
+        subject = self.get_object(subject_code)
+        if not section  :
+            return Response({"error": "not found"}, status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = ProfessorInfoSerializer( subject)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request):
+        serializer =  ProfessorInfoSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "added successfully!"}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def put(self, request, subject_code):
+        subject  = self.get_object(subject_code)
+        if not  subject :
+            return Response({"error": "not found"}, status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = ProfessorInfoSerializer( subject , data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, subject_code):
+        subject  = self.get_object(subject_code)
+        if not subject:
+            return Response({"error": "not found"}, status=status.HTTP_404_NOT_FOUND)
+        
+        subject.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+class ProfessorDetailView(APIView):
+    def get_object(self, professor_id):
+        try:
+            return professor_info.objects.get(professor_id=professor_id)
+        except professor_id.DoesNotExist:
+            return None
+
+    def get(self, request, professor_id):
+        prof = self.get_object(professor_id)
+        if not section  :
+            return Response({"error": "not found"}, status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = ProfessorInfoSerializer(prof )
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request):
+        serializer =  ProfessorInfoSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "added successfully!"}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def put(self, request, professor_id):
+        prof   = self.get_object(professor_id)
+        if not  prof  :
+            return Response({"error": "not found"}, status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = ProfessorInfoSerializer( prof  , data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, professor_id):
+        prof  = self.get_object(professor_id)
+        if not prof :
+            return Response({"error": "not found"}, status=status.HTTP_404_NOT_FOUND)
+        
+        prof.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    

@@ -11,6 +11,7 @@ import dashboardDean from "./pages/dashboardDean.vue";
 import dashboardDeanProfessorData from "./pages/dashboardDeanProfessorData.vue";
 import dashboardMIS from "./pages/dashboardMIS.vue";
 import dashboardMISDatabaseManagement from "./pages/dashboardMISDatabaseManagement.vue";
+import dashboardMISAnalytics from "./pages/dashboardMISAnalytics.vue";
 import { createRouter, createWebHistory } from "vue-router";
 
 const routes = [
@@ -103,6 +104,7 @@ const routes = [
       title:
         "Dean Dashboard | Pamantasan ng Lungsod ng Pasig Student Evaluation of Teaching",
     },
+    name: "DeanDashboard",
   },
   {
     path: "/DeanDashboard-ProfessorAnalytics",
@@ -118,6 +120,14 @@ const routes = [
     meta: {
       title:
         "MIS Dashboard | Pamantasan ng Lungsod ng Pasig Student Evaluation of Teaching",
+    },
+  },
+  {
+    path: "/MISDashboardAnalytics",
+    component: dashboardMISAnalytics,
+    meta: {
+      title:
+        "Analytics | Pamantasan ng Lungsod ng Pasig Student Evaluation of Teaching",
     },
   },
 ];

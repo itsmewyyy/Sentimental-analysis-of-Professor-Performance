@@ -1,12 +1,8 @@
 import { h } from "vue";
 import type { ColumnDef } from "@tanstack/vue-table";
 import DataTableRowActions from "@/components/databaseManagement/programs/DataTableRowActions.vue";
-
-export interface Program {
-  program_id: string;
-  program_desc: string;
-  dept_id: string;
-}
+import type { Program } from "./type";
+import { itemDelete } from "@/components/addEditForms/composables/programDelete";
 
 export const columns: ColumnDef<Program>[] = [
   {
@@ -43,9 +39,16 @@ export const columns: ColumnDef<Program>[] = [
       );
     },
   },
-
   {
     id: "actions",
-    cell: ({ row }) => h(DataTableRowActions, { row }),
+    cell: ({ row }) => {
+      const { handleDelete, handleStoreItem } = itemDelete();
+
+      return h(DataTableRowActions, {
+        row,
+        onDelete: (item: Program) => handleDelete(item),
+        onStoreItem: (item: Program) => handleStoreItem(item),
+      });
+    },
   },
 ];

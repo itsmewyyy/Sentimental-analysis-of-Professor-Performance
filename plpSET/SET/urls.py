@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import CategoriesAndQuestionsView, FeedbackQuestionsView, CollegeListView, SectionStudentsView, SubmitRatingsView, EnrolledSubjsView, AdminListView, ProfessorListView, DepartmentListView, ProgramListView, SectionListView, SubjectListView, NumericalCategoryView, NumericalQuestionsView
+from .views import CategoriesAndQuestionsView, CollegeDetailView, SubjectDetailView, ProfessorDetailView, ProgramDetailView, SectionDetailView, NumericalCategoryDetailView, FeedbackQuestionsView, CollegeListView, SectionStudentsView, StudentStatusView, SubmitRatingsView, EnrolledSubjsView, AdminListView, ProfessorListView, DepartmentListView, ProgramListView, SectionListView, SubjectListView, NumericalCategoryView, NumericalQuestionsView, StudentDetailView, NumericalQuestionDetailView, FeedbackQuestionDetailView
 
 
 urlpatterns = [
@@ -17,4 +17,24 @@ urlpatterns = [
     path('subject-list/', SubjectListView.as_view(), name='subject-list'),
     path('numerical-categories/', NumericalCategoryView.as_view(), name='category-list'),
     path('numerical-questions/', NumericalQuestionsView.as_view(), name='numerical-questions'),
+    path('student-status/', StudentStatusView.as_view(), name='student-status'),
+    path('students/', StudentDetailView.as_view(), name='student-create'),
+    path('students/<str:student_id>/', StudentDetailView.as_view(), name='student-detail'),
+    path('categorycrud/', NumericalCategoryDetailView.as_view(), name='categorycrud'),
+    path('categorycrud/<str:category_id>/', NumericalCategoryDetailView.as_view(), name='categorycrud-detail'),
+    path('numerical-questioncrud/', NumericalQuestionDetailView.as_view(), name='numerical-questioncrud'),
+    path('numerical-questioncrud/<str:numerical_question_id>/', NumericalQuestionDetailView.as_view(), name='numerical-questioncrud-detail'),
+    path('feedback-questioncrud/', FeedbackQuestionDetailView.as_view(), name='feedback-questioncrud'),
+    path('feedback-questioncrud/<str:feedback_question_id>/', FeedbackQuestionDetailView.as_view(), name='feedback-questioncrud-detail'),
+    path('collegecrud/', CollegeDetailView.as_view()),
+    path('collegecrud/<str:department_id>/', CollegeDetailView.as_view()),
+    path('programcrud/', ProgramDetailView.as_view()),
+    path('programcrud/<str:program_id>/', ProgramDetailView.as_view()),
+    path('sectioncrud/', SectionDetailView.as_view()),
+    path('sectioncrud/<str:section_code>/', SectionDetailView.as_view()),
+    path('professorinfocrud/', ProfessorDetailView.as_view()),
+    path('professorinfocrud/<str:professor_id>/', ProfessorDetailView.as_view()),
+    path('subjectcrud/', SubjectDetailView.as_view()),
+    path('subjectcrud/<str:subject_code>/', SubjectDetailView.as_view()),
+
 ]

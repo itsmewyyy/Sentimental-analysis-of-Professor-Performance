@@ -1,6 +1,6 @@
 <script setup lang="ts" generic="TData, TValue">
 import type { ColumnDef, ColumnFiltersState } from "@tanstack/vue-table";
-import type { Department } from "./columns";
+import type { FeedbackQuestion } from "./type";
 import {
   Table,
   TableBody,
@@ -19,16 +19,14 @@ import {
   getPaginationRowModel,
   useVueTable,
 } from "@tanstack/vue-table";
-import { Button } from "@/components/ui/button";
 import ScrollArea from "@/components/ui/scroll-area/ScrollArea.vue";
-import { FileUp } from "lucide-vue-next";
 import { valueUpdater } from "@/lib/utils";
-import DataTablePagination from "@/components/databaseManagement/departments/DataTablePagination.vue";
-import DataTableToolbar from "@/components/databaseManagement/departments/DataTableToolbar.vue";
+import DataTablePagination from "@/components/databaseManagement/feedbackquestions/DataTablePagination.vue";
+import DataTableToolbar from "@/components/databaseManagement/feedbackquestions/DataTableToolbar.vue";
 
 interface DataTableProps {
-  columns: ColumnDef<Department, any>[];
-  data: Department[];
+  columns: ColumnDef<FeedbackQuestion, any>[];
+  data: FeedbackQuestion[];
 }
 
 const props = defineProps<DataTableProps>();

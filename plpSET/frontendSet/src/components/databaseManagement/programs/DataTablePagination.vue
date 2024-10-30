@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Table } from "@tanstack/vue-table";
-import type { Program } from "@/components/databaseManagement/programs/columns";
+import type { Program } from "./type";
 import { Button } from "@/components/ui/button";
 import {
   Select,

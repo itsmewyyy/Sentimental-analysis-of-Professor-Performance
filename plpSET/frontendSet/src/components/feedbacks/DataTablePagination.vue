@@ -50,7 +50,7 @@ defineProps<DataTablePaginationProps>();
         </Select>
       </div>
       <div
-        class="flex w-[482px] items-center justify-end text-xs font-medium text-darks-200"
+        class="flex w-[467px] items-center justify-end text-xs font-medium text-darks-200"
       >
         Page {{ table.getState().pagination.pageIndex + 1 }} of
         {{ table.getPageCount() }}
@@ -58,7 +58,7 @@ defineProps<DataTablePaginationProps>();
       <div class="flex items-center space-x-2">
         <Button
           variant="outline"
-          class="hidden h-4 w-4 p-0 lg:flex"
+          class="hidden h-8 w-8 p-0 lg:flex"
           :disabled="!table.getCanPreviousPage()"
           @click="table.setPageIndex(0)"
         >

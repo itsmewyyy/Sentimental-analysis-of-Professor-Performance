@@ -1,47 +1,28 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
-import { columns, type Student } from "./columns";
+import { type Student } from "./type";
+import { columns } from "./columns";
 import DataTable from "@/components/databaseStudent/DataTable.vue";
 import { useRoute } from "vue-router";
+import { useQuery } from "@tanstack/vue-query";
 
 const route = useRoute();
-const data = ref<Student[]>([]);
 const sectionId = route.params.sectionId as string;
 
-async function getData(): Promise<Student[]> {
-  if (!sectionId) {
-    console.error("Section ID is missing");
-    return [];
+async function fetchCategories(): Promise<Student[]> {
+  const response = await fetch(
+    `http://127.0.0.1:8000/api/section/${sectionId}/`
+  );
+  if (!response.ok) {
+    throw new Error("Failed to fetch categories");
   }
-
-  try {
-    const response = await fetch(
-      `http://127.0.0.1:8000/api/section/${sectionId}/`
-    );
-
-    if (!response.ok) {
-      throw new Error("Failed to fetch student data");
-    }
-
-    const result = await response.json();
-
-    if (Array.isArray(result)) {
-      return result;
-    } else {
-      console.warn(
-        "No students found or unexpected response structure:",
-        result
-      );
-      return [];
-    }
-  } catch (error) {
-    console.error("Error fetching students:", error);
-    return [];
-  }
+  return await response.json();
 }
 
-onMounted(async () => {
-  data.value = await getData();
+const { data } = useQuery<Student[]>({
+  queryKey: ["items"],
+  queryFn: fetchCategories,
+  initialData: [],
 });
 </script>
 

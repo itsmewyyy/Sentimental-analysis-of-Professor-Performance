@@ -56,6 +56,7 @@ const goToSection = (sectionId: string) => {
   if (router) {
     router.push({ path: `/StudentList/${sectionId}` });
     console.log(`Navigating to section ${sectionId}`);
+    localStorage.setItem("section", sectionId);
   } else {
     console.error("Router is not available.");
   }

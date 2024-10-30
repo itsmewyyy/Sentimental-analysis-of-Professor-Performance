@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from datetime import datetime
-from .models import section, programs, year_level, department, student_info, numerical_ratings, feedbacks, student_enrolled_subjs, numerical_questions, feedback_questions, professor_subjs, professor_info, subjects, categories
+from .models import section, programs, year_level, department, student_info, numerical_ratings, feedbacks, student_enrolled_subjs, numerical_questions, feedback_questions, professor_subjs, professor_info, subjects, categories, student_status
 from userLogin.models import admin_acc
 from django.utils import timezone
 
@@ -60,7 +60,7 @@ class StudentSerializer(serializers.ModelSerializer):
     class Meta:
         model = student_info
         # Include the editable fields
-        fields = ['student_id', 'first_name', 'middle_name', 'surname', 'section', 'status', 'full_name']  
+        fields = ['student_id', 'first_name', 'middle_name', 'surname', 'section', 'status', 'full_name', 'extension_name']  
 
 class SubmitRatingsSerializer(serializers.Serializer):
     numericalRatings = serializers.DictField(child=serializers.IntegerField())
@@ -151,7 +151,7 @@ class EnrolledSubjectsSerializer(serializers.ModelSerializer):
         model = student_enrolled_subjs
         fields = ['student_enrolled_subj_id', 'prof_info', 'subj_name', 'is_evaluated']
 
-#Serizalier for Admin List
+#Serializer for Admin List
 class AdminSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -160,24 +160,31 @@ class AdminSerializer(serializers.ModelSerializer):
         fields = ['admin_acc_id', 'admin_username', 'is_mis', 'is_dean', 'is_secretary', 'dept_id']  
 
 
-#Serizalier for Feedback Questions
+#Serializer for Feedback Questions
 class FeedbackQuestionsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = feedback_questions
         fields = ['feedback_question_id', 'question']  
 
-#Serizalier for Category
+#Serializer for Category
 class NumericalCategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = categories
         fields = ['category_id', 'category_desc']  
 
-#Serizalier for Numerical Questions
+#Serializer for Numerical Questions
 class NumericalQuestionsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = numerical_questions
         fields = ['category', 'numerical_question_id', 'question']  
+
+class StudentStatusSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = student_status
+        fields = ['student_status_id', 'student_status_desc',]  
+
 

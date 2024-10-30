@@ -15,6 +15,14 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Pencil } from "lucide-vue-next";
+import { Trash } from "lucide-vue-next";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { Ellipsis } from "lucide-vue-next";
 import { computed } from "vue";
 
@@ -26,19 +34,34 @@ const props = defineProps<DataTableRowActionsProps>();
 </script>
 
 <template>
-  <DropdownMenu>
-    <DropdownMenuTrigger as-child>
-      <Button
-        variant="ghost"
-        class="flex h-8 w-8 p-0 data-[state=open]:bg-muted"
-      >
-        <Ellipsis class="h-4 w-4" />
-        <span class="sr-only">Open menu</span>
-      </Button>
-    </DropdownMenuTrigger>
-    <DropdownMenuContent align="center" class="w-[160px]">
-      <DropdownMenuItem>Edit</DropdownMenuItem>
-      <DropdownMenuItem> Delete </DropdownMenuItem>
-    </DropdownMenuContent>
-  </DropdownMenu>
+  <TooltipProvider>
+    <Tooltip>
+      <TooltipTrigger as-child>
+        <Button
+          variant="ghost"
+          class="flex h-8 w-8 p-0 data-[state=open]:bg-muted"
+        >
+          <DropdownMenu>
+            <DropdownMenuTrigger as-child>
+              <Ellipsis class="h-4 w-4" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="center" class="w-[160px]">
+              <DropdownMenuItem class="flex justify-between items-center">
+                Edit
+                <Pencil color="green" width="12" />
+              </DropdownMenuItem>
+              <DropdownMenuItem class="flex justify-between items-center">
+                Delete
+                <Trash color="red" width="12" />
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <span class="sr-only">Open menu</span>
+        </Button>
+      </TooltipTrigger>
+      <TooltipContent>
+        <p>Actions</p>
+      </TooltipContent>
+    </Tooltip>
+  </TooltipProvider>
 </template>

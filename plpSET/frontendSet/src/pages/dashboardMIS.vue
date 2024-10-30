@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import submissionChart from "@/components/MIS/submissionChart.vue";
-import MISNavbar from "@/components/navigation/MISNavbar.vue";
+import MISNavbar from "@/components/navigation/NavBarMIS.vue";
 </script>
 
 <template>
   <MISNavbar />
-  <section class="p-20 pt-32">
+  <section class="p-20 pt-20">
     <div class="grid grid-cols-6 grid-rows-7 gap-4 h-[480px]">
       <div class="col-span-2 row-span-2 border border-black/15 rounded-md">
         <div class="p-7">
