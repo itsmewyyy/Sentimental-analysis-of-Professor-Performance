@@ -19,9 +19,7 @@ import {
   getPaginationRowModel,
   useVueTable,
 } from "@tanstack/vue-table";
-import { Button } from "@/components/ui/button";
 import ScrollArea from "@/components/ui/scroll-area/ScrollArea.vue";
-import { FileUp } from "lucide-vue-next";
 import { valueUpdater } from "@/lib/utils";
 import DataTablePagination from "@/components/databaseManagement/programs/DataTablePagination.vue";
 import DataTableToolbar from "@/components/databaseManagement/programs/DataTableToolbar.vue";

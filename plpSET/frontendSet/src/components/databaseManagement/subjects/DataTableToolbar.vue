@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import type { Table } from "@tanstack/vue-table";
-import type { Subject } from "@/components/databaseManagement/subjects/columns";
+import type { Subject } from "./type";
 import { Button } from "@/components/ui/button";
 import Input from "@/components/ui/input/Input.vue";
 import { computed } from "vue";
-import { CirclePlus } from "lucide-vue-next";
 import { Search } from "lucide-vue-next";
+import AddSub from "@/components/addEditForms/AddSub.vue";
 
 interface DataTableToolbarProps {
   table: Table<Subject>;
@@ -29,9 +29,6 @@ const props = defineProps<DataTableToolbarProps>();
         "
       />
     </div>
-    <Button class="h-8 text-sm p-4 bg-plpgreen-200 hover:bg-plpgreen-400">
-      <CirclePlus class="mr-2 h-4 w-4" />
-      <p>Add</p>
-    </Button>
+    <AddSub></AddSub>
   </div>
 </template>

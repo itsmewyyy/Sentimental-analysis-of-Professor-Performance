@@ -539,11 +539,11 @@ class SubjectDetailView(APIView):
         if not section  :
             return Response({"error": "not found"}, status=status.HTTP_404_NOT_FOUND)
         
-        serializer = ProfessorInfoSerializer( subject)
+        serializer = SubjectInfoSerializer( subject)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request):
-        serializer =  ProfessorInfoSerializer(data=request.data)
+        serializer =  SubjectInfoSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response({"message": "added successfully!"}, status=status.HTTP_201_CREATED)
@@ -554,7 +554,7 @@ class SubjectDetailView(APIView):
         if not  subject :
             return Response({"error": "not found"}, status=status.HTTP_404_NOT_FOUND)
         
-        serializer = ProfessorInfoSerializer( subject , data=request.data, partial=True)
+        serializer = SubjectInfoSerializer( subject , data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
