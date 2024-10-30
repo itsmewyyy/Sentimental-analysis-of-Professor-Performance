@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Table } from "@tanstack/vue-table";
-import type { Section } from "@/components/databaseManagement/sections/columns";
+import type { Section } from "./type";
 import { Button } from "@/components/ui/button";
 import {
   Select,

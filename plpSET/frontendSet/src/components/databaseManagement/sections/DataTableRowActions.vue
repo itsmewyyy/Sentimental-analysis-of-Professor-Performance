@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Row } from "@tanstack/vue-table";
-import type { Section } from "./columns";
+import type { Section } from "./type";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -25,12 +25,23 @@ import {
 } from "@/components/ui/tooltip";
 import { Ellipsis } from "lucide-vue-next";
 import { computed } from "vue";
+import editSection from "@/components/addEditForms/editSection.vue";
 
 interface DataTableRowActionsProps {
   row: Row<Section>;
 }
 
 const props = defineProps<DataTableRowActionsProps>();
+
+const emit = defineEmits(["delete", "storeItem"]);
+
+const deleteRow = () => {
+  emit("delete", props.row.original);
+};
+
+const storeItems = () => {
+  emit("storeItem", props.row.original);
+};
 </script>
 
 <template>
@@ -42,15 +53,17 @@ const props = defineProps<DataTableRowActionsProps>();
           class="flex h-8 w-8 p-0 data-[state=open]:bg-muted"
         >
           <DropdownMenu>
-            <DropdownMenuTrigger as-child>
+            <DropdownMenuTrigger as-child @click="storeItems">
               <Ellipsis class="h-4 w-4" />
             </DropdownMenuTrigger>
             <DropdownMenuContent align="center" class="w-[160px]">
               <DropdownMenuItem class="flex justify-between items-center">
-                Edit
-                <Pencil color="green" width="12" />
+                <editSection></editSection>
               </DropdownMenuItem>
-              <DropdownMenuItem class="flex justify-between items-center">
+              <DropdownMenuItem
+                class="flex justify-between items-center"
+                @click="deleteRow"
+              >
                 Delete
                 <Trash color="red" width="12" />
               </DropdownMenuItem>

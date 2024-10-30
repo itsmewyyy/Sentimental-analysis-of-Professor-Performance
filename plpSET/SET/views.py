@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import categories, numerical_questions, feedback_questions, programs, department, year_level, student_info, student_enrolled_subjs, feedbacks, professor_info, section, subjects, student_status
-from .serializers import StudentSerializer, SubmitRatingsSerializer, EnrolledSubjectsSerializer, AdminSerializer, ProfessorInfoSerializer, ProgramsSerializer, DepartmentSerializer, SectionSerializer, SubjectInfoSerializer, FeedbackQuestionsSerializer, NumericalCategorySerializer, NumericalQuestionsSerializer, StudentStatusSerializer
+from .models import categories, numerical_questions,professor_status, feedback_questions, programs, department, year_level, student_info, student_enrolled_subjs, feedbacks, professor_info, section, subjects, student_status
+from .serializers import StudentSerializer, YearLevelInfoSerializer, ProfessorStatusSerializer, SubmitRatingsSerializer, EnrolledSubjectsSerializer, AdminSerializer, ProfessorInfoSerializer, ProgramsSerializer, DepartmentSerializer, SectionSerializer, SubjectInfoSerializer, FeedbackQuestionsSerializer, NumericalCategorySerializer, NumericalQuestionsSerializer, StudentStatusSerializer
 from rest_framework import status
 from userLogin.models import admin_acc
 from .tasks import (process_feedback_task)
@@ -230,6 +230,23 @@ class StudentStatusView(APIView):
         
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+class ProfessorStatusView(APIView):
+
+     def get(self, request):
+        statuses = professor_status.objects.all()
+
+        serializer = ProfessorStatusSerializer(statuses, many=True)
+        
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+class YearLevelView(APIView):
+
+     def get(self, request):
+        statuses = year_level.objects.all()
+
+        serializer = YearLevelInfoSerializer(statuses, many=True)
+        
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 #ADD, EDIT, AND DELETE

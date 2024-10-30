@@ -1,37 +1,22 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
-import { columns, type Section } from "./columns";
+import { columns } from "./columns";
+import type { Section } from "./type";
 import DataTable from "@/components/databaseManagement/sections/DataTable.vue";
+import { useQuery } from "@tanstack/vue-query";
 
-const data = ref<Section[]>([]);
-
-async function getData(): Promise<Section[]> {
-  try {
-    const response = await fetch(`http://127.0.0.1:8000/api/section-list/`);
-
-    if (!response.ok) {
-      throw new Error("Failed to fetch professor");
-    }
-
-    const result = await response.json();
-
-    if (Array.isArray(result)) {
-      return result;
-    } else {
-      console.warn(
-        "No programs found or unexpected response structure:",
-        result
-      );
-      return [];
-    }
-  } catch (error) {
-    console.error("Error fetching programs:", error);
-    return [];
+async function fetchCategories(): Promise<Section[]> {
+  const response = await fetch("http://127.0.0.1:8000/api/section-list/");
+  if (!response.ok) {
+    throw new Error("Failed to fetch");
   }
+  return await response.json();
 }
 
-onMounted(async () => {
-  data.value = await getData();
+const { data } = useQuery<Section[]>({
+  queryKey: ["items"],
+  queryFn: fetchCategories,
+  initialData: [],
 });
 </script>
 

@@ -1,18 +1,8 @@
 import { h } from "vue";
 import type { ColumnDef } from "@tanstack/vue-table";
 import DataTableRowActions from "@/components/databaseManagement/professors/DataTableRowActions.vue";
-
-export interface Professor {
-  professor_id: string;
-  surname: string;
-  first_name: string;
-  middle_name: string;
-  full_name: string;
-  department: string;
-  department_desc: string;
-  is_dean: boolean;
-  status: string;
-}
+import type { Professor } from "./type";
+import { itemDelete } from "@/components/addEditForms/composables/professorDelete";
 
 export const columns: ColumnDef<Professor>[] = [
   {
@@ -73,6 +63,14 @@ export const columns: ColumnDef<Professor>[] = [
   },
   {
     id: "actions",
-    cell: ({ row }) => h(DataTableRowActions, { row }),
+    cell: ({ row }) => {
+      const { handleDelete, handleStoreItem } = itemDelete();
+
+      return h(DataTableRowActions, {
+        row,
+        onDelete: (item: Professor) => handleDelete(item),
+        onStoreItem: (item: Professor) => handleStoreItem(item),
+      });
+    },
   },
 ];

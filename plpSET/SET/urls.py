@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import CategoriesAndQuestionsView, CollegeDetailView, SubjectDetailView, ProfessorDetailView, ProgramDetailView, SectionDetailView, NumericalCategoryDetailView, FeedbackQuestionsView, CollegeListView, SectionStudentsView, StudentStatusView, SubmitRatingsView, EnrolledSubjsView, AdminListView, ProfessorListView, DepartmentListView, ProgramListView, SectionListView, SubjectListView, NumericalCategoryView, NumericalQuestionsView, StudentDetailView, NumericalQuestionDetailView, FeedbackQuestionDetailView
+from .views import CategoriesAndQuestionsView, ProfessorStatusView, YearLevelView, CollegeDetailView, SubjectDetailView, ProfessorDetailView, ProgramDetailView, SectionDetailView, NumericalCategoryDetailView, FeedbackQuestionsView, CollegeListView, SectionStudentsView, StudentStatusView, SubmitRatingsView, EnrolledSubjsView, AdminListView, ProfessorListView, DepartmentListView, ProgramListView, SectionListView, SubjectListView, NumericalCategoryView, NumericalQuestionsView, StudentDetailView, NumericalQuestionDetailView, FeedbackQuestionDetailView
 
 
 urlpatterns = [
@@ -13,11 +13,13 @@ urlpatterns = [
     path('professor-list/', ProfessorListView.as_view(), name='professor-list'),
     path('department-list/', DepartmentListView.as_view(), name='department-list'),
     path('program-list/', ProgramListView.as_view(), name='program-list'),
+    path('years-list/', YearLevelView.as_view(), name='program-list'),
     path('section-list/', SectionListView.as_view(), name='section-list'),
     path('subject-list/', SubjectListView.as_view(), name='subject-list'),
     path('numerical-categories/', NumericalCategoryView.as_view(), name='category-list'),
     path('numerical-questions/', NumericalQuestionsView.as_view(), name='numerical-questions'),
     path('student-status/', StudentStatusView.as_view(), name='student-status'),
+    path('professor-status/', ProfessorStatusView.as_view()),
     path('students/', StudentDetailView.as_view(), name='student-create'),
     path('students/<str:student_id>/', StudentDetailView.as_view(), name='student-detail'),
     path('categorycrud/', NumericalCategoryDetailView.as_view(), name='categorycrud'),
@@ -31,7 +33,7 @@ urlpatterns = [
     path('programcrud/', ProgramDetailView.as_view()),
     path('programcrud/<str:program_id>/', ProgramDetailView.as_view()),
     path('sectioncrud/', SectionDetailView.as_view()),
-    path('sectioncrud/<str:section_code>/', SectionDetailView.as_view()),
+    path('sectioncrud/<str:section_id>/', SectionDetailView.as_view()),
     path('professorinfocrud/', ProfessorDetailView.as_view()),
     path('professorinfocrud/<str:professor_id>/', ProfessorDetailView.as_view()),
     path('subjectcrud/', SubjectDetailView.as_view()),

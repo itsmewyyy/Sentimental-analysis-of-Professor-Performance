@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from datetime import datetime
-from .models import section, programs, year_level, department, student_info, numerical_ratings, feedbacks, student_enrolled_subjs, numerical_questions, feedback_questions, professor_subjs, professor_info, subjects, categories, student_status
+from .models import section, programs, year_level, professor_status, department, student_info, numerical_ratings, feedbacks, student_enrolled_subjs, numerical_questions, feedback_questions, professor_subjs, professor_info, subjects, categories, student_status
 from userLogin.models import admin_acc
 from django.utils import timezone
 
@@ -186,5 +186,19 @@ class StudentStatusSerializer(serializers.ModelSerializer):
     class Meta:
         model = student_status
         fields = ['student_status_id', 'student_status_desc',]  
+
+
+class ProfessorStatusSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = professor_status
+        fields = ['professor_status_id', 'professor_status_desc',]  
+
+
+class YearLevelInfoSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = year_level
+        fields = ['year_level_id', 'year_level_desc']  
 
 

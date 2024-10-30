@@ -68,10 +68,6 @@ onMounted(() => {
 
 const submitForm = async () => {
   try {
-    console.log("Section value being sent:", section.value);
-    console.log("Status value being sent:", status.value);
-
-    // Fetch section and status data from the backend
     const sectionResponse = await axios.get(
       `http://127.0.0.1:8000/api/section-list/?section_id=${section.value}`
     );
@@ -79,11 +75,6 @@ const submitForm = async () => {
       `http://127.0.0.1:8000/api/student-status/?student_status_desc=${status.value}`
     );
 
-    // Log the responses to see what's coming back
-    console.log("Section API response:", sectionResponse.data);
-    console.log("Status API response:", statusResponse.data);
-
-    // Find the correct section and status from the API response
     const matchedSection = sectionResponse.data.find(
       (s) => s.section_id === section.value
     );
@@ -91,19 +82,8 @@ const submitForm = async () => {
       (st) => st.student_status_desc === status.value
     );
 
-    // Check if matching section and status were found
-    if (!matchedSection) {
-      throw new Error("No matching section found for the given value.");
-    }
-    if (!matchedStatus) {
-      throw new Error("No matching status found for the given value.");
-    }
-
     const sectionId = matchedSection.section_id;
     const statusId = matchedStatus.student_status_id;
-
-    console.log("Fetched section ID:", sectionId);
-    console.log("Fetched status ID:", statusId);
 
     const Data: Student = {
       full_name: null,
