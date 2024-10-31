@@ -1,5 +1,9 @@
 <script setup lang="ts" generic="TData, TValue">
-import type { ColumnDef, ColumnFiltersState } from "@tanstack/vue-table";
+import type {
+  ColumnDef,
+  ColumnFiltersState,
+  SortingState,
+} from "@tanstack/vue-table";
 import type { Student } from "./type";
 import {
   Table,
@@ -9,12 +13,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import {
   getFacetedRowModel,
   getFacetedUniqueValues,
   getFilteredRowModel,
   FlexRender,
+  getSortedRowModel,
   getCoreRowModel,
   getPaginationRowModel,
   useVueTable,
@@ -25,6 +30,7 @@ import { FileUp } from "lucide-vue-next";
 import { valueUpdater } from "@/lib/utils";
 import DataTablePagination from "./DataTablePagination.vue";
 import DataTableToolbar from "@/components/databaseStudent/DataTableToolbar.vue";
+import UploadClassList from "../addEditForms/UploadClassList.vue";
 
 interface DataTableProps {
   columns: ColumnDef<Student, any>[];
@@ -33,6 +39,7 @@ interface DataTableProps {
 
 const props = defineProps<DataTableProps>();
 
+const sorting = ref<SortingState>([]);
 const columnFilters = ref<ColumnFiltersState>([]);
 
 const table = useVueTable({
@@ -46,14 +53,19 @@ const table = useVueTable({
     get columnFilters() {
       return columnFilters.value;
     },
+    get sorting() {
+      return sorting.value;
+    },
   },
   enableRowSelection: true,
 
   onColumnFiltersChange: (updaterOrValue) =>
     valueUpdater(updaterOrValue, columnFilters),
+  onSortingChange: (updaterOrValue) => valueUpdater(updaterOrValue, sorting),
   getCoreRowModel: getCoreRowModel(),
   getFilteredRowModel: getFilteredRowModel(),
   getPaginationRowModel: getPaginationRowModel(),
+  getSortedRowModel: getSortedRowModel(),
   getFacetedRowModel: getFacetedRowModel(),
   getFacetedUniqueValues: getFacetedUniqueValues(),
 });
@@ -103,18 +115,13 @@ const table = useVueTable({
                     No student records available. Upload a class list of the
                     corresponding section to add students.
                   </p>
-                  <Button
-                    class="items-center space-x-2 bg-plpgreen-200 hover:bg-plpgreen-400"
-                    ><FileUp class="w-5 h-5" />
-                    <p>Upload</p>
-                  </Button>
+                  <UploadClassList></UploadClassList>
                 </div>
               </TableCell>
             </TableRow>
           </TableBody>
-        </Table>
-      </div></ScrollArea
-    >
+        </Table></div
+    ></ScrollArea>
     <DataTablePagination :table="table" />
   </div>
 </template>

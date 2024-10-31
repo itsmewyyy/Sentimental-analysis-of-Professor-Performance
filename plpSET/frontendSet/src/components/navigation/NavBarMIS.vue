@@ -32,46 +32,39 @@
         <DropdownMenuContent class="w-48 mr-7 z-10">
           <DropdownMenuLabel>
             <div class="flex flex-col space-y-0 line-clamp-2">
-              <span class="font-medium">Catalan, Gian Carlo E.</span>
-              <span class="text-gray-500 italic text-xs">21-00444</span>
+              <span class="font-medium">MIS</span>
+              <span class="text-gray-500 italic text-xs">Admin</span>
             </div>
           </DropdownMenuLabel>
           <DropdownMenuSeparator class="bg-plpgreen-100 border-0.5" />
-          <DropdownMenuItem>
-            <div class="flex items-center space-x-3">
-              <User size="16" />
-              <span class="text-sm">Profile</span>
-            </div>
-          </DropdownMenuItem>
-
-          <DropdownMenuItem>
-            <RouterLink to="/MISDashboardAnalytics">
-              <div class="flex items-center space-x-3">
+          <RouterLink to="/MISDashboardAnalytics">
+            <DropdownMenuItem>
+              <div class="flex items-center space-x-3 cursor-pointer">
                 <ChartNoAxesCombined size="16" />
                 <span class="text-sm">Analytics </span>
               </div>
-            </RouterLink>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <RouterLink to="/DatabaseManagement">
-              <div class="flex items-center space-x-3">
+            </DropdownMenuItem>
+          </RouterLink>
+          <RouterLink to="/DatabaseManagement">
+            <DropdownMenuItem>
+              <div class="flex items-center space-x-3 cursor-pointer">
                 <Box size="16" />
                 <span class="text-sm">Databases</span>
               </div>
-            </RouterLink>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <RouterLink to="/StudentDatabase">
-              <div class="flex items-center space-x-3">
+            </DropdownMenuItem>
+          </RouterLink>
+          <RouterLink to="/StudentDatabase">
+            <DropdownMenuItem>
+              <div class="flex items-center space-x-3 cursor-pointer">
                 <GraduationCap size="16" />
                 <span class="text-sm">Students</span>
               </div>
-            </RouterLink>
-          </DropdownMenuItem>
+            </DropdownMenuItem>
+          </RouterLink>
           <DropdownMenuItem>
             <div class="flex items-center space-x-3">
               <Download size="16" />
-              <span class="text-sm">Download Results</span>
+              <span class="text-sm">Generate Reports</span>
             </div>
           </DropdownMenuItem>
           <DropdownMenuSeparator class="bg-plpgreen-100" />
@@ -115,7 +108,3 @@ import {
 } from "lucide-vue-next";
 import { RouterLink } from "vue-router";
 </script>
-
-<style scoped>
-/* Add custom styles if needed */
-</style>

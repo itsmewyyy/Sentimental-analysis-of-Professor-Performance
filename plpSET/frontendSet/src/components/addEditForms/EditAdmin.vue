@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Circle, SquarePlus } from "lucide-vue-next";
+import { Circle, Pencil } from "lucide-vue-next";
 import { Button } from "@/components/ui/button";
 import { Toaster } from "@/components/ui/toast";
 import { useToast } from "@/components/ui/toast/use-toast";
@@ -40,11 +40,11 @@ import {
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { createReusableTemplate, useMediaQuery } from "@vueuse/core";
 import { Admin } from "@/components/databaseManagement/admins/type";
 import { CirclePlus } from "lucide-vue-next";
-import { useAdd } from "./composables/adminMutations";
+import { useEdit } from "./composables/adminMutations";
 import axios from "axios";
 import type { AxiosError } from "axios";
 
@@ -58,7 +58,7 @@ const [UseTemplate, GridForm] = createReusableTemplate();
 const isDesktop = useMediaQuery("(min-width: 768px)");
 const isOpen = ref(false);
 const { toast } = useToast();
-const { mutate: addData } = useAdd();
+const { mutate: addData } = useEdit();
 
 const adminId = ref("");
 const adminUsername = ref("");
@@ -69,6 +69,38 @@ const isMIS = ref(false);
 const dept = ref("");
 const confirmpassword = ref("");
 const position = ref("");
+
+const fetchInfo = async () => {
+  try {
+    const response = await axios.get(
+      `http://127.0.0.1:8000/api/admininfocrud/${adminId.value}/`
+    );
+    if (response.status === 200) {
+      const data = response.data;
+      dept.value = data.dept_id || "";
+      passWord.value = data.password || "";
+      confirmpassword.value = data.password ?? "";
+      isSecretary.value = data.is_secretary ?? false;
+      isDean.value = data.is_dean || false;
+      adminUsername.value = data.admin_username || "";
+    }
+  } catch (error) {
+    console.error("Error fetching information:", error);
+    toast({
+      title: "Error",
+      variant: "destructive",
+      description: "Failed to fetch information.",
+    });
+  }
+};
+
+onMounted(() => {
+  const savedData = localStorage.getItem("admin_info");
+  if (savedData) {
+    adminId.value = savedData;
+    fetchInfo();
+  }
+});
 
 const submitForm = async () => {
   try {
@@ -271,22 +303,18 @@ const submitForm = async () => {
       </form>
     </UseTemplate>
 
-    <TooltipProvider>
-      <Tooltip>
-        <TooltipTrigger>
-          <Button
-            class="h-8 text-sm p-4 bg-plpgreen-200 hover:bg-plpgreen-400"
-            @click="isOpen = true"
-          >
-            <CirclePlus class="mr-2 h-4 w-4" />
-            <p>Add</p></Button
-          >
-        </TooltipTrigger>
-        <TooltipContent>
-          <p>Add New Admin</p>
-        </TooltipContent>
-      </Tooltip>
-    </TooltipProvider>
+    <Button
+      type="button"
+      class="h-6 border-none bg-transparent hover:bg-transparent w-[160px] flex items-center"
+      @click="isOpen = true"
+      @click.stop
+    >
+      <div class="relative flex items-center">
+        <p class="text-sm text-darks-900 absolute right-12 mr-2">Edit</p>
+
+        <Pencil color="green" width="12" class="absolute left-9 ml-1.5" />
+      </div>
+    </Button>
 
     <!-- Dialog for Desktop View -->
     <Dialog v-if="isDesktop" v-model:open="isOpen">

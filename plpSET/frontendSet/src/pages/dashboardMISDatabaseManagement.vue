@@ -20,14 +20,12 @@ import subjectList from "@/components/databaseManagement/subjects/subjectList.vu
 import categoryList from "@/components/databaseManagement/categories/categoryList.vue";
 import NumQuestionList from "@/components/databaseManagement/numericalQuestions/NumQuestionList.vue";
 import feedbackquestionlist from "@/components/databaseManagement/feedbackquestions/feedbackquestionlist.vue";
-import AddAdmin from "@/components/addEditForms/AddAdmin.vue";
 </script>
 
 <template>
-  <MISNavbar></MISNavbar>
   <Toaster />
-  <section class="p-20 pt-20 min-h-full">
-    <AddAdmin></AddAdmin>
+  <MISNavbar></MISNavbar>
+  <section class="p-20 pt-14">
     <div
       class="w-full border border-black/25 rounded-md space-y-8 pb-4 px-9 pt-9"
     >

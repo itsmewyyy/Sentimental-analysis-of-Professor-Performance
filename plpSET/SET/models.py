@@ -51,8 +51,8 @@ class student_info(models.Model):
     def full_name(self):
         names = [self.surname, self.first_name]
         if self.middle_name:
-            names.insert(1, self.middle_name) 
-        return ', '.join(names)
+            names.insert(2, self.middle_name)  
+        return f"{self.surname}, {' '.join(names[1:])}"
 
     def __str__(self):
         return f'{self.student_id}'
@@ -100,9 +100,8 @@ class professor_info(models.Model):
     def full_name(self):
         names = [self.surname, self.first_name]
         if self.middle_name:
-            names.insert(1, self.middle_name) 
-        return ', '.join(names)
-
+            names.insert(2, self.middle_name)  
+        return f"{self.surname}, {' '.join(names[1:])}"
 
     def __str__(self):
         return f'{self.surname} {self.first_name} {self.department}'

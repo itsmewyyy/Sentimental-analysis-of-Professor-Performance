@@ -4,8 +4,9 @@ from .models import categories, numerical_questions,professor_status, feedback_q
 from .serializers import StudentSerializer, YearLevelInfoSerializer, ProfessorStatusSerializer, SubmitRatingsSerializer, EnrolledSubjectsSerializer, AdminSerializer, ProfessorInfoSerializer, ProgramsSerializer, DepartmentSerializer, SectionSerializer, SubjectInfoSerializer, FeedbackQuestionsSerializer, NumericalCategorySerializer, NumericalQuestionsSerializer, StudentStatusSerializer
 from rest_framework import status
 from userLogin.models import admin_acc
+from django.contrib.auth.hashers import make_password
 from .tasks import (process_feedback_task)
-from django.shortcuts import get_object_or_404
+
 
 
 class CategoriesAndQuestionsView(APIView):
@@ -626,4 +627,55 @@ class ProfessorDetailView(APIView):
         prof.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-    
+class AdminDetailView(APIView):
+    def get_object(self, admin_acc_id):
+        try:
+            return admin_acc.objects.get(admin_acc_id=admin_acc_id)
+        except admin_acc.DoesNotExist:
+            return None
+
+    def get(self, request, admin_acc_id):
+        prof = self.get_object(admin_acc_id)
+        if not prof:
+            return Response({"error": "not found"}, status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = AdminSerializer(prof)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request):
+        data = request.data
+        password = data.get("password")
+        confirm_password = data.get("confirm_password")
+
+        if password != confirm_password:
+            return Response({"error": "Passwords do not match"}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Hash the password
+        data["password"] = make_password(password)
+        
+        serializer = AdminSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "Professor added successfully!"}, status=status.HTTP_201_CREATED)
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def put(self, request, admin_acc_id):
+        prof = self.get_object(admin_acc_id)
+        if not prof:
+            return Response({"error": "not found"}, status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = AdminSerializer(prof, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, admin_acc_id):
+        prof = self.get_object(admin_acc_id)
+        if not prof:
+            return Response({"error": "not found"}, status=status.HTTP_404_NOT_FOUND)
+        
+        prof.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

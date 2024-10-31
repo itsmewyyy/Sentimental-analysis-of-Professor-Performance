@@ -1,15 +1,8 @@
 import { h } from "vue";
 import type { ColumnDef } from "@tanstack/vue-table";
 import DataTableRowActions from "@/components/databaseManagement/admins/DataTableRowActions.vue";
-
-export interface Admin {
-  admin_acc_id: string;
-  admin_username: string;
-  dept_id: string;
-  is_mis: boolean;
-  is_dean: boolean;
-  is_secretary: boolean;
-}
+import type { Admin } from "./type";
+import { itemDelete } from "@/components/addEditForms/composables/adminDelete";
 
 export const columns: ColumnDef<Admin>[] = [
   {
@@ -59,9 +52,16 @@ export const columns: ColumnDef<Admin>[] = [
       return h("div", { class: "text-center font-normal" }, role);
     },
   },
-
   {
     id: "actions",
-    cell: ({ row }) => h(DataTableRowActions, { row }),
+    cell: ({ row }) => {
+      const { handleDelete, handleStoreItem } = itemDelete();
+
+      return h(DataTableRowActions, {
+        row,
+        onDelete: (item: Admin) => handleDelete(item),
+        onStoreItem: (item: Admin) => handleStoreItem(item),
+      });
+    },
   },
 ];

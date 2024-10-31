@@ -1,51 +1,28 @@
 <template>
   <div class="flex items-center pb-1.5">
     <div
-      class="rounded-md flex flex-row items-center content-center bg-white p-5 min-w-full"
+      class="rounded-md flex flex-row items-center content-center bg-white p-4 sm:p-5 min-w-full"
     >
-      <div class="p-4 flex-1">
-        <span v-if="body" class="font-medium text-darks-200 block text-base">{{
-          body
-        }}</span>
-        <span v-else class="font-medium text-darks-300"
+      <div class="p-2 sm:p-4 flex-1">
+        <span
+          v-if="body"
+          class="font-medium text-darks-200 block text-sm sm:text-base"
+        >
+          {{ body }}
+        </span>
+        <span v-else class="font-medium text-darks-300 text-xs sm:text-sm"
           >No question available</span
         >
       </div>
 
-      <div class="flex items-center p-2 space-x-14">
+      <div class="flex items-center p-1 space-x-4 sm:space-x-8 lg:space-x-14">
         <input
+          v-for="rating in [5, 4, 3, 2, 1]"
+          :key="rating"
           type="radio"
-          :value="5"
+          :value="rating"
           v-model="selected"
-          class="radio-large text-plpgreen-400 focus:ring-plpgreen-200"
-          @change="emitRating"
-        />
-        <input
-          type="radio"
-          :value="4"
-          v-model="selected"
-          class="radio-large text-plpgreen-200 focus:ring-plpgreen-200"
-          @change="emitRating"
-        />
-        <input
-          type="radio"
-          :value="3"
-          v-model="selected"
-          class="radio-large text-plpgreen-200 focus:ring-plpgreen-200"
-          @change="emitRating"
-        />
-        <input
-          type="radio"
-          :value="2"
-          v-model="selected"
-          class="radio-large text-plpgreen-200 focus:ring-plpgreen-200"
-          @change="emitRating"
-        />
-        <input
-          type="radio"
-          :value="1"
-          v-model="selected"
-          class="radio-large text-plpgreen-200 focus:ring-plpgreen-200"
+          class="radio-large w-4 h-4 sm:w-5 sm:h-5 text-plpgreen-200 focus:ring-plpgreen-200"
           @change="emitRating"
         />
       </div>

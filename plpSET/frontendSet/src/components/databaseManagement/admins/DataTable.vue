@@ -1,6 +1,6 @@
 <script setup lang="ts" generic="TData, TValue">
 import type { ColumnDef, ColumnFiltersState } from "@tanstack/vue-table";
-import type { Admin } from "./columns";
+import type { Admin } from "./type";
 import {
   Table,
   TableBody,

@@ -1,14 +1,15 @@
 import { h } from "vue";
 import type { ColumnDef } from "@tanstack/vue-table";
 import DataTableRowActions from "./DataTableRowActions.vue";
-import axios from "axios";
 import type { Student } from "./type";
 import { studentDelete } from "@/components/addEditForms/composables/studentDelete";
+import DataTableColumnHeader from "./DataTableColumnHeader.vue";
 
 export const columns: ColumnDef<Student>[] = [
   {
     accessorKey: "student_id",
-    header: () => h("div", { class: "text-center text-xs" }, "Student ID"),
+    header: ({ column }) =>
+      h(DataTableColumnHeader, { column, title: "Student ID" }),
     cell: ({ row }) => {
       return h(
         "div",
@@ -19,7 +20,7 @@ export const columns: ColumnDef<Student>[] = [
   },
   {
     accessorKey: "full_name",
-    header: () => h("div", { class: "text-center text-xs" }, "Name"),
+    header: ({ column }) => h(DataTableColumnHeader, { column, title: "Name" }),
     cell: ({ row }) => {
       return h(
         "div",
@@ -30,7 +31,7 @@ export const columns: ColumnDef<Student>[] = [
   },
   {
     accessorKey: "section",
-    header: () => h("div", { class: "text-center text-xs" }, "Section"),
+    header: () => h("div", { class: "text-xs text-center" }, "Section"),
     cell: ({ row }) => {
       return h(
         "div",

@@ -157,7 +157,7 @@ class AdminSerializer(serializers.ModelSerializer):
     class Meta:
         model = admin_acc
         # Include the editable fields
-        fields = ['admin_acc_id', 'admin_username', 'is_mis', 'is_dean', 'is_secretary', 'dept_id']  
+        fields = ['admin_acc_id', 'admin_username', 'is_mis', 'is_dean', 'is_secretary', 'dept_id', 'password']  
 
 
 #Serializer for Feedback Questions

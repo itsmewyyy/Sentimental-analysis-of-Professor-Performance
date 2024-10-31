@@ -60,7 +60,7 @@ const extensionName = ref("");
 const status = ref("");
 const isdean = ref(false);
 
-const fetchStudentInfo = async () => {
+const fetchInfo = async () => {
   try {
     const response = await axios.get(
       `http://127.0.0.1:8000/api/professorinfocrud/${professorId.value}/`
@@ -88,7 +88,7 @@ onMounted(() => {
   const savedData = localStorage.getItem("professor");
   if (savedData) {
     professorId.value = savedData;
-    fetchStudentInfo();
+    fetchInfo();
   }
 });
 

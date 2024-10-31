@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import CategoriesAndQuestionsView, ProfessorStatusView, YearLevelView, CollegeDetailView, SubjectDetailView, ProfessorDetailView, ProgramDetailView, SectionDetailView, NumericalCategoryDetailView, FeedbackQuestionsView, CollegeListView, SectionStudentsView, StudentStatusView, SubmitRatingsView, EnrolledSubjsView, AdminListView, ProfessorListView, DepartmentListView, ProgramListView, SectionListView, SubjectListView, NumericalCategoryView, NumericalQuestionsView, StudentDetailView, NumericalQuestionDetailView, FeedbackQuestionDetailView
+from .views import CategoriesAndQuestionsView, AdminDetailView, ProfessorStatusView, YearLevelView, CollegeDetailView, SubjectDetailView, ProfessorDetailView, ProgramDetailView, SectionDetailView, NumericalCategoryDetailView, FeedbackQuestionsView, CollegeListView, SectionStudentsView, StudentStatusView, SubmitRatingsView, EnrolledSubjsView, AdminListView, ProfessorListView, DepartmentListView, ProgramListView, SectionListView, SubjectListView, NumericalCategoryView, NumericalQuestionsView, StudentDetailView, NumericalQuestionDetailView, FeedbackQuestionDetailView
 
 
 urlpatterns = [
@@ -35,6 +35,8 @@ urlpatterns = [
     path('sectioncrud/', SectionDetailView.as_view()),
     path('sectioncrud/<str:section_id>/', SectionDetailView.as_view()),
     path('professorinfocrud/', ProfessorDetailView.as_view()),
+    path('admininfocrud/<str:admin_acc_id>/', AdminDetailView.as_view()),
+    path('admininfocrud/', AdminDetailView.as_view()),
     path('professorinfocrud/<str:professor_id>/', ProfessorDetailView.as_view()),
     path('subjectcrud/', SubjectDetailView.as_view()),
     path('subjectcrud/<str:subject_code>/', SubjectDetailView.as_view()),
