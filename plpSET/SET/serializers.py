@@ -149,7 +149,7 @@ class EnrolledSubjectsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = student_enrolled_subjs
-        fields = ['student_enrolled_subj_id', 'prof_info', 'subj_name', 'is_evaluated']
+        fields = ['student_enrolled_subj_id', 'prof_info', 'subj_name', 'is_evaluated', 'student_id', 'prof_subj_id']
 
 #Serializer for Admin List
 class AdminSerializer(serializers.ModelSerializer):
@@ -201,4 +201,8 @@ class YearLevelInfoSerializer(serializers.ModelSerializer):
         model = year_level
         fields = ['year_level_id', 'year_level_desc']  
 
+class ProfSubjsSerizalier(serializers.ModelSerializer):
+    class Meta:
+        model = professor_subjs
+        fields = ['prof_subjects_id', 'year_sem_id', 'professor_id', 'subject_code', 'section_id']
 

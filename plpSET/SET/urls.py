@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import CategoriesAndQuestionsView, AdminDetailView, ProfessorStatusView, YearLevelView, CollegeDetailView, SubjectDetailView, ProfessorDetailView, ProgramDetailView, SectionDetailView, NumericalCategoryDetailView, FeedbackQuestionsView, CollegeListView, SectionStudentsView, StudentStatusView, SubmitRatingsView, EnrolledSubjsView, AdminListView, ProfessorListView, DepartmentListView, ProgramListView, SectionListView, SubjectListView, NumericalCategoryView, NumericalQuestionsView, StudentDetailView, NumericalQuestionDetailView, FeedbackQuestionDetailView
+from .views import CategoriesAndQuestionsView, ProfSubjs, AdminDetailView, EnrolledSubjsPost, ProfessorStatusView, YearLevelView, StudentListView, CollegeDetailView, SubjectDetailView, ProfessorDetailView, ProgramDetailView, SectionDetailView, NumericalCategoryDetailView, FeedbackQuestionsView, CollegeListView, SectionStudentsView, StudentStatusView, SubmitRatingsView, EnrolledSubjsView, AdminListView, ProfessorListView, DepartmentListView, ProgramListView, SectionListView, SubjectListView, NumericalCategoryView, NumericalQuestionsView, StudentDetailView, NumericalQuestionDetailView, FeedbackQuestionDetailView
 
 
 urlpatterns = [
@@ -21,6 +21,8 @@ urlpatterns = [
     path('student-status/', StudentStatusView.as_view(), name='student-status'),
     path('professor-status/', ProfessorStatusView.as_view()),
     path('students/', StudentDetailView.as_view(), name='student-create'),
+    path('students-list/', StudentListView.as_view()),
+    path('students-list/<str:section>/', StudentListView.as_view()),
     path('students/<str:student_id>/', StudentDetailView.as_view(), name='student-detail'),
     path('categorycrud/', NumericalCategoryDetailView.as_view(), name='categorycrud'),
     path('categorycrud/<str:category_id>/', NumericalCategoryDetailView.as_view(), name='categorycrud-detail'),
@@ -40,5 +42,7 @@ urlpatterns = [
     path('professorinfocrud/<str:professor_id>/', ProfessorDetailView.as_view()),
     path('subjectcrud/', SubjectDetailView.as_view()),
     path('subjectcrud/<str:subject_code>/', SubjectDetailView.as_view()),
+    path('prof-subjs/', ProfSubjs.as_view()),
+    path('enrolled-subjs/', EnrolledSubjsPost.as_view()),
 
 ]

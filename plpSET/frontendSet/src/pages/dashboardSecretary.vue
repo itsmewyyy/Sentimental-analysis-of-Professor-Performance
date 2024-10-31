@@ -1,29 +1,176 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { Plus, Trash } from "lucide-vue-next";
+import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import subjectTagging from "@/components/subject-sectionTagging/subjectTagging.vue";
 import sectionTagging from "@/components/subject-sectionTagging/sectionTagging.vue";
 import secretaryNavbar from "@/components/navigation/secretaryNavbar.vue";
 import { ChevronDown } from "lucide-vue-next";
+import axios from "axios";
+import { useToast } from "@/components/ui/toast";
+import Toast from "@/components/ui/toast/Toast.vue";
+import Toaster from "@/components/ui/toast/Toaster.vue";
 
 const subjectsectionTags = ref<Array<number>>([]);
 
+const professors = ref<Array<any>>([]);
+const selectedProfessor = ref("");
+const rows = ref<Array<{ subjects: Array<string>; sections: Array<string> }>>([
+  { subjects: [], sections: [] },
+]);
+
+const selectedCollege = localStorage.getItem("college");
+const year_sem = "24-25-1"; // Set this to the desired value, or make it dynamic if needed
+const students = ref<Array<any>>([]); // Holds students for each section
+
+// Load students for a given section
+const loadStudents = async (sectionId: string) => {
+  try {
+    const response = await axios.get(
+      `http://127.0.0.1:8000/api/section/${sectionId}`
+    );
+    students.value = response.data;
+    console.log(response.data);
+  } catch (error) {
+    console.error("Error loading students:", error);
+  }
+};
+
+const updateSubjects = (selectedSubjects, index: number) => {
+  if (rows.value[index]) {
+    rows.value[index].subjects = selectedSubjects.map(
+      (subject) => subject.value
+    );
+    console.log(
+      `Updated subjects for row ${index}:`,
+      rows.value[index].subjects
+    );
+  }
+};
+
+const updateSections = (selectedSections, index: number) => {
+  if (rows.value[index]) {
+    rows.value[index].sections = selectedSections.map(
+      (section) => section.value
+    );
+    console.log(
+      `Updated sections for row ${index}:`,
+      rows.value[index].sections
+    );
+  }
+};
+
 const addSubjectSectionTag = () => {
   subjectsectionTags.value.push(subjectsectionTags.value.length + 1);
+  rows.value.push({ subjects: [], sections: [] });
 };
 
 const removeSubjectSectionTag = (index: number) => {
   subjectsectionTags.value.splice(index, 1);
+  rows.value.splice(index, 1);
 };
+
+// Load professors based on college
+const loadProfessors = async () => {
+  try {
+    const response = await axios.get(
+      "http://127.0.0.1:8000/api/professor-list/"
+    );
+    professors.value = response.data.filter(
+      (professor: any) => professor.department === selectedCollege
+    );
+  } catch (error) {
+    console.error("Error loading professors:", error);
+  }
+};
+
+const submitData = async () => {
+  if (!selectedProfessor.value) {
+    alert("Please select a professor.");
+    return;
+  }
+
+  const profSubjectsData = rows.value.flatMap((row) =>
+    row.subjects.flatMap((subject) =>
+      row.sections.map((section) => ({
+        prof_subjects_id: `${year_sem}_${subject}_${selectedProfessor.value}_${section}`,
+        year_sem_id: year_sem,
+        professor_id: selectedProfessor.value,
+        subject_code: subject,
+        section_id: section,
+      }))
+    )
+  );
+
+  try {
+    for (const entry of profSubjectsData) {
+      try {
+        const profSubjectResponse = await axios.post(
+          "http://127.0.0.1:8000/api/prof-subjs/",
+          entry
+        );
+        console.log("Prof subjects response:", profSubjectResponse.data);
+
+        // Ensure you reference the correct key for the ID
+        const profSubjectsId = profSubjectResponse.data.prof_subjects_id; // or the correct key if it's different
+
+        if (!profSubjectsId) {
+          console.error(
+            "Failed to retrieve prof_subjects_id for entry:",
+            entry
+          );
+          continue; // Skip if the ID is not valid
+        }
+
+        // Load students for the current section
+        await loadStudents(entry.section_id);
+
+        const enrollments = students.value.map((student) => ({
+          student_enrolled_subj_id: `${profSubjectsId}_${student.student_id}`,
+          student_id: student.student_id,
+          prof_subj_id: profSubjectsId, // Use the ID retrieved from the previous post
+        }));
+
+        console.log("Enrollments to be posted:", enrollments);
+
+        for (const enrollment of enrollments) {
+          if (!enrollment.prof_subj_id) {
+            console.error("prof_subj_id is null for enrollment:", enrollment);
+          } else {
+            const response = await axios.post(
+              "http://127.0.0.1:8000/api/enrolled-subjs/",
+              enrollment
+            );
+            console.log("Enrollment response:", response.data);
+          }
+        }
+      } catch (error) {
+        console.error(
+          "Error posting to prof-subjs:",
+          error.response?.data || error
+        );
+      }
+    }
+    alert("Data and student enrollments submitted successfully.");
+  } catch (error) {
+    console.error("Error submitting data:", error.response?.data || error);
+    alert("Failed to submit data.");
+  }
+};
+
+onMounted(() => {
+  loadProfessors();
+});
 </script>
 
 <template>
@@ -36,32 +183,36 @@ const removeSubjectSectionTag = (index: number) => {
         />
         <AvatarFallback>PLP</AvatarFallback>
       </Avatar>
-      <div class="w-4/6">
-        <DropdownMenu>
-          <DropdownMenuTrigger
-            ><p
-              class="font-bold text-3xl flex items-end space-x-12 hover:text-darks-700/80"
-            >
-              Noreen Perez<ChevronDown class="w-8 h-8" /></p
-          ></DropdownMenuTrigger>
-          <DropdownMenuContent class="w-[240px]">
-            <DropdownMenuLabel>Professors</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Ronnie Chu</DropdownMenuItem>
-            <DropdownMenuItem>Andres Bonifacio</DropdownMenuItem>
-            <DropdownMenuItem
-              >Jose Protacio Rizal Mercado Y Alonso Realonda</DropdownMenuItem
-            >
-          </DropdownMenuContent>
-        </DropdownMenu>
+      <div class="w-full">
+        <Select v-model="selectedProfessor">
+          <SelectTrigger
+            class="sm:max-w-fit ring-0 border-0 focus-visible:ring-offset-0 focus-visible:ring-0 text-3xl font-bold text-darks-500"
+          >
+            <SelectValue placeholder="Select Professor" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>Professors</SelectLabel>
+              <SelectItem
+                v-for="professor in professors"
+                :key="professor.professor_id"
+                :value="professor.professor_id"
+              >
+                <div class="flex items-center gap-2">
+                  <span>{{ professor.full_name }}</span>
+                </div>
+              </SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
 
-        <p class="text-base text-darks-400/60 font-medium">
-          College of Computer Studies
+        <p class="text-base text-darks-400/60 font-medium pl-3.5">
+          {{ selectedCollege }}
         </p>
       </div>
     </div>
     <div>
-      <div class="text-xs pb-2 text-darks-200/70 font-medium pl-2">
+      <div class="text-xs pb-2 text-darks-200/70 font-medium pl-0 pt-8">
         Assign subjects and sections to this professor for the current semester.
       </div>
       <div class="border border-black/25 rounded-md">
@@ -78,7 +229,12 @@ const removeSubjectSectionTag = (index: number) => {
             class="flex items center pr-12 border-b border-black/15 hover:bg-darks-50/80 space-x-8"
           >
             <div class="flex items-center space-x-4 p-2 w-full">
-              <subjectTagging /> <sectionTagging />
+              <subjectTagging
+                @updateSubjects="(subjects) => updateSubjects(subjects, index)"
+              />
+              <sectionTagging
+                @updateSections="(sections) => updateSections(sections, index)"
+              />
             </div>
 
             <button
@@ -92,11 +248,18 @@ const removeSubjectSectionTag = (index: number) => {
       </div>
       <button
         @click="addSubjectSectionTag"
-        class="flex items-center h-14 text-sm w-full font-medium text-darks-100 hover:bg-darks-50/80 space-x-1"
+        class="flex items-center h-14 text-sm w-full font-medium text-darks-100 hover:bg-darks-50/80 space-x-1 rounded-md"
       >
         <Plus class="w-5 h-5" />
         <p>New</p>
       </button>
+      <div class="flex justify-end mt-4">
+        <Button
+          class="bg-plpgreen-200 hover:bg-plpgreen-400"
+          @click="submitData"
+          >Submit</Button
+        >
+      </div>
     </div>
   </section>
 </template>

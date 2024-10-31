@@ -1,28 +1,49 @@
 <script setup lang="ts">
-import { ref, computed, Ref } from "vue";
-import ScrollArea from "../ui/scroll-area/ScrollArea.vue"; // Assuming this is your scroll area component
+import { ref, computed, Ref, onMounted } from "vue";
+import ScrollArea from "../ui/scroll-area/ScrollArea.vue";
+import axios from "axios";
 
 type Framework = {
   value: string;
   label: string;
 };
 
-const FRAMEWORKS: Framework[] = [
-  { value: "next.js", label: "Next.js" },
-  { value: "sveltekit", label: "SvelteKit" },
-  { value: "nuxt.js", label: "Nuxt.js" },
-  { value: "remix", label: "Remix" },
-  { value: "astro", label: "Astro" },
-  { value: "wordpress", label: "WordPress" },
-  { value: "express.js", label: "Express.js" },
-  { value: "nest.js", label: "Nest.js" },
-];
+const FRAMEWORKS = ref<Framework[]>([]); // Use a reactive array to store the filtered subjects
 
 const inputRef = ref<HTMLInputElement | null>(null);
 const open = ref<boolean>(false);
-const selected = ref<Framework[]>([FRAMEWORKS[1]]);
+const selected = ref<Framework[]>([]);
 const inputValue = ref<string>("");
 
+const emits = defineEmits(["updateSubjects"]);
+console.log("Emitting updated subjects:", selected);
+
+// Function to load subjects based on the college
+const loadSubjectsByCollege = async () => {
+  const college = localStorage.getItem("college");
+  if (college) {
+    try {
+      const response = await axios.get(
+        "http://127.0.0.1:8000/api/subject-list/"
+      );
+      FRAMEWORKS.value = response.data
+        .filter(
+          (subject: { assoc_college: string }) =>
+            subject.assoc_college === college
+        )
+        .map((subject: { subject_code: string; subject_desc: string }) => ({
+          value: subject.subject_code,
+          label: `${subject.subject_code}: ${subject.subject_desc}`,
+        }));
+    } catch (error) {
+      console.error("Error loading subjects:", error);
+    }
+  }
+};
+
+onMounted(() => {
+  loadSubjectsByCollege();
+});
 const handleUnselect = (framework: Framework): void => {
   selected.value = selected.value.filter((s) => s.value !== framework.value);
 };
@@ -42,7 +63,7 @@ const handleKeyDown = (e: KeyboardEvent): void => {
 };
 
 const selectables = computed((): Framework[] =>
-  FRAMEWORKS.filter((framework) => !selected.value.includes(framework))
+  FRAMEWORKS.value.filter((framework) => !selected.value.includes(framework))
 );
 </script>
 
@@ -107,6 +128,8 @@ const selectables = computed((): Framework[] =>
                 () => {
                   selected.push(framework);
                   inputValue = '';
+
+                  emits('updateSubjects', selected);
                 }
               "
             >

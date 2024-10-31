@@ -176,7 +176,7 @@ const submitForm = async () => {
           <Input id="Admin-Id" type="" default-value="" v-model="adminId" />
         </div>
         <div class="grid gap-2">
-          <Label html-for="username" class="text-xs">UserName</Label>
+          <Label html-for="username" class="text-xs">Username</Label>
           <Input id="username" default-value="" v-model="adminUsername" />
         </div>
         <div class="grid gap-2">

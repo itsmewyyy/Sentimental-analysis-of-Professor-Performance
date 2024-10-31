@@ -1,27 +1,72 @@
 <script setup lang="ts">
-import { ref, computed, Ref } from "vue";
+import { ref, computed, Ref, onMounted } from "vue";
 import ScrollArea from "../ui/scroll-area/ScrollArea.vue"; // Assuming this is your scroll area component
+import axios from "axios";
+
+type Section = {
+  section_id: string;
+  name: string;
+};
+
+type Program = {
+  program_id: string;
+  program_desc: string;
+  sections: Section[];
+};
+
+type YearLevel = {
+  year_level_id: number;
+  year_level_desc: string;
+  programs: Program[];
+};
+
+type College = {
+  name: string;
+  description: string;
+  years: YearLevel[];
+};
 
 type Framework = {
   value: string;
   label: string;
 };
 
-const FRAMEWORKS: Framework[] = [
-  { value: "next.js", label: "Next.js" },
-  { value: "sveltekit", label: "SvelteKit" },
-  { value: "nuxt.js", label: "Nuxt.js" },
-  { value: "remix", label: "Remix" },
-  { value: "astro", label: "Astro" },
-  { value: "wordpress", label: "WordPress" },
-  { value: "express.js", label: "Express.js" },
-  { value: "nest.js", label: "Nest.js" },
-];
+const FRAMEWORKS = ref<Framework[]>([]);
 
 const inputRef = ref<HTMLInputElement | null>(null);
 const open = ref<boolean>(false);
-const selected = ref<Framework[]>([FRAMEWORKS[1]]);
+const selected = ref<Framework[]>([]);
 const inputValue = ref<string>("");
+
+const emits = defineEmits(["updateSections"]);
+
+const loadSectionsByCollege = async () => {
+  const college = localStorage.getItem("college");
+  if (college) {
+    try {
+      const response = await axios.get("http://127.0.0.1:8000/api/colleges/");
+      const colleges: College[] = response.data;
+
+      const selectedCollege = colleges.find((c) => c.name === college);
+      if (selectedCollege) {
+        FRAMEWORKS.value = selectedCollege.years.flatMap((year) =>
+          year.programs.flatMap((program) =>
+            program.sections.map((section) => ({
+              value: section.section_id,
+              label: section.section_id,
+            }))
+          )
+        );
+      }
+    } catch (error) {
+      console.error("Error loading sections:", error);
+    }
+  }
+};
+
+onMounted(() => {
+  loadSectionsByCollege();
+});
 
 const handleUnselect = (framework: Framework): void => {
   selected.value = selected.value.filter((s) => s.value !== framework.value);
@@ -42,7 +87,7 @@ const handleKeyDown = (e: KeyboardEvent): void => {
 };
 
 const selectables = computed((): Framework[] =>
-  FRAMEWORKS.filter((framework) => !selected.value.includes(framework))
+  FRAMEWORKS.value.filter((framework) => !selected.value.includes(framework))
 );
 </script>
 
@@ -107,6 +152,7 @@ const selectables = computed((): Framework[] =>
                 () => {
                   selected.push(framework);
                   inputValue = '';
+                  emits('updateSections', selected);
                 }
               "
             >

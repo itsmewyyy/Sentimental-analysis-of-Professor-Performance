@@ -61,10 +61,7 @@ export const useAuthStore = defineStore("student", {
       this.isAuthenticated = false;
       this.user = null;
 
-      // Clear session data from LocalStorage
-      localStorage.removeItem("student_id");
-      localStorage.removeItem("user_type");
-      localStorage.removeItem("student_enrolled_subj_id");
+      localStorage.clear();
     },
 
     // Restore session from LocalStorage on app load

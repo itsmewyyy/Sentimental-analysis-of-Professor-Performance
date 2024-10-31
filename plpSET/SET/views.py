@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import categories, numerical_questions,professor_status, feedback_questions, programs, department, year_level, student_info, student_enrolled_subjs, feedbacks, professor_info, section, subjects, student_status
-from .serializers import StudentSerializer, YearLevelInfoSerializer, ProfessorStatusSerializer, SubmitRatingsSerializer, EnrolledSubjectsSerializer, AdminSerializer, ProfessorInfoSerializer, ProgramsSerializer, DepartmentSerializer, SectionSerializer, SubjectInfoSerializer, FeedbackQuestionsSerializer, NumericalCategorySerializer, NumericalQuestionsSerializer, StudentStatusSerializer
+from .serializers import StudentSerializer, YearLevelInfoSerializer, ProfSubjsSerizalier, ProfessorStatusSerializer, SubmitRatingsSerializer, EnrolledSubjectsSerializer, AdminSerializer, ProfessorInfoSerializer, ProgramsSerializer, DepartmentSerializer, SectionSerializer, SubjectInfoSerializer, FeedbackQuestionsSerializer, NumericalCategorySerializer, NumericalQuestionsSerializer, StudentStatusSerializer
 from rest_framework import status
 from userLogin.models import admin_acc
 from django.contrib.auth.hashers import make_password
@@ -248,6 +248,16 @@ class YearLevelView(APIView):
         serializer = YearLevelInfoSerializer(statuses, many=True)
         
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+class StudentListView(APIView):
+
+     def get(self, request):
+        statuses = student_info.objects.all()
+
+        serializer = StudentSerializer(statuses, many=True)
+        
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
 
 
 #ADD, EDIT, AND DELETE
@@ -665,6 +675,16 @@ class AdminDetailView(APIView):
         if not prof:
             return Response({"error": "not found"}, status=status.HTTP_404_NOT_FOUND)
         
+        data = request.data
+        password = data.get("password")
+        confirm_password = data.get("confirm_password")
+
+        if password != confirm_password:
+            return Response({"error": "Passwords do not match"}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Hash the password
+        data["password"] = make_password(password)
+        
         serializer = AdminSerializer(prof, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
@@ -679,3 +699,20 @@ class AdminDetailView(APIView):
         
         prof.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+class ProfSubjs(APIView):
+    def post(self, request):
+        serializer =  ProfSubjsSerizalier(data=request.data)
+        if serializer.is_valid():
+            prof_subj = serializer.save()
+            return Response({"prof_subjects_id": prof_subj.prof_subjects_id}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class EnrolledSubjsPost(APIView):
+    def post(self, request):
+        serializer =  EnrolledSubjectsSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "added successfully!"}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+

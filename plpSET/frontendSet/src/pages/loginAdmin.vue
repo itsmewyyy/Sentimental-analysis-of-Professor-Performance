@@ -14,7 +14,21 @@ const login = async () => {
 
   try {
     await authAdminLogin.login(adminUsername.value, password.value);
-    router.push("/MISDashboard");
+
+    // Get user_type from the authenticated user or localStorage
+    const userType =
+      authAdminLogin.user?.user_type || localStorage.getItem("user_type");
+
+    // Conditional routing based on user_type
+    if (userType === "MIS") {
+      router.push("/MISDashboard");
+    } else if (userType === "Dean") {
+      router.push("/DeanDashboard");
+    } else if (userType === "Secretary") {
+      router.push("/SecretaryDashboard");
+    } else {
+      router.push("/MISDashboard");
+    }
   } catch (error) {
     console.error(error);
   }
