@@ -3,14 +3,16 @@ from django.utils import timezone
 from .models import feedbacks, feedback_questions
 from reportsAnalysis.models import processed_feedbacks, filtered_feedbacks
 from django.db.models import Avg, Sum, Count
+from collections import Counter
+from nltk.util import ngrams
 from .models import (
     numerical_ratings,
     feedbacks,
 )
-from reportsAnalysis.models import ( college_numerical_total, college_numerical_summary, college_feedback_total, college_feedback_summary, professor_numerical_total,
+from reportsAnalysis.models import ( college_numerical_total, RecurringPhrase, college_numerical_summary, college_feedback_total, college_feedback_summary, professor_numerical_total,
     professor_numerical_summary_category,
     professor_feedback_total,
-    professor_feedback_summary, professor_numerical_summary_questions)
+    professor_feedback_summary, professor_numerical_summary_questions, processed_feedbacks)
 from joblib import load
 from datetime import timedelta
 from django.db import transaction
@@ -25,7 +27,6 @@ from django.conf import settings
 import logging
 logger = logging.getLogger(__name__)
 
-# Load the model and vectorizer globally to avoid reloading them in every task
 MODEL_PATH = os.path.join(settings.BASE_DIR, 'reportsAnalysis', 'model.pkl')
 VECTORIZER_PATH = os.path.join(settings.BASE_DIR, 'reportsAnalysis', 'vectorizer.pkl')
 
@@ -96,6 +97,7 @@ def update_summaries_batch():
     
     recent_filtered_feedbacks = filtered_feedbacks.objects.filter(analysis_date__gte=last_update_time)
     recent_ratings = numerical_ratings.objects.filter(numerical_rating_date__gte=last_update_time)
+    
     
     # Update micro (professor) level summaries
     update_professor_feedback_summaries(recent_filtered_feedbacks)
@@ -370,3 +372,72 @@ def update_professor_numerical_summaries(recent_ratings):
             total_sum / total_ratings_total
         ) if total_ratings_total > 0 else 0
         professor_numerical_totals.save()
+
+
+@shared_task
+@transaction.atomic
+def update_professor_recurring_phrases():
+    last_update_time = timezone.now() - timedelta(minutes=30)
+    recent_feedbacks = processed_feedbacks.objects.filter(processed_date__gte=last_update_time)
+
+    phrase_sentiment_counter = {}
+
+    for feedback in recent_feedbacks:
+        if feedback.is_processed:
+            continue  
+
+
+        professor = feedback.feedback_id.student_subj_id.prof_subj_id.professor_id
+        year_sem = feedback.feedback_id.student_subj_id.prof_subj_id.year_sem_id
+        department_instance = professor.department
+
+    
+        filtered_feedback = filtered_feedbacks.objects.filter(feedback_id=feedback.feedback_id).first()
+        sentiment = filtered_feedback.sentiment_label if filtered_feedback else "Neutral"  
+        sentiment_rating = filtered_feedback.sentiment_rating if filtered_feedback else 0 
+
+  
+        tokens = feedback.processed_text.split()
+
+        bigrams = list(ngrams(tokens, 2))  
+        trigrams = list(ngrams(tokens, 3)) 
+
+       
+        if (professor, year_sem, department_instance) not in phrase_sentiment_counter:
+            phrase_sentiment_counter[(professor, year_sem, department_instance)] = Counter()
+
+  
+        for bigram in bigrams:
+            phrase = ' '.join(bigram)
+            phrase_key = (phrase, sentiment)
+            phrase_sentiment_counter[(professor, year_sem, department_instance)][phrase_key] += 1
+
+       
+        for trigram in trigrams:
+            phrase = ' '.join(trigram)
+            phrase_key = (phrase, sentiment)
+            phrase_sentiment_counter[(professor, year_sem, department_instance)][phrase_key] += 1
+
+     
+        feedback.is_processed = True
+        feedback.save()
+
+    
+    for (professor, year_sem, department_instance), counter in phrase_sentiment_counter.items():
+        for (phrase, sentiment), count in counter.items():
+            recurring_phrase, _ = RecurringPhrase.objects.get_or_create(
+                phrase=phrase,
+                year_sem_id=year_sem,
+                prof_id=professor,
+                department=department_instance,
+                defaults={'total_count': 0, 'sentiment_rating': 0, 'sentiment_label': "Neutral"}
+            )
+
+        
+            recurring_phrase.total_count += count  
+            
+            recurring_phrase.sentiment_label = sentiment 
+            
+            recurring_phrase.sentiment_rating = sentiment_rating  
+            
+            recurring_phrase.save() 

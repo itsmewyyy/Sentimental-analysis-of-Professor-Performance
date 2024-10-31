@@ -691,3 +691,174 @@ class ProfessorFeedbacks(APIView):
         
     ]
         return Response(professor_feedbacks, status=status.HTTP_200_OK)
+
+class recurringPhrases(APIView):
+    def get(self, request):
+
+        recurring_phrases_list = [
+
+        {
+            "year_sem": "24-25-1",
+            "professor_phrases": [{
+            "id": "1",
+            "name": "Ronnie Chu",
+            "dept_id": "CCS",
+            "dept_desc": "College of Computer Studies",
+            "recurring_phrases": [
+            {
+                "count": "8",
+                "sentiment": "Positive",
+                "phrase": "good teacher"
+            },
+            {
+                "count": "6",
+                "sentiment": "Positive",
+                "phrase": "magaling magturo"
+            },
+            {
+                "count": "2",
+                "sentiment": "Neutral",
+                "phrase": "okay lang"
+            },
+            {
+                "count": "6",
+                "sentiment": "Positive",
+                "phrase": "good teacher"
+            },
+            {
+                "count": "3",
+                "sentiment": "Negative",
+                "phrase": "laging late"
+            },
+            {
+                "count": "3",
+                "sentiment": "Positive",
+                "phrase": "kind nice good"
+            },
+        ]
+    
+    },]
+        },
+        {
+            "year_sem": "24-25-1",
+            "professor_phrases": [{
+            "id": "2",
+            "name": "Noreen Perez",
+            "dept_id": "CCS",
+            "dept_desc": "College of Computer Studies",
+            "recurring_phrases": [
+           {
+                "count": "8",
+                "sentiment": "Positive",
+                "phrase": "good teacher"
+            },
+            {
+                "count": "2",
+                "sentiment": "Neutral",
+                "phrase": "okay lang"
+            },
+        ]
+    
+    },]
+        },
+        
+    ]
+        return Response(recurring_phrases_list, status=status.HTTP_200_OK)
+    
+
+class collegePhrases(APIView):
+    def get(self, request):
+        recurring_phrases_list = [
+        {
+            "year_sem": "24-25-1",
+            "college_phrases": [{
+            "dept_id": "CCS",
+            "dept_desc": "College of Computer Studies",
+            "recurring_phrases": [
+            {
+                "count": "8",
+                "sentiment": "Positive",
+                "phrase": "good teacher"
+            },
+            {
+                "count": "2",
+                "sentiment": "Neutral",
+                "phrase": "okay lang"
+            },
+            {
+                "count": "2",
+                "sentiment": "Neutral",
+                "phrase": "okay lang"
+            },
+            {
+                "count": "2",
+                "sentiment": "Neutral",
+                "phrase": "okay lang"
+            },
+            {
+                "count": "2",
+                "sentiment": "Neutral",
+                "phrase": "okay lang"
+            },
+            {
+                "count": "2",
+                "sentiment": "Neutral",
+                "phrase": "okay lang"
+            },
+            {
+                "count": "2",
+                "sentiment": "Neutral",
+                "phrase": "okay lang"
+            },
+            {
+                "count": "2",
+                "sentiment": "Neutral",
+                "phrase": "okay lang"
+            },
+            {
+                "count": "2",
+                "sentiment": "Neutral",
+                "phrase": "okay lang"
+            },
+            {
+                "count": "2",
+                "sentiment": "Neutral",
+                "phrase": "okay lang"
+            },
+            {
+                "count": "2",
+                "sentiment": "Neutral",
+                "phrase": "okay lang"
+            },
+            {
+                "count": "2",
+                "sentiment": "Neutral",
+                "phrase": "okay lang"
+            },
+        ]
+    },]
+        },
+        {
+            "year_sem": "24-25-1",
+            "college_phrases": [{
+            "id": "2",
+            "dept_id": "CAS",
+            "dept_desc": "College of Arts and Sciences",
+            "recurring_phrases": [
+           {
+                "count": "8",
+                "sentiment": "Positive",
+                "phrase": "good teacher"
+            },
+            {
+                "count": "3",
+                "sentiment": "Neutral",
+                "phrase": "okay lang"
+            },
+        ]
+    
+    },]
+        },
+        
+    ]
+        return Response(recurring_phrases_list, status=status.HTTP_200_OK)

@@ -8,14 +8,29 @@ class training_data(models.Model):
     sample_feedback = models.CharField(max_length=255)
     label = models.IntegerField()
 
+class RecurringPhrase(models.Model):
+    phrase = models.CharField(max_length=255)
+    year_sem_id = models.ForeignKey(academic_yearsem, on_delete=models.CASCADE, default = "")
+    prof_id = models.ForeignKey(professor_info, on_delete=models.CASCADE, default = "")
+    department = models.ForeignKey(department, on_delete=models.CASCADE, default = "")
+    total_count = models.IntegerField(default=0)
+    sentiment_rating = models.IntegerField(default = 0)
+    sentiment_label = models.CharField(max_length=12, default = "Neutral")
+    last_updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f'{self.phrase} - {self.total_count}'
+
 class processed_feedbacks(models.Model):
     feedback_id = models.ForeignKey(feedbacks, on_delete=models.CASCADE)
     processed_text = models.TextField() 
-    processed_date = models.DateTimeField(default=datetime.now) 
+    processed_date = models.DateTimeField(default=datetime.now)
+    recurring_phrases = models.ManyToManyField(RecurringPhrase, blank=True)
+    is_processed = models.BooleanField(default=False)
 
     def __str__(self):
         return f'{self.feedback_id}'
-
+    
 class filtered_feedbacks(models.Model):
     sentiment_id = models.AutoField(primary_key=True)
     feedback_id = models.ForeignKey(feedbacks, on_delete=models.CASCADE, related_name='filtered_feedbacks')

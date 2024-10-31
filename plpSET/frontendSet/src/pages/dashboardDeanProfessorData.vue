@@ -24,6 +24,7 @@ import professorHeatmap from "@/components/deanProfessorAnalytics/professorHeatm
 import professorFeedbackChart from "@/components/deanProfessorAnalytics/professorFeedbackChart.vue";
 import professorRadar from "@/components/deanProfessorAnalytics/professorRadar.vue";
 import professorFeedbacksTable from "@/components/feedbacks/professorFeedbacksTable.vue";
+import profreccuringphrasesTable from "@/components/profsrecurringPhrases/profreccuringphrasesTable.vue";
 import axios from "axios";
 
 const authStore = useAuthStore();
@@ -364,14 +365,16 @@ onMounted(() => {
             <professorFeedbackChart />
           </div>
           <div
-            class="col-span-6 row-span-12 col-start-4 border border-black/15 rounded-md"
+            class="col-span-6 row-span-6 col-start-4 border border-black/15 rounded-md"
           >
-            <professorFeedbacksTable />
+            <profreccuringphrasesTable></profreccuringphrasesTable>
           </div>
 
           <div
-            class="col-span-3 row-span-6 row-start-7 border border-black/15 rounded-md"
-          ></div>
+            class="col-span-9 row-span-6 row-start-7 border border-black/15 rounded-md"
+          >
+            <professorFeedbacksTable />
+          </div>
         </div>
       </div>
     </section>

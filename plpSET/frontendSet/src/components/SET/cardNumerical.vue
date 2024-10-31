@@ -25,3 +25,11 @@
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+import { defineEmits, defineProps, ref, onMounted } from "vue";
+
+const props = defineProps<{
+  header: string;
+}>();
+</script>

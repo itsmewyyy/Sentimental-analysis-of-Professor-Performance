@@ -50,7 +50,7 @@ defineProps<DataTablePaginationProps>();
         </Select>
       </div>
       <div
-        class="flex w-[467px] items-center justify-end text-xs font-medium text-darks-200"
+        class="flex w-[926px] items-center justify-end text-xs font-medium text-darks-200"
       >
         Page {{ table.getState().pagination.pageIndex + 1 }} of
         {{ table.getPageCount() }}

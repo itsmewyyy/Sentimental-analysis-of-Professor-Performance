@@ -166,4 +166,8 @@ CELERY_BEAT_SCHEDULE = {
         'task': 'SET.tasks.update_summaries_batch',  # Update with your app and task name
         'schedule': crontab(minute='*/15',),    # Runs every 15 mins
     },
+    'update_professor_recurring_phrases': {
+        'task': 'SET.tasks.update_professor_recurring_phrases',
+        'schedule': crontab(minute='*/1'),  
+    },
 }

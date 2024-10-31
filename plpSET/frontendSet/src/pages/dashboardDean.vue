@@ -25,6 +25,7 @@ import tableProfessorSummary from "@/components/deanOverview/tableProfessorSumma
 import axios from "axios";
 import facultyStars from "@/components/deanOverview/facultyStars.vue";
 import focusAreas from "@/components/deanOverview/focusAreas.vue";
+import CollegereccuringphrasesTable from "@/components/collegerecurringPhrases/collegereccuringphrasesTable.vue";
 
 const authStore = useAuthStore();
 authStore.restoreSession();
@@ -260,8 +261,10 @@ onMounted(() => {
             </div>
           </div>
           <div
-            class="col-span-4 row-span-2 col-start-7 border border-black/15 rounded-md"
-          ></div>
+            class="col-span-4 row-span-8 col-start-7 border border-black/15 rounded-md"
+          >
+            <CollegereccuringphrasesTable></CollegereccuringphrasesTable>
+          </div>
           <div
             class="col-span-3 row-span-6 row-start-3 border border-black/15 rounded-md"
           >
@@ -272,9 +275,6 @@ onMounted(() => {
           >
             <collegeFeedbackChart />
           </div>
-          <div
-            class="col-span-4 row-span-6 col-start-7 row-start-3 border border-black/15 rounded-md"
-          ></div>
         </div>
 
         <!---Professors---->

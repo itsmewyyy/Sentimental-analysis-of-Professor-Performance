@@ -54,11 +54,11 @@ export default {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="center">
         <DropdownMenuItem @click="column.toggleSorting(false)">
-          <ChevronUp class="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+          <ChevronUp class="mr-2 h-3 w-3 text-muted-foreground/70" />
           Asc
         </DropdownMenuItem>
         <DropdownMenuItem @click="column.toggleSorting(true)">
-          <ChevronDown class="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+          <ChevronDown class="mr-2 h-3 w-3 text-muted-foreground/70" />
           Desc
         </DropdownMenuItem>
         <DropdownMenuSeparator />

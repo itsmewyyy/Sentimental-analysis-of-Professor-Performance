@@ -10,7 +10,7 @@
     }"
   >
     <section
-      class="relative bg-white min-h-screen pt-32 overflow-y-auto p-20 pt-32 space-y-16"
+      class="relative bg-white min-h-screen pt-32 overflow-y-auto p-20 pt-32 space-y-16 w-full"
     >
       <div class="pl-8">
         <h1 class="font-semibold text-4xl text-darks-500">Enrolled Courses</h1>

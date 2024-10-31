@@ -77,7 +77,7 @@ onMounted(() => {
     <DropdownMenu>
       <DropdownMenuTrigger>
         <button
-          class="border border-black/15 w-80 h-24 rounded-lg pl-6 hover:bg-darks-50"
+          class="border border-black/20 w-80 h-24 rounded-lg pl-6 hover:bg-darks-50"
         >
           <div class="flex items-center text-darks-700 font-bold text-2xl">
             <p>{{ college.name }}</p>

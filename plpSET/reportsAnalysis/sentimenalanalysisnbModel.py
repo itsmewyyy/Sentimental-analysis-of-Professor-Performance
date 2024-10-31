@@ -44,7 +44,7 @@ features = vectorizer.fit_transform(feedbacks["processed_feedback"])
 label = feedbacks["Label"]
 
 # Oversample using SMOTE
-smote = SMOTE(sampling_strategy={1: 5000, 0: 5000, -1: 5000}, random_state=100)
+smote = SMOTE(sampling_strategy={1: 2360, 0: 2360, -1: 2360}, random_state=100)
 features_res, label_res = smote.fit_resample(features, label)
 
 # Train-test split
