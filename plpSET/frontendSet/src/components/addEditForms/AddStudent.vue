@@ -94,6 +94,7 @@ const submitForm = async () => {
       first_name: firstName.value,
       extension_name: extensionName.value,
       status: statusId, // Send the status ID
+      is_counted: null,
     };
 
     addData(Data, {

@@ -42,8 +42,7 @@ interface Summary {
 
 const professorData = ref<Professors | null>(null);
 const professorIdentifier = localStorage.getItem("professor");
-const yearsemIdentifier = "24-25-1";
-//const yearsemIdentifier = localStorage.getItem("year_sem");
+const yearsemIdentifier = localStorage.getItem("current_year_sem");
 
 const fetchProfessorData = async () => {
   try {
@@ -82,6 +81,7 @@ const fetchProfessorData = async () => {
     console.error("Error fetching professor data:", error);
   }
 };
+
 let chart: ApexCharts | null = null;
 
 const renderChart = (feedbackSummary: FeedbackSummary[]) => {

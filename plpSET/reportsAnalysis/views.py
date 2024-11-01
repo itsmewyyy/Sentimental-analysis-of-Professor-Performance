@@ -2,863 +2,335 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from .models import academic_yearsem, filtered_feedbacks, college_numerical_total, RecurringPhrase, college_numerical_summary, college_feedback_total, college_feedback_summary, department, professor_feedback_summary, professor_numerical_total, professor_numerical_summary_questions, professor_numerical_summary_category, professor_feedback_total
 
 
-class CollegeRatingsSummary(APIView):
-    def get(self, request):
-
-        college_rating = [
-        {
-            "year_sem": "24-25-1",
-            "summary": [{
-        "name": "CAS",
-        "description": "College of Arts and Sciences",
-        "numerical_summary": [
-            {
-                "total_avg": 4.7,
-                "category_avg": [
-                    {
-                        "category_id": "A",
-                        "category_desc": "The Teacher",
-                        
-                        "average": 4.5
-                    },
-                    {
-                        "category_id": "B",
-                        "category_desc": "The Module/Learning Materials",
-                        
-                        "average": 4.9
-                    },
-                    {
-                        "category_id": "C",
-                        "category_desc": "The Use of LMS",
-                        
-                        "average": 2
-                    },
-                    {
-                        "category_id": "D",
-                        "category_desc": "The Use of Social Media Platforms",
-                        
-                        "average": 4
-                    },
-                    {
-                        "category_id": "E",
-                        "category_desc": "General Observation",
-                        
-                        "average": 3.5
-                    },
-                ],
-               
-            },],
-        "feedback_summary":[
-            {
-                "total_feedbacks": 100,
-                "total_positive": 80,
-                "total_neutral": 5,
-                "total_negative": 15,
-            }
-        ],
-        "professor_list":[
-           {
-            "id": "1",
-            "name": 'Ronnie Chu',
-            "avatarUrl": 'https://i.pinimg.com/564x/da/2a/20/da2a208141d20d42434ef3d4ae9c5d88.jpg',
-            "initials": 'RC',
-            "total_avg": 4.70,
-            
-            "total_feedbacks": 100,
-            "total_positive": 80,
-            "total_neutral": 5,
-            "total_negative": 15,
-            },
-           {
-            "id": "2",
-            "name": 'Noreen Perez',
-            "avatarUrl": 'https://cdnb.artstation.com/p/assets/images/images/059/961/409/large/t-o-f-u-tofufaerie-froggo-5105.jpg?1677526327.jpg',
-            "initials": 'RC',
-            "total_avg": 4.4,
-            "total_feedbacks": 100,
-            "total_positive": 77,
-            "total_neutral": 13,
-            "total_negative": 10,
-            },
-           {
-            "id": "3",
-            "name": 'Goyo',
-            "avatarUrl": 'https://i.pinimg.com/564x/da/2a/20/da2a208141d20d42434ef3d4ae9c5d88.jpg',
-            "initials": 'RC',
-            "total_avg": 3.5,
-            "total_feedbacks": 100,
-            "total_positive": 40,
-            "total_neutral": 10,
-            "total_negative": 50,
-            },
-           {
-            "id": "4",
-            "name": 'Andres Bonifacio',
-            "avatarUrl": 'https://i.pinimg.com/564x/da/2a/20/da2a208141d20d42434ef3d4ae9c5d88.jpg',
-            "initials": 'RC',
-            "total_avg": 4,
-            "total_feedbacks": 100,
-            "total_positive": 70,
-            "total_neutral": 30,
-            "total_negative": 10,
-            },
-           {
-            "id": "5",
-            "name": 'Jose Rizal',
-            "avatarUrl": 'https://i.pinimg.com/564x/da/2a/20/da2a208141d20d42434ef3d4ae9c5d88.jpg',
-            "initials": 'RC',
-            "total_avg": 4.3,
-            "total_feedbacks": 100,
-            "total_positive": 60,
-            "total_neutral": 20,
-            "total_negative": 20,
-            },
-           {
-            "id": "6",
-            "name": 'Jesus',
-            "avatarUrl": 'https://i.pinimg.com/564x/da/2a/20/da2a208141d20d42434ef3d4ae9c5d88.jpg',
-            "initials": 'RC',
-            "total_avg": 4.9,
-            "total_feedbacks": 100,
-            "total_positive": 90,
-            "total_neutral": 5,
-            "total_negative": 5,
-            },
-        ]
-            
-    },
-        {
-        "name": "CCS",
-        "description": "College of Computer Studies",
-        "year_sem": "24-25-1",
-        "numerical_summary": [
-            {
-                "total_avg": 3,
-                "category_avg": [
-                    {
-                        "category_id": "A",
-                        "category_desc": "The Teacher",
-                     
-                        "average": 4.3
-                    },
-                    {
-                        "category_id": "B",
-                        "category_desc": "jkajskashkjA",
-                      
-                        "average": 4.9
-                    },
-                    {
-                        "category_id": "C",
-                        "category_desc": "jkajskashkjA",
-                    
-                        "average": 2.5
-                    },
-                    {
-                        "category_id": "D",
-                        "category_desc": "jkajskashkjA",
-                     
-                        "average": 3.2
-                    },
-                    {
-                        "category_id": "E",
-                        "category_desc": "jkajskashkjA",
-                     
-                        "average": 4.5
-                    },
-                ],
-               
-            },],
-        "feedback_summary":[
-            {
-                "total_feedbacks": 200,
-                "total_positive": 50,
-                "total_neutral": 50,
-                "total_negative": 100,
-                "question_summary": [
-                    {
-                        "feedback_question": 1,
-                        "total_feedbacks": 100,
-                        "total_positive": 80,
-                        "total_neutral": 5,
-                        "total_negative": 15,
-                    },
-                ],
-            }
-        ],
-       "professor_list":[
-           {
-            "id": 1,
-            "name": 'Ronnie Chu',
-            "avatarUrl": 'https://i.pinimg.com/564x/da/2a/20/da2a208141d20d42434ef3d4ae9c5d88.jpg',
-            "initials": 'RC',
-            "total_avg": 4.70,
-            "total_feedbacks": 100,
-            "total_positive": 80,
-            "total_neutral": 5,
-            "total_negative": 15,
-            },
-           {
-            "id": 2,
-            "name": 'Noreen Perez',
-            "avatarUrl": 'https://i.pinimg.com/564x/da/2a/20/da2a208141d20d42434ef3d4ae9c5d88.jpg',
-            "initials": 'RC',
-            "total_avg": 4.70,
-            "total_feedbacks": 100,
-            "total_positive": 70,
-            "total_neutral": 15,
-            "total_negative": 15,
-            },
-        ]
-            
-    },]
-        }
+class CollegeRatingsSummaryView(APIView):
+    def get(self, request, *args, **kwargs):
+        year_sem_id = kwargs.get('year_sem_id')  # Pass the year_sem_id as a URL parameter
+        year_sem_data = academic_yearsem.objects.all()  # Fetch the academic year-semester
         
-    ]
-        return Response(college_rating, status=status.HTTP_200_OK)
+        summary = []
 
-class ProfessorRatingsSummary(APIView):
-    def get(self, request):
-
-        professor_ratings_summary = [
-
-        {
-            "year_sem": "24-25-1",
-            "professors": [{
-        "id": "1",
-        "name": 'Ronnie Chu',
-        "avatarUrl": 'https://i.pinimg.com/564x/da/2a/20/da2a208141d20d42434ef3d4ae9c5d88.jpg',
-        "initials": 'RC',
-        "dept_id": "CCS",
-        "dept_desc": "College of Computer Studies",
-        "numerical_summary": [
-            {
-                "total_avg": 4.7,
-                "category_avg": [
-                    {
-                        "category_id": "A",
-                        "category_desc": "The Teacher",
-                        "average": 4.5,
-                        "question_avg": [
-                            {
-                                "question_id": "A1",
-                                "question_desc": "Articulates course policies, procedures, and grading criteria clearly",
-                                "average": 4.6
-                            },
-                            {
-                                "question_id": "A2",
-                                "question_desc": "Communicates clearly and utilizes synchronous and asynchronous methods effectively",
-                                "average": 4
-                            },
-                            {
-                                "question_id": "A3",
-                                "question_desc": "Demonstrates mastery of the subject matter and effectively relates it to other disciplines",
-                                "average": 3.2
-                            },
-                            {
-                                "question_id": "A4",
-                                "question_desc": "Stimulates the student to think critically",
-                                "average": 3
-                            },
-                            {
-                                "question_id": "A5",
-                                "question_desc": "Provides timely, constructive feedback to students",
-                                "average": 4.2
-                            },
-                        ],
-                    },
-                    {
-                        "category_id": "B",
-                        "category_desc": "The Module/Learning Materials",
-                        "average": 3.5,
-                        "question_avg": [
-                            {
-                                "question_id": "B1",
-                                "question_desc": "The module/learning materials are clearly structured and well-organized",
-                                "average": 4.6
-                            },
-                            {
-                                "question_id": "B2",
-                                "question_desc": "The module/learning materials are structured in a logical sequence",
-                                "average": 4
-                            },
-                            {
-                                "question_id": "B3",
-                                "question_desc": "The module/learning materials provide a balanced representation of the course content",
-                                "average": 3
-                            },
-                            {
-                                "question_id": "B4",
-                                "question_desc": "The length and difficulty level of the module/learning materials are appropriate",
-                                "average": 4
-                            },
-                            {
-                                "question_id": "B5",
-                                "question_desc": "The module/learning materials are easily accessible",
-                                "average": 2.5
-                            },
-                        ],
-                    },
-                    {
-                        "category_id": "C",
-                        "category_desc": "The Use of LMS",
-                        "average": 4.1,
-                          "question_avg": [
-                            {
-                                "question_id": "C1",
-                                "question_desc": "The teacher creates and manages classes, assignments, and resources on the LMS effectively",
-                                "average": 4.6
-                            },
-                            {
-                                "question_id": "C2",
-                                "question_desc": "The teacher adds material to the assignments regularly",
-                                "average": 5
-                            },
-                            {
-                                "question_id": "C3",
-                                "question_desc": "The teacher uses the LMS to post announcements and updates promptly",
-                                "average":3.2
-                            },
-                            {
-                                "question_id": "C4",
-                                "question_desc": "The teacher engages students in question-driven discussions using the LMS",
-                                "average": 3.5
-                            },
-                            {
-                                "question_id": "C5",
-                                "question_desc": "The teacher uses a video conferencing app to conduct synchronous classes effectively",
-                                "average": 3
-                            },
-                        ],
-                    },
-                    {
-                        "category_id": "D",
-                        "category_desc": "The Use of Social Media Platforms",
-                        "average": 4,
-                           "question_avg": [
-                            {
-                                "question_id": "D1",
-                                "question_desc": "The teacher uses the Social Media platform effectively for class activities",
-                                "average": 3.9
-                            },
-                            {
-                                "question_id": "D2",
-                                "question_desc": "The teacher communicates regularly using the Social Media platform",
-                                "average": 3.5
-                            },
-                            {
-                                "question_id": "D3",
-                                "question_desc": "The teacher provides opportunities for student interaction on the Social Media platform",
-                                "average": 3.5
-                            },
-                            {
-                                "question_id": "D4",
-                                "question_desc": "The teacher invites students to post information and resources on the Social Media platform",
-                                "average": 3.5
-                            },
-                            {
-                                "question_id": "D5",
-                                "question_desc": "The teacher uses the Social Media platform to post important information and updates",
-                                "average": 3.5
-                            },
-                        ],
-                    },
-                    {
-                        "category_id": "E",
-                        "category_desc": "General Observation",
-                        "average": 3.5,
-                          "question_avg": [
-                            {
-                                "question_id": "E1",
-                                "question_desc": "Rapport between teacher and students",
-                                "average": 4.2
-                            },
-                            {
-                                "question_id": "E2",
-                                "question_desc": "Overall teacher impact",
-                                "average": 3
-                            },
-                        ],
-                    },
-                    
-                ],
-                
-               
-            },],
-        "feedback_summary":[
-            {
-                "total_feedbacks": 100,
-                "total_positive": 80,
-                "total_neutral": 5,
-                "total_negative": 15,
-                "question_summary": [
-                    {
-                        "feedback_question": 1,
-                        "total_feedbacks": 100,
-                        "total_positive": 80,
-                        "total_neutral": 5,
-                        "total_negative": 15,
-                    },
-                ],
-            }
-        ]
-            
-    },
-    {
-            "id": "2",
-            "name": 'Noreen Perez',
-            "avatarUrl": 'https://cdnb.artstation.com/p/assets/images/images/059/961/409/large/t-o-f-u-tofufaerie-froggo-5105.jpg?1677526327.jpg',
-            "initials": 'NP',
-            "dept_id": "CCS",
-            "dept_desc": "College of Computer Studies",
-            "numerical_summary": [
-            {
-                "total_avg": 4.4,
-                "category_avg": [
-                    {
-                        "category_id": "A",
-                        "category_desc": "The Teacher",
-                        "average": 4.5,
-                        "question_avg": [
-                            {
-                                "question_id": "A1",
-                                "question_desc": "Articulates blablka hsjhsk",
-                                "average": 4.6
-                            },
-                            {
-                                "question_id": "A2",
-                                "question_desc": "Articulasadasds",
-                                "average": 4.6
-                            },
-                        ],
-                    },
-                    {
-                        "category_id": "B",
-                        "category_desc": "jkajskashkjA",
-                        "average": 4.9,
-                    },
-                       {
-                        "category_id": "C",
-                        "category_desc": "jkajskashkjA",
-                        "average": 3.9,
-                    },
-                    {
-                        "category_id": "D",
-                        "category_desc": "jkajskashkjA",
-                        "average": 3,
-                    },
-                    {
-                        "category_id": "E",
-                        "category_desc": "jkajskashkjA",
-                        "average": 3.5,
-                    },
-                ],
-                
-               
-            },],
-        "feedback_summary":[
-            {
-                "total_feedbacks": 100,
-                "total_positive": 70,
-                "total_neutral": 5,
-                "total_negative": 15,
-                "question_summary": [
-                    {
-                        "feedback_question": 1,
-                        "total_feedbacks": 100,
-                        "total_positive": 80,
-                        "total_neutral": 5,
-                        "total_negative": 15,
-                    },
-                ],
-            }
-        ]
-            },
-    ]
-        }
+        # Get the college details (modify this according to your actual college fetching logic)
+        colleges = department.objects.all()  # Assuming departments correspond to colleges
         
-    ]
-        return Response(professor_ratings_summary, status=status.HTTP_200_OK)
+        for year_sem in year_sem_data:
+            for college in colleges:
+                college_summary = {
+                    "name": college.department_id,
+                    "description": college.department_desc,  # Modify as necessary if you have a different description
+                    "numerical_summary": [],
+                    "feedback_summary": [],
+                    "professor_list": []
+                }
+
+                # Fetching the numerical summary
+                college_numerical_totals = college_numerical_total.objects.filter(year_sem_id=year_sem, department=college)
+                total_avg = 0
+                category_averages = []
+
+                for total in college_numerical_totals:
+                    total_avg = total.total_average
+
+                    # Fetching category averages
+                    category_summaries = college_numerical_summary.objects.filter(year_sem_id=year_sem, department=college)
+                    for category in category_summaries:
+                        category_avg_data = {
+                            "category_id": category.category.category_id,
+                            "category_desc": category.category.category_desc,
+                            "average": category.college_average,
+                        }
+                        category_averages.append(category_avg_data)
+
+                college_summary["numerical_summary"].append({
+                    "total_avg": total_avg,
+                    "category_avg": category_averages
+                })
+
+                # Fetching feedback summary
+                feedback_totals = college_feedback_total.objects.filter(year_sem_id=year_sem, department=college).first()
+                if feedback_totals:
+                    college_summary["feedback_summary"].append({
+                        "total_feedbacks": feedback_totals.total_feedbacks,
+                        "total_positive": feedback_totals.total_positive,
+                        "total_neutral": feedback_totals.total_neutral,
+                        "total_negative": feedback_totals.total_negative,
+                    })
+
+                # Fetching professors related to the college
+                professor_totals = professor_numerical_total.objects.filter(year_sem_id=year_sem, prof_id__department=college)
+                for prof_total in professor_totals:
+                    full_name = f"{prof_total.prof_id.surname} {prof_total.prof_id.first_name} {prof_total.prof_id.middle_name or ''}".strip()
+                    professor = prof_total.prof_id
+                    professor_data = {
+                        "id": professor.professor_id,
+                        "name": full_name,  # Assuming surname is used for name
+                        #"avatarUrl": professor.avatar_url,  # Ensure this field exists
+                        #"initials": professor.initials,  # Ensure this field exists
+                        "total_avg": prof_total.total_average,
+                        "total_feedbacks": feedback_totals.total_feedbacks if feedback_totals else 0,
+                        "total_positive": feedback_totals.total_positive if feedback_totals else 0,
+                        "total_neutral": feedback_totals.total_neutral if feedback_totals else 0,
+                        "total_negative": feedback_totals.total_negative if feedback_totals else 0,
+                    }
+                    college_summary["professor_list"].append(professor_data)
+
+                summary.append(college_summary)
+
+        return Response({
+            "year_sem": year_sem.year_sem_id,
+            "summary": summary
+        })
+    
+class ProfessorRatingsSummaryView(APIView):
+    def get(self, request, *args, **kwargs):
+        year_sem_data = academic_yearsem.objects.all()
+        summary = []
+
+        for year_sem in year_sem_data:
+            professors = []
+            prof_totals = professor_numerical_total.objects.filter(year_sem_id=year_sem)
+
+            for prof_total in prof_totals:
+                full_name = f"{prof_total.prof_id.surname} {prof_total.prof_id.first_name} {prof_total.prof_id.middle_name or ''}".strip()
+                prof = prof_total.prof_id
+                professor_data = {
+                    "id": prof.professor_id,
+                    "name": full_name,
+                    #"avatarUrl": prof.avatar_url,  # assuming avatar_url is a field
+                    #"initials": prof.initials,
+                    "dept_id": prof.department.department_id,
+                    "dept_desc": prof.department.department_desc,
+                    "numerical_summary": {
+                        "total_avg": prof_total.total_average,
+                        "category_avg": []
+                    },
+                    "feedback_summary": []
+                }
+
+                # Numerical Summary by Category
+                category_summaries = professor_numerical_summary_category.objects.filter(prof_id=prof, year_sem_id=year_sem)
+                for category_summary in category_summaries:
+                    category_data = {
+                        "category_id": category_summary.category.category_id,
+                        "category_desc": category_summary.category.category_desc,
+                        "average": category_summary.category_average,
+                        "question_avg": []
+                    }
+
+                    question_summaries = professor_numerical_summary_questions.objects.filter(
+                        prof_id=prof, 
+                        year_sem_id=year_sem,
+                        numerical_question_id__category=category_summary.category.category_id
+                    )
+                    for question_summary in question_summaries:
+                        question_data = {
+                            "question_id": question_summary.numerical_question_id.numerical_question_id,
+                            "question_desc": question_summary.numerical_question_id.question,
+                            "average": question_summary.question_average
+                        }
+                        category_data["question_avg"].append(question_data)
+
+                    professor_data["numerical_summary"]["category_avg"].append(category_data)
+
+                # Feedback Summary
+                feedback_totals = professor_feedback_total.objects.filter(prof_id=prof, year_sem_id=year_sem)
+                for feedback_total in feedback_totals:
+                    feedback_data = {
+                        "total_feedbacks": feedback_total.total_feedbacks,
+                        "total_positive": feedback_total.total_positive,
+                        "total_neutral": feedback_total.total_neutral,
+                        "total_negative": feedback_total.total_negative,
+                        "question_summary": []
+                    }
+
+                    feedback_questions = professor_feedback_summary.objects.filter(prof_id=prof, year_sem_id=year_sem)
+                    for feedback_question in feedback_questions:
+                        question_summary_data = {
+                            "feedback_question": feedback_question.feedback_question_id.feedback_question_id,
+                            "total_feedbacks": feedback_question.total_feedbacks,
+                            "total_positive": feedback_question.total_positive,
+                            "total_neutral": feedback_question.total_neutral,
+                            "total_negative": feedback_question.total_negative
+                        }
+                        feedback_data["question_summary"].append(question_summary_data)
+
+                    professor_data["feedback_summary"].append(feedback_data)
+
+                professors.append(professor_data)
+
+            summary.append({
+                "year_sem": year_sem.year_sem_id, 
+                "professors": professors
+            })
+
+        return Response(summary)
+
     
 class ProfessorFeedbacks(APIView):
     def get(self, request):
-
-        professor_feedbacks = [
-
-        {
-            "year_sem": "24-25-1",
-            "professor_feedback_list": [{
-            "id": "1",
-            "name": "Ronnie Chu",
-            "dept_id": "CCS",
-            "dept_desc": "College of Computer Studies",
-            "feedbacks": [
-            {
-                "question_id": "1",
-      
-                "sentiment": "Positive",
-                "text": "good teacher"
-            },
-            {
-                "question_id": "2",
-          
-                "sentiment": "Neutral",
-                "text": "okay lang"
-            },
-            {
-                "question_id": "3",
+        year_sem = request.query_params.get("year_sem", None)
+        prof_id = request.query_params.get("professor_id", None)
         
-                "sentiment": "Neutral",
-                "text": "okay lang"
-            },
-            {
-                "question_id": "4",
-          
-                "sentiment": "Neutral",
-                "text": "okay lang"
-            },
-            {
-                "question_id": "5",
-           
-                "sentiment": "Neutral",
-                "text": "okay lang"
-            },
-            {
-                "question_id": "5",
-           
-                "sentiment": "Neutral",
-                "text": "okay lang"
-            },
-            {
-                "question_id": "5",
-           
-                "sentiment": "Negative",
-                "text": "boring"
-            },
-            {
-                "question_id": "5",
-           
-                "sentiment": "Positive",
-                "text": "nice"
-            },
-            {
-                "question_id": "5",
-           
-                "sentiment": "Neutral",
-                "text": "okay lang"
-            },
-            {
-                "question_id": "5",
-           
-                "sentiment": "Neutral",
-                "text": "okay lang"
-            },
-            {
-                "question_id": "5",
-           
-                "sentiment": "Neutral",
-                "text": "okay lang"
-            },
-            {
-                "question_id": "5",
-           
-                "sentiment": "Neutral",
-                "text": "okay lang"
-            },
-            {
-                "question_id": "5",
-           
-                "sentiment": "Neutral",
-                "text": "okay lang"
-            },
-            {
-                "question_id": "5",
-           
-                "sentiment": "Neutral",
-                "text": "okay lang"
-            },
-            {
-                "question_id": "5",
-           
-                "sentiment": "Neutral",
-                "text": "okay lang"
-            },
-            {
-                "question_id": "5",
-           
-                "sentiment": "Neutral",
-                "text": "okay lang"
-            },
-            {
-                "question_id": "5",
-           
-                "sentiment": "Neutral",
-                "text": "okay lang"
-            },
-            {
-                "question_id": "5",
-           
-                "sentiment": "Neutral",
-                "text": "okay lang"
-            },
-            {
-                "question_id": "5",
-           
-                "sentiment": "Neutral",
-                "text": "okay lang"
-            },
-            {
-                "question_id": "5",
-           
-                "sentiment": "Neutral",
-                "text": "okay lang"
-            },
-            {
-                "question_id": "5",
-           
-                "sentiment": "Neutral",
-                "text": "okay lang"
-            },
-            {
-                "question_id": "5",
-           
-                "sentiment": "Neutral",
-                "text": "okay lang"
-            },
-            {
-                "question_id": "5",
-           
-                "sentiment": "Neutral",
-                "text": "okay lang"
-            },
-            {
-                "question_id": "5",
-           
-                "sentiment": "Neutral",
-                "text": "okay lang"
-            },
-
-
-        ]
-    
-    },]
-        },
-        {
-            "year_sem": "24-25-1",
-            "professor_feedback_list": [{
-            "id": "2",
-            "name": "Noreen Perez",
-            "dept_id": "CCS",
-            "dept_desc": "College of Computer Studies",
-            "feedbacks": [
-            {
-                "question_id": "1",
-              
-                "sentiment": "Positive",
-                "text": "good teacher siya"
-            },
-            {
-                "question_id": "2",
-               
-                "sentiment": "Negative",
-                "text": "kulang sa time"
-            },
-            {
-                "question_id": "3",
-            
-                "sentiment": "Neutral",
-                "text": "okay lang"
-            },
-            {
-                "question_id": "4",
-           
-                "sentiment": "Neutral",
-                "text": "okay lang"
-            },
-            {
-                "question_id": "5",
-            
-                "sentiment": "Neutral",
-                "text": "okay lang"
-            },
-
-
-        ]
-    
-    },]
-        },
+        # Filter feedbacks based on academic term and professor
+        filtered_feedback_list = filtered_feedbacks.objects.select_related("feedback_id", "feedback_id__feedback_question_id").filter(
+            feedback_id__student_subj_id__prof_subj_id__year_sem_id=year_sem,
+            feedback_id__student_subj_id__prof_subj_id__professor_id=prof_id
+        )
         
-    ]
-        return Response(professor_feedbacks, status=status.HTTP_200_OK)
+        # Prepare the data structure
+        data_output = {}
+        
+        for feedback in filtered_feedback_list:
+            year_sem_key = year_sem
+            professor_key = feedback.feedback_id.student_subj_id.prof_subj_id.professor_id
+            full_name = f"{professor_key.surname} {professor_key.first_name} {professor_key.middle_name or ''}".strip()
+            
+            # Initialize year-semester structure
+            if year_sem_key not in data_output:
+                data_output[year_sem_key] = {
+                    "year_sem": year_sem_key,
+                    "professor_feedback_list": []
+                }
 
-class recurringPhrases(APIView):
+            # Find or create professor entry
+            professor_feedbacks = next(
+                (prof for prof in data_output[year_sem_key]["professor_feedback_list"] if prof["id"] == str(professor_key.professor_id)),
+                None
+            )
+            if not professor_feedbacks:
+                professor_feedbacks = {
+                    "id": str(professor_key.professor_id),
+                    "name": full_name,
+                    "dept_id": professor_key.department.department_id,
+                    "dept_desc": professor_key.department.department_desc,
+                    "feedbacks": []
+                }
+                data_output[year_sem_key]["professor_feedback_list"].append(professor_feedbacks)
+
+            # Add feedback entry
+            professor_feedbacks["feedbacks"].append({
+                "question_id": feedback.feedback_id.feedback_question_id.feedback_question_id,
+                "sentiment": feedback.sentiment_label,
+                "text": feedback.feedback_id.feedback_text
+            })
+
+        result = list(data_output.values())
+        return Response(result, status=status.HTTP_200_OK)
+
+class professorPhrases(APIView):
     def get(self, request):
+        year_sem = request.query_params.get('year_sem', None)
+        dept_id = request.query_params.get('dept_id', None)
+        prof_id = request.query_params.get('professor_id', None)
 
-        recurring_phrases_list = [
-
-        {
-            "year_sem": "24-25-1",
-            "professor_phrases": [{
-            "id": "1",
-            "name": "Ronnie Chu",
-            "dept_id": "CCS",
-            "dept_desc": "College of Computer Studies",
-            "recurring_phrases": [
-            {
-                "count": "8",
-                "sentiment": "Positive",
-                "phrase": "good teacher"
-            },
-            {
-                "count": "6",
-                "sentiment": "Positive",
-                "phrase": "magaling magturo"
-            },
-            {
-                "count": "2",
-                "sentiment": "Neutral",
-                "phrase": "okay lang"
-            },
-            {
-                "count": "6",
-                "sentiment": "Positive",
-                "phrase": "good teacher"
-            },
-            {
-                "count": "3",
-                "sentiment": "Negative",
-                "phrase": "laging late"
-            },
-            {
-                "count": "3",
-                "sentiment": "Positive",
-                "phrase": "kind nice good"
-            },
-        ]
-    
-    },]
-        },
-        {
-            "year_sem": "24-25-1",
-            "professor_phrases": [{
-            "id": "2",
-            "name": "Noreen Perez",
-            "dept_id": "CCS",
-            "dept_desc": "College of Computer Studies",
-            "recurring_phrases": [
-           {
-                "count": "8",
-                "sentiment": "Positive",
-                "phrase": "good teacher"
-            },
-            {
-                "count": "2",
-                "sentiment": "Neutral",
-                "phrase": "okay lang"
-            },
-        ]
-    
-    },]
-        },
+        # Filter based on the year_sem, dept_id, and professor_id if parameters are provided
+        phrases_queryset = RecurringPhrase.objects.select_related('year_sem_id', 'prof_id', 'department').all()
         
-    ]
-        return Response(recurring_phrases_list, status=status.HTTP_200_OK)
-    
+        if year_sem:
+            phrases_queryset = phrases_queryset.filter(year_sem_id__year_sem_id=year_sem)
+        if dept_id:
+            phrases_queryset = phrases_queryset.filter(department__department_id=dept_id)
+        if prof_id:
+            phrases_queryset = phrases_queryset.filter(prof_id__professor_id=prof_id)
+
+        data_output = {}
+        
+        for phrase in phrases_queryset:
+            # Get keys for year_sem and professor
+            year_sem_key = phrase.year_sem_id.year_sem_id
+            professor_key = phrase.prof_id.professor_id
+
+            # Construct full name
+            full_name = f"{phrase.prof_id.surname} {phrase.prof_id.first_name} {phrase.prof_id.middle_name or ''}".strip()
+
+            # Initialize the year_sem structure if it doesn't exist
+            if year_sem_key not in data_output:
+                data_output[year_sem_key] = {
+                    "year_sem": year_sem_key,
+                    "professor_phrases": []
+                }
+
+            # Check if professor entry exists in the professor_phrases array
+            professor_phrases = next(
+                (prof for prof in data_output[year_sem_key]["professor_phrases"] if prof["id"] == str(professor_key)),
+                None
+            )
+            
+            if not professor_phrases:
+                professor_phrases = {
+                    "id": str(professor_key),
+                    "name": full_name,  # Use full_name here
+                    "dept_id": phrase.department.department_id,
+                    "dept_desc": phrase.department.department_desc,
+                    "recurring_phrases": []
+                }
+                data_output[year_sem_key]["professor_phrases"].append(professor_phrases)
+
+            # Add the recurring phrase to the professor's phrases
+            professor_phrases["recurring_phrases"].append({
+                "count": str(phrase.total_count),
+                "sentiment": phrase.sentiment_label,
+                "phrase": phrase.phrase
+            })
+
+        result = list(data_output.values())
+        return Response(result)
 
 class collegePhrases(APIView):
     def get(self, request):
-        recurring_phrases_list = [
-        {
-            "year_sem": "24-25-1",
-            "college_phrases": [{
-            "dept_id": "CCS",
-            "dept_desc": "College of Computer Studies",
-            "recurring_phrases": [
-            {
-                "count": "8",
-                "sentiment": "Positive",
-                "phrase": "good teacher"
-            },
-            {
-                "count": "2",
-                "sentiment": "Neutral",
-                "phrase": "okay lang"
-            },
-            {
-                "count": "2",
-                "sentiment": "Neutral",
-                "phrase": "okay lang"
-            },
-            {
-                "count": "2",
-                "sentiment": "Neutral",
-                "phrase": "okay lang"
-            },
-            {
-                "count": "2",
-                "sentiment": "Neutral",
-                "phrase": "okay lang"
-            },
-            {
-                "count": "2",
-                "sentiment": "Neutral",
-                "phrase": "okay lang"
-            },
-            {
-                "count": "2",
-                "sentiment": "Neutral",
-                "phrase": "okay lang"
-            },
-            {
-                "count": "2",
-                "sentiment": "Neutral",
-                "phrase": "okay lang"
-            },
-            {
-                "count": "2",
-                "sentiment": "Neutral",
-                "phrase": "okay lang"
-            },
-            {
-                "count": "2",
-                "sentiment": "Neutral",
-                "phrase": "okay lang"
-            },
-            {
-                "count": "2",
-                "sentiment": "Neutral",
-                "phrase": "okay lang"
-            },
-            {
-                "count": "2",
-                "sentiment": "Neutral",
-                "phrase": "okay lang"
-            },
-        ]
-    },]
-        },
-        {
-            "year_sem": "24-25-1",
-            "college_phrases": [{
-            "id": "2",
-            "dept_id": "CAS",
-            "dept_desc": "College of Arts and Sciences",
-            "recurring_phrases": [
-           {
-                "count": "8",
-                "sentiment": "Positive",
-                "phrase": "good teacher"
-            },
-            {
-                "count": "3",
-                "sentiment": "Neutral",
-                "phrase": "okay lang"
-            },
-        ]
-    
-    },]
-        },
+        year_sem = request.query_params.get('year_sem', None)
+        dept_id = request.query_params.get('dept_id', None)
+
+        # Filter RecurringPhrase objects by year_sem_id and department if parameters are provided
+        phrases_queryset = RecurringPhrase.objects.select_related('year_sem_id', 'department').all()
         
-    ]
-        return Response(recurring_phrases_list, status=status.HTTP_200_OK)
+        if year_sem:
+            phrases_queryset = phrases_queryset.filter(year_sem_id__year_sem_id=year_sem)
+        if dept_id:
+            phrases_queryset = phrases_queryset.filter(department__department_id=dept_id)
+
+        # Define the dictionary structure to store all recurring phrases by academic year and department
+        recurring_phrases_list = []
+
+        # Create a mapping to organize data by year-sem
+        year_sem_mapping = {}
+        
+        for phrase in phrases_queryset:
+            year_sem_key = phrase.year_sem_id
+            department_key = phrase.department
+
+            # Ensure year_sem_key exists in the year_sem_mapping
+            if year_sem_key not in year_sem_mapping:
+                year_sem_mapping[year_sem_key] = {
+                    "year_sem": year_sem_key.year_sem_id,
+                    "college_phrases": []
+                }
+
+            # Ensure the department exists under the specific year-sem in the dictionary
+            department_phrases = next(
+                (item for item in year_sem_mapping[year_sem_key]["college_phrases"] if item["dept_id"] == department_key.department_id),
+                None
+            )
+            
+            if not department_phrases:
+                department_phrases = {
+                    "dept_id": department_key.department_id,
+                    "dept_desc": department_key.department_desc,
+                    "recurring_phrases": []
+                }
+                year_sem_mapping[year_sem_key]["college_phrases"].append(department_phrases)
+
+            # Add the current phrase to the department's recurring_phrases
+            department_phrases["recurring_phrases"].append({
+                "count": phrase.total_count,
+                "sentiment": phrase.sentiment_label,
+                "phrase": phrase.phrase
+            })
+
+        # Append the structured data to the recurring_phrases_list
+        recurring_phrases_list.extend(year_sem_mapping.values())
+
+        # Return the response
+        return Response(recurring_phrases_list)

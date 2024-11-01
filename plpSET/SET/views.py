@@ -1,11 +1,13 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import categories, numerical_questions,professor_status, feedback_questions, programs, department, year_level, student_info, student_enrolled_subjs, feedbacks, professor_info, section, subjects, student_status
-from .serializers import StudentSerializer, YearLevelInfoSerializer, ProfSubjsSerizalier, ProfessorStatusSerializer, SubmitRatingsSerializer, EnrolledSubjectsSerializer, AdminSerializer, ProfessorInfoSerializer, ProgramsSerializer, DepartmentSerializer, SectionSerializer, SubjectInfoSerializer, FeedbackQuestionsSerializer, NumericalCategorySerializer, NumericalQuestionsSerializer, StudentStatusSerializer
+from .models import categories, numerical_questions, academic_yearsem, EvaluationPeriod, professor_status, feedback_questions, programs, department, year_level, student_info, student_enrolled_subjs, feedbacks, professor_info, section, subjects, student_status
+from .serializers import StudentSerializer, YearLevelInfoSerializer, AcademicYearSemSerializer, ProfSubjsSerizalier, EvaluationPeriodSerializer, ProfessorStatusSerializer, SubmitRatingsSerializer, EnrolledSubjectsSerializer, AdminSerializer, ProfessorInfoSerializer, ProgramsSerializer, DepartmentSerializer, SectionSerializer, SubjectInfoSerializer, FeedbackQuestionsSerializer, NumericalCategorySerializer, NumericalQuestionsSerializer, StudentStatusSerializer
 from rest_framework import status
 from userLogin.models import admin_acc
 from django.contrib.auth.hashers import make_password
 from .tasks import (process_feedback_task)
+from django.utils import timezone
+from django.http import JsonResponse
 
 
 
@@ -716,3 +718,50 @@ class EnrolledSubjsPost(APIView):
             return Response({"message": "added successfully!"}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+class SetAcademicTermView(APIView):
+    def post(self, request):
+        serializer = AcademicYearSemSerializer(data=request.data)
+        if serializer.is_valid():
+            # Save the new academic term, which includes creating or getting `academic_year`
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+class EvaluationStatusView(APIView):
+    def get(self, request):
+        try:
+            # Retrieve the latest evaluation period
+            evaluation_period = EvaluationPeriod.objects.latest('start_date')
+            serializer = EvaluationPeriodSerializer(evaluation_period)
+            
+            # Check if the current date is within the evaluation period
+            is_active = evaluation_period.is_active()
+            return Response({
+                'status': 'active' if is_active else 'inactive',
+                'evaluation_period': serializer.data
+            })
+        except EvaluationPeriod.DoesNotExist:
+            return Response({
+                'status': 'inactive',
+                'evaluation_period': None
+            }, status=status.HTTP_404_NOT_FOUND)
+    
+    def post(self, request):
+        serializer = EvaluationPeriodSerializer(data=request.data)
+        if serializer.is_valid():
+            # Save new evaluation period
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+def get_current_year_sem(request):
+   
+    current_year_sem = academic_yearsem.objects.latest('year_sem_id')
+    data = {
+        "year_sem_id": current_year_sem.year_sem_id,
+        "acad_year": current_year_sem.acad_year.acad_year,  
+        "semester_desc": current_year_sem.semester_desc,
+    }
+    return JsonResponse(data)

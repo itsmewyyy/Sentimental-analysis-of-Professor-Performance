@@ -30,7 +30,7 @@ const rows = ref<Array<{ subjects: Array<string>; sections: Array<string> }>>([
 ]);
 
 const selectedCollege = localStorage.getItem("college");
-const year_sem = "24-25-1"; // Set this to the desired value, or make it dynamic if needed
+const year_sem = localStorage.getItem("current_year_sem");
 const students = ref<Array<any>>([]); // Holds students for each section
 
 // Load students for a given section

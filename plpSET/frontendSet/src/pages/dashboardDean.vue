@@ -54,9 +54,6 @@ interface Summary {
 }
 
 const collegeData = ref<College | null>(null);
-const collegeIdentifier = localStorage.getItem("college");
-const yearsemIdentifier = "24-25-1";
-//const yearsemIdentifier = localStorage.getItem("year_sem");
 
 const fetchCollegeData = async () => {
   try {
@@ -64,41 +61,39 @@ const fetchCollegeData = async () => {
       "http://127.0.0.1:8000/api/college-ratings-summary/"
     );
 
-    if (response.data.length && yearsemIdentifier) {
-      // Find the year_sem
-      const selectedYearSem = response.data.find(
-        (summary: Summary) => summary.year_sem === yearsemIdentifier
-      );
+    if (response.data && response.data.summary) {
+      const yearsemIdentifier = localStorage.getItem("current_year_sem");
+      const collegeIdentifier = localStorage.getItem("college");
 
-      if (selectedYearSem && collegeIdentifier) {
-        // Within the selected year_sem, find the specific professor
-        const selectedCollege = selectedYearSem.summary.find(
+      const selectedYearSem = response.data.year_sem === yearsemIdentifier;
+
+      if (selectedYearSem) {
+        const selectedCollege = response.data.summary.find(
           (collegeSummary: College) => collegeSummary.name === collegeIdentifier
         );
 
-        console.log("Selected Professor:", selectedCollege);
-
         if (selectedCollege) {
           collegeData.value = selectedCollege;
-          console.log("professorData updated:", collegeData.value);
         } else {
           console.error(
-            "No matching professor found for the identifier:",
+            "No matching college found for the identifier:",
             collegeIdentifier
           );
         }
       } else {
-        console.error("No matching year_sem found or invalid identifiers.");
+        console.error(
+          "No matching year_sem found for identifier:",
+          yearsemIdentifier
+        );
       }
     } else {
-      console.error("No data received or year_sem identifier is invalid.");
+      console.error("No data received or invalid year_sem identifier.");
     }
   } catch (error) {
-    console.error("Error fetching professor data:", error);
+    console.error("Error fetching college data:", error);
   }
 };
 
-// Computed property to determine the rating label
 const ratingLabel = computed(() => {
   const avg = collegeData.value?.numerical_summary[0].total_avg || 0;
   if (avg >= 4.6) return "Outstanding";
@@ -108,7 +103,6 @@ const ratingLabel = computed(() => {
   return "Poor";
 });
 
-// Computed property to return the color based on the rating label
 const ratingColor = computed(() => {
   switch (ratingLabel.value) {
     case "Outstanding":
@@ -126,7 +120,6 @@ const ratingColor = computed(() => {
   }
 });
 
-// Computed property to determine the highest feedback score (positive, neutral, or negative)
 const feedbackScore = computed(() => {
   const feedback = collegeData.value?.feedback_summary[0];
   if (!feedback) return "Loading...";
@@ -233,7 +226,10 @@ onMounted(() => {
                       v-if="collegeData?.numerical_summary?.length"
                       :class="`text-2xl font-bold ${ratingColor}`"
                     >
-                      {{ collegeData.numerical_summary[0]?.total_avg }} -
+                      {{
+                        collegeData.numerical_summary[0]?.total_avg.toFixed(2)
+                      }}
+                      -
                       {{ ratingLabel }}
                     </p></TooltipTrigger
                   >

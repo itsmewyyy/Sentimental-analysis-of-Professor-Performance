@@ -143,6 +143,7 @@ const submitForm = async () => {
       first_name: firstName.value,
       extension_name: extensionName.value,
       status: statusId,
+      is_counted: null,
     };
 
     editData(Data, {

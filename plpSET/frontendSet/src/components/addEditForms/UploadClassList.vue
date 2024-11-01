@@ -126,6 +126,7 @@ const submitForm = async (studentData) => {
       first_name: studentData.firstName,
       extension_name: studentData.extensionName,
       status: statusId,
+      is_counted: null,
     };
 
     addData(Data, {

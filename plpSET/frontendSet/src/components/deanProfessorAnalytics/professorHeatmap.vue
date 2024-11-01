@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref, watch, nextTick } from "vue";
+import { onMounted, ref, watch, nextTick, onBeforeUnmount } from "vue";
 import axios from "axios";
 import ApexCharts from "apexcharts";
 
@@ -29,7 +29,7 @@ interface Professors {
   id: string;
   name: string;
   dept_id: string;
-  numerical_summary: NumericalSummary[];
+  numerical_summary: NumericalSummary;
 }
 
 interface Summary {
@@ -39,7 +39,7 @@ interface Summary {
 
 const professorData = ref<Professors | null>(null);
 const professorIdentifier = localStorage.getItem("professor");
-const yearsemIdentifier = "24-25-1";
+const yearsemIdentifier = localStorage.getItem("current_year_sem");
 
 const fetchProfessorData = async () => {
   try {
@@ -83,6 +83,7 @@ const initializeChart = async () => {
   if (chart) {
     chart.destroy();
   }
+
   const options = {
     series: generateSeriesData(),
     chart: {
@@ -119,14 +120,20 @@ const initializeChart = async () => {
     colors: ["#EBE186"],
   };
 
-  chart = new ApexCharts(document.querySelector("#professorHeatmap"), options);
-  await chart.render();
+  await nextTick();
+  const chartElement = document.querySelector("#professorHeatmap");
+  if (chartElement) {
+    chart = new ApexCharts(chartElement, options);
+    await chart.render();
+  } else {
+    console.error("Chart element not found.");
+  }
 };
 
 const generateSeriesData = () => {
   if (!professorData.value) return [];
 
-  return professorData.value.numerical_summary[0].category_avg
+  return professorData.value.numerical_summary.category_avg
     .slice()
     .reverse()
     .map((category) => ({
@@ -140,12 +147,18 @@ const generateSeriesData = () => {
 
 onMounted(async () => {
   await fetchProfessorData();
-  initializeChart();
+  await initializeChart();
 });
 
 watch(professorData, () => {
   if (chart) {
     chart.updateSeries(generateSeriesData());
+  }
+});
+
+onBeforeUnmount(() => {
+  if (chart) {
+    chart.destroy();
   }
 });
 </script>

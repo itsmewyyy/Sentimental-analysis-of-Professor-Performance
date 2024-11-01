@@ -56,7 +56,7 @@ interface Professors {
   dept_desc: string;
   avatarUrl: string;
   feedback_summary: FeedbackSummary[];
-  numerical_summary: NumericalSummary[];
+  numerical_summary: NumericalSummary;
 }
 
 interface Summary {
@@ -66,8 +66,7 @@ interface Summary {
 
 const professorData = ref<Professors | null>(null);
 const professorIdentifier = localStorage.getItem("professor");
-const yearsemIdentifier = "24-25-1";
-//const yearsemIdentifier = localStorage.getItem("year_sem");
+const yearsemIdentifier = localStorage.getItem("current_year_sem");
 
 const fetchProfessorData = async () => {
   try {
@@ -77,13 +76,11 @@ const fetchProfessorData = async () => {
     console.log("API response:", response.data);
 
     if (response.data.length && yearsemIdentifier) {
-      // Find the specific year_sem data
       const selectedYearSem = response.data.find(
         (summary: Summary) => summary.year_sem === yearsemIdentifier
       );
 
       if (selectedYearSem && professorIdentifier) {
-        // Within the selected year_sem, find the specific professor
         const selectedProfessor = selectedYearSem.professors.find(
           (professorSummary: Professors) =>
             professorSummary.id === professorIdentifier
@@ -111,9 +108,9 @@ const fetchProfessorData = async () => {
   }
 };
 
-//Determine the rating label
+// Determine the rating label
 const ratingLabel = computed(() => {
-  const avg = professorData.value?.numerical_summary[0].total_avg || 0;
+  const avg = professorData.value?.numerical_summary.total_avg || 0;
   if (avg >= 4.6) return "Outstanding";
   if (avg >= 4.0) return "Very Satisfactory";
   if (avg >= 3.4) return "Satisfactory";
@@ -139,24 +136,15 @@ const ratingColor = computed(() => {
 });
 
 const topCategory = computed(() => {
-  if (!professorData.value) {
-    console.log("professorData is null or undefined");
-    return null;
-  }
-  if (
-    !professorData.value.numerical_summary ||
-    professorData.value.numerical_summary.length === 0
-  ) {
-    console.log("numerical_summary is missing or empty in professorData");
-    return null;
-  }
-  const categoryAvg = professorData.value.numerical_summary[0].category_avg;
-  if (!categoryAvg || categoryAvg.length === 0) {
-    console.log("category_avg is missing or empty");
+  if (!professorData.value || !professorData.value.numerical_summary) {
+    console.log("professorData or numerical_summary is missing");
     return null;
   }
 
-  const sortedCategories = [...categoryAvg].sort(
+  const { category_avg } = professorData.value.numerical_summary;
+  if (!category_avg.length) return null;
+
+  const sortedCategories = [...category_avg].sort(
     (a, b) => b.average - a.average
   );
   console.log("Top category:", sortedCategories[0]);
@@ -164,24 +152,15 @@ const topCategory = computed(() => {
 });
 
 const bottomCategory = computed(() => {
-  if (!professorData.value) {
-    console.log("professorData is null or undefined");
-    return null;
-  }
-  if (
-    !professorData.value.numerical_summary ||
-    professorData.value.numerical_summary.length === 0
-  ) {
-    console.log("numerical_summary is missing or empty in professorData");
-    return null;
-  }
-  const categoryAvg = professorData.value.numerical_summary[0].category_avg;
-  if (!categoryAvg || categoryAvg.length === 0) {
-    console.log("category_avg is missing or empty");
+  if (!professorData.value || !professorData.value.numerical_summary) {
+    console.log("professorData or numerical_summary is missing");
     return null;
   }
 
-  const sortedCategories = [...categoryAvg].sort(
+  const { category_avg } = professorData.value.numerical_summary;
+  if (!category_avg.length) return null;
+
+  const sortedCategories = [...category_avg].sort(
     (a, b) => a.average - b.average
   );
   console.log("Bottom category:", sortedCategories[0]);
@@ -193,7 +172,6 @@ const feedbackScore = computed(() => {
   if (!feedback) return "Loading...";
 
   const totalFeedbacks = feedback.total_feedbacks || 1;
-
   const positivePercentage = (feedback.total_positive / totalFeedbacks) * 100;
   const neutralPercentage = (feedback.total_neutral / totalFeedbacks) * 100;
   const negativePercentage = (feedback.total_negative / totalFeedbacks) * 100;
@@ -226,6 +204,7 @@ const feedbackColor = computed(() => {
     return "text-gray-500";
   }
 });
+
 onMounted(() => {
   fetchProfessorData();
 });
@@ -238,7 +217,7 @@ onMounted(() => {
     <section class="p-20 pt-32 space-y-12">
       <div
         class="flex items-center justify-between"
-        v-if="professorData?.numerical_summary?.length"
+        v-if="professorData?.numerical_summary?.category_avg?.length"
       >
         <div class="flex items-center space-x-2">
           <Avatar class="w-16 h-16">
@@ -285,10 +264,15 @@ onMounted(() => {
               <Tooltip>
                 <TooltipTrigger>
                   <p
-                    v-if="professorData?.numerical_summary?.length"
+                    v-if="
+                      professorData?.numerical_summary?.category_avg?.length
+                    "
                     :class="`text-2xl font-bold ${ratingColor}`"
                   >
-                    {{ professorData.numerical_summary[0]?.total_avg }} -
+                    {{
+                      professorData.numerical_summary.category_avg[0]?.average
+                    }}
+                    -
                     {{ ratingLabel }}
                   </p></TooltipTrigger
                 >
@@ -309,7 +293,7 @@ onMounted(() => {
             <p class="text-sm text-darks-200/50 font-medium">Strength Areas</p>
             <p
               class="text-2xl font-bold text-plpgreen-200"
-              v-if="professorData?.numerical_summary?.length"
+              v-if="professorData?.numerical_summary?.category_avg?.length"
             >
               {{ topCategory.category_desc }}
             </p>
@@ -322,7 +306,7 @@ onMounted(() => {
             <p class="text-sm text-darks-200/50 font-medium">Focus Areas</p>
             <p
               class="text-2xl font-bold text-reds-800"
-              v-if="professorData?.numerical_summary?.length"
+              v-if="professorData?.numerical_summary?.category_avg?.length"
             >
               {{ bottomCategory.category_desc }}
             </p>

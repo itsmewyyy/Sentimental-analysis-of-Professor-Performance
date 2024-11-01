@@ -134,3 +134,15 @@ class LogoutAdmin(APIView):
             return Response({'message': 'Logout successful'}, status=status.HTTP_200_OK)
         return Response({'error': 'Not logged in'}, status=status.HTTP_400_BAD_REQUEST)
 
+
+class StudentsCount(APIView):
+    def get(self, request):
+        summary = [
+            {
+                'enrolled_students': 1000,
+                'registered_accounts': 800,
+                'submitted_evaluations': 600,
+            }
+        ]
+    
+        return Response(summary, status=status.HTTP_200_OK)

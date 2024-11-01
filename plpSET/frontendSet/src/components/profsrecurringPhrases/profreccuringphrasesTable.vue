@@ -9,29 +9,50 @@ const professorIdentifier = localStorage.getItem("professor");
 const yearsemIdentifier = "24-25-1";
 
 async function getData(): Promise<Phrase[]> {
+  if (!professorIdentifier) {
+    console.error("Professor ID not found in localStorage.");
+    return [];
+  }
+
   try {
     const response = await fetch(
       `http://127.0.0.1:8000/api/recurring-phrases/?year_sem=${yearsemIdentifier}&professor_id=${professorIdentifier}`
     );
+
     if (!response.ok) {
       throw new Error("Failed to fetch feedback data");
     }
 
     const result = await response.json();
 
-    if (result && Array.isArray(result) && result.length > 0) {
-      return result
-        .filter((item) => item.year_sem === yearsemIdentifier) // Ensure we filter by year_sem first
-        .flatMap((item) => item.professor_phrases) // Then flatten the professor phrases
-        .filter((professor) => professor.id === professorIdentifier) // Filter by professor ID
-        .flatMap((professor) =>
-          professor.recurring_phrases.map((recurring_phrase) => ({
-            count: recurring_phrase.count,
-            sentiment: recurring_phrase.sentiment,
-            phrase: recurring_phrase.phrase,
-          }))
-        );
+    if (Array.isArray(result) && result.length > 0) {
+      const phraseCounts: Record<
+        string,
+        { count: number; sentiment: string; phrase: string }
+      > = {};
+
+      result
+        .filter((item) => item.year_sem === yearsemIdentifier)
+        .flatMap((item) => item.professor_phrases)
+        .filter((professor) => professor.id === professorIdentifier)
+        .flatMap((professor) => professor.recurring_phrases)
+        .forEach((recurring_phrase) => {
+          const phraseKey = recurring_phrase.phrase;
+
+          if (phraseCounts[phraseKey]) {
+            phraseCounts[phraseKey].count += Number(recurring_phrase.count);
+          } else {
+            phraseCounts[phraseKey] = {
+              count: Number(recurring_phrase.count),
+              sentiment: recurring_phrase.sentiment,
+              phrase: recurring_phrase.phrase,
+            };
+          }
+        });
+
+      return Object.values(phraseCounts);
     }
+
     return [];
   } catch (error) {
     console.error("Error fetching data:", error);

@@ -29,7 +29,7 @@
             <AvatarFallback>PLP</AvatarFallback>
           </Avatar>
         </DropdownMenuTrigger>
-        <DropdownMenuContent class="w-48 mr-7 z-10">
+        <DropdownMenuContent class="w-48 mr-8 z-10">
           <DropdownMenuLabel>
             <div class="flex flex-col space-y-0 line-clamp-2">
               <span class="font-medium">MIS</span>
@@ -39,7 +39,7 @@
           <DropdownMenuSeparator class="bg-plpgreen-100 border-0.5" />
           <RouterLink to="/MISDashboardAnalytics">
             <DropdownMenuItem>
-              <div class="flex items-center space-x-3 cursor-pointer">
+              <div class="flex items-center space-x-3 cursor-pointer w-full">
                 <ChartNoAxesCombined size="16" />
                 <span class="text-sm">Analytics </span>
               </div>
@@ -47,7 +47,7 @@
           </RouterLink>
           <RouterLink to="/DatabaseManagement">
             <DropdownMenuItem>
-              <div class="flex items-center space-x-3 cursor-pointer">
+              <div class="flex items-center space-x-3 cursor-pointer w-full">
                 <Box size="16" />
                 <span class="text-sm">Databases</span>
               </div>
@@ -55,21 +55,21 @@
           </RouterLink>
           <RouterLink to="/StudentDatabase">
             <DropdownMenuItem>
-              <div class="flex items-center space-x-3 cursor-pointer">
+              <div class="flex items-center space-x-3 cursor-pointer w-full">
                 <GraduationCap size="16" />
                 <span class="text-sm">Students</span>
               </div>
             </DropdownMenuItem>
           </RouterLink>
           <DropdownMenuItem>
-            <div class="flex items-center space-x-3">
+            <div class="flex items-center space-x-3 w-full cursor-pointer">
               <Download size="16" />
               <span class="text-sm">Generate Reports</span>
             </div>
           </DropdownMenuItem>
           <DropdownMenuSeparator class="bg-plpgreen-100" />
           <DropdownMenuItem>
-            <div class="flex items-center space-x-2">
+            <div class="flex items-center space-x-2 w-full cursor-pointer">
               <LogOut size="16" />
               <span class="text-sm">Logout</span>
             </div>

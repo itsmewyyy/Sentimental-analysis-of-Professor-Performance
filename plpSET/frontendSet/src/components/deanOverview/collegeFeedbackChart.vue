@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, watch, nextTick } from "vue";
+import { ref, onMounted, watch, nextTick, onBeforeUnmount } from "vue";
 import axios from "axios";
 import ApexCharts from "apexcharts";
 
@@ -32,48 +32,50 @@ interface Summary {
 
 const collegeData = ref<College | null>(null);
 const collegeIdentifier = localStorage.getItem("college");
-const yearsemIdentifier = "24-25-1";
-//const yearsemIdentifier = localStorage.getItem("year_sem");
+const yearsemIdentifier = localStorage.getItem("current_year_sem");
+console.log("College Identifier:", collegeIdentifier);
+console.log("Year Semester Identifier:", yearsemIdentifier);
 
 const fetchCollegeData = async () => {
   try {
     const response = await axios.get(
       "http://127.0.0.1:8000/api/college-ratings-summary/"
     );
+    console.log("API Response:", response.data);
 
-    if (response.data.length && yearsemIdentifier) {
-      // Find the year_sem
-      const selectedYearSem = response.data.find(
-        (summary: Summary) => summary.year_sem === yearsemIdentifier
-      );
+    if (response.data && response.data.summary) {
+      const yearsemIdentifier = localStorage.getItem("current_year_sem");
+      const collegeIdentifier = localStorage.getItem("college");
 
-      if (selectedYearSem && collegeIdentifier) {
-        // Within the selected year_sem, find the specific professor
-        const selectedCollege = selectedYearSem.summary.find(
+      const selectedYearSem = response.data.year_sem === yearsemIdentifier;
+
+      if (selectedYearSem) {
+        const selectedCollege = response.data.summary.find(
           (collegeSummary: College) => collegeSummary.name === collegeIdentifier
         );
 
-        console.log("Selected Professor:", selectedCollege);
-
         if (selectedCollege) {
           collegeData.value = selectedCollege;
-          console.log("professorData updated:", collegeData.value);
         } else {
           console.error(
-            "No matching professor found for the identifier:",
+            "No matching college found for the identifier:",
             collegeIdentifier
           );
         }
       } else {
-        console.error("No matching year_sem found or invalid identifiers.");
+        console.error(
+          "No matching year_sem found for identifier:",
+          yearsemIdentifier
+        );
       }
     } else {
-      console.error("No data received or year_sem identifier is invalid.");
+      console.error("No data received or invalid year_sem identifier.");
     }
   } catch (error) {
-    console.error("Error fetching professor data:", error);
+    console.error("Error fetching college data:", error);
   }
 };
+
 let chart: ApexCharts | null = null;
 
 const renderChart = (feedbackSummary: FeedbackSummary[]) => {
@@ -174,6 +176,12 @@ onMounted(() => {
 watch(collegeData, (newCollege) => {
   if (newCollege) {
     renderChart(newCollege.feedback_summary);
+  }
+});
+
+onBeforeUnmount(() => {
+  if (chart) {
+    chart.destroy();
   }
 });
 </script>

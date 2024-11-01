@@ -4,6 +4,7 @@ import { ref } from "vue";
 import { cn } from "@/lib/utils";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "@/store/adminStore";
+import axios from "axios";
 
 const router = useRouter();
 const adminUsername = ref("");
@@ -15,11 +16,21 @@ const login = async () => {
   try {
     await authAdminLogin.login(adminUsername.value, password.value);
 
+    const yearSemResponse = await axios.get(
+      "http://127.0.0.1:8000/api/current-year-sem/"
+    );
+
+    if (yearSemResponse.status === 200) {
+      const currentYearSem = yearSemResponse.data;
+
+      localStorage.setItem("current_year_sem", currentYearSem.year_sem_id);
+    }
+
     // Get user_type from the authenticated user or localStorage
     const userType =
       authAdminLogin.user?.user_type || localStorage.getItem("user_type");
 
-    // Conditional routing based on user_type
+    // Redirect based on user_type
     if (userType === "MIS") {
       router.push("/MISDashboard");
     } else if (userType === "Dean") {
@@ -30,7 +41,7 @@ const login = async () => {
       router.push("/MISDashboard");
     }
   } catch (error) {
-    console.error(error);
+    console.error("Login or fetching current_year_sem failed:", error);
   }
 };
 </script>

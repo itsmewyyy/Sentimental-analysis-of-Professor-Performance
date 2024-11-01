@@ -2,7 +2,7 @@ import { h } from "vue";
 import type { ColumnDef } from "@tanstack/vue-table";
 
 export interface Phrase {
-  count: string;
+  count: number;
   sentiment: string;
   phrase: string;
 }

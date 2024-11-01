@@ -6,6 +6,7 @@ class student_acc(models.Model):
     plp_email = models.EmailField(default='example_example@plpasig.edu.ph')
     date_of_birth = models.DateField(null=True)
     password = models.CharField(max_length=100)
+    is_counted = models.BooleanField(default=False)
 
     def __str__(self):
         return f'{self.student_acc_number}'

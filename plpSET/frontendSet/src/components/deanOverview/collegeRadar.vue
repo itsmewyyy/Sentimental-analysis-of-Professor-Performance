@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref, watch, nextTick } from "vue";
+import { onMounted, ref, watch, nextTick, onBeforeUnmount } from "vue";
 import axios from "axios";
 import ApexCharts from "apexcharts";
 
@@ -16,7 +16,7 @@ interface CategoryAvg {
 
 interface NumericalSummary {
   total_avg: number;
-  category_avg: [];
+  category_avg: CategoryAvg[];
 }
 
 interface College {
@@ -30,50 +30,46 @@ interface Summary {
   summary: College[];
 }
 const collegeData = ref<College | null>(null);
-const collegeIdentifier = localStorage.getItem("college");
-const yearsemIdentifier = "24-25-1";
-//const yearsemIdentifier = localStorage.getItem("year_sem");
 
 const fetchCollegeData = async () => {
   try {
     const response = await axios.get(
       "http://127.0.0.1:8000/api/college-ratings-summary/"
     );
+    console.log("API Response:", response.data);
 
-    if (response.data.length && yearsemIdentifier) {
-      // Find the year_sem
-      const selectedYearSem = response.data.find(
-        (summary: Summary) => summary.year_sem === yearsemIdentifier
-      );
+    if (response.data && response.data.summary) {
+      const yearsemIdentifier = localStorage.getItem("current_year_sem");
+      const collegeIdentifier = localStorage.getItem("college");
 
-      if (selectedYearSem && collegeIdentifier) {
-        // Within the selected year_sem, find the specific professor
-        const selectedCollege = selectedYearSem.summary.find(
+      const selectedYearSem = response.data.year_sem === yearsemIdentifier;
+
+      if (selectedYearSem) {
+        const selectedCollege = response.data.summary.find(
           (collegeSummary: College) => collegeSummary.name === collegeIdentifier
         );
 
-        console.log("Selected Professor:", selectedCollege);
-
         if (selectedCollege) {
           collegeData.value = selectedCollege;
-          console.log("professorData updated:", collegeData.value);
         } else {
           console.error(
-            "No matching professor found for the identifier:",
+            "No matching college found for the identifier:",
             collegeIdentifier
           );
         }
       } else {
-        console.error("No matching year_sem found or invalid identifiers.");
+        console.error(
+          "No matching year_sem found for identifier:",
+          yearsemIdentifier
+        );
       }
     } else {
-      console.error("No data received or year_sem identifier is invalid.");
+      console.error("No data received or invalid year_sem identifier.");
     }
   } catch (error) {
-    console.error("Error fetching professor data:", error);
+    console.error("Error fetching college data:", error);
   }
 };
-
 let chart: ApexCharts | null = null;
 
 const renderChart = (categoryAvg: CategoryAvg[]) => {
@@ -89,11 +85,11 @@ const renderChart = (categoryAvg: CategoryAvg[]) => {
   }, {} as Record<string, number>);
 
   // Assigning values per category
-  const categoryA = averages["A"] || 0;
-  const categoryB = averages["B"] || 0;
-  const categoryC = averages["C"] || 0;
-  const categoryD = averages["D"] || 0;
-  const categoryE = averages["E"] || 0;
+  const categoryA = averages["A."] || 0;
+  const categoryB = averages["B."] || 0;
+  const categoryC = averages["C."] || 0;
+  const categoryD = averages["D."] || 0;
+  const categoryE = averages["E."] || 0;
 
   const xAxisCategories = categoryAvg.map((category) => category.category_desc);
 
@@ -172,6 +168,11 @@ onMounted(() => {
   fetchCollegeData();
 });
 
+onBeforeUnmount(() => {
+  if (chart) {
+    chart.destroy(); // Clean up the chart instance on component unmount
+  }
+});
 // Watch for changes in collegeData and update the chart accordingly
 watch(collegeData, (newCollege) => {
   if (newCollege && newCollege.numerical_summary.length > 0) {

@@ -6,7 +6,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref, watch, nextTick } from "vue";
+import { onMounted, ref, watch, nextTick, onBeforeUnmount } from "vue";
 import axios from "axios";
 import ApexCharts from "apexcharts";
 
@@ -26,17 +26,17 @@ interface Professors {
   id: string;
   name: string;
   dept_id: string;
-  numerical_summary: NumericalSummary[];
+  numerical_summary: NumericalSummary;
 }
 
 interface Summary {
   year_sem: string;
   professors: Professors[];
 }
+
 const professorData = ref<Professors | null>(null);
 const professorIdentifier = localStorage.getItem("professor");
-const yearsemIdentifier = "24-25-1";
-//const yearsemIdentifier = localStorage.getItem("year_sem");
+const yearsemIdentifier = localStorage.getItem("current_year_sem");
 
 const fetchProfessorData = async () => {
   try {
@@ -45,13 +45,11 @@ const fetchProfessorData = async () => {
     );
 
     if (response.data.length && yearsemIdentifier) {
-      // Find the year_sem
       const selectedYearSem = response.data.find(
         (summary: Summary) => summary.year_sem === yearsemIdentifier
       );
 
       if (selectedYearSem && professorIdentifier) {
-        // Within the selected year_sem, find the specific professor
         const selectedProfessor = selectedYearSem.professors.find(
           (professorSummary: Professors) =>
             professorSummary.id === professorIdentifier
@@ -59,6 +57,7 @@ const fetchProfessorData = async () => {
 
         if (selectedProfessor) {
           professorData.value = selectedProfessor;
+          console.log("Professor Data:", professorData.value);
         } else {
           console.error(
             "No matching professor found for the identifier:",
@@ -84,22 +83,21 @@ const renderChart = (categoryAvg: CategoryAvg[]) => {
     return;
   }
 
-  // Extracting averages for each category
   const averages = categoryAvg.reduce((acc, category) => {
     acc[category.category_id] = category.average;
     return acc;
   }, {} as Record<string, number>);
 
-  // Assigning values per category
-  const categoryA = averages["A"] || 0;
-  const categoryB = averages["B"] || 0;
-  const categoryC = averages["C"] || 0;
-  const categoryD = averages["D"] || 0;
-  const categoryE = averages["E"] || 0;
+  const dataSeries = [
+    averages["A."] || 0,
+    averages["B."] || 0,
+    averages["C."] || 0,
+    averages["D."] || 0,
+    averages["E."] || 0,
+  ];
 
   const xAxisCategories = categoryAvg.map((category) => category.category_desc);
 
-  // Prepare the chart options
   const options = {
     chart: {
       type: "radar",
@@ -113,13 +111,10 @@ const renderChart = (categoryAvg: CategoryAvg[]) => {
         },
       },
     },
-    zoom: {
-      enabled: true,
-    },
     series: [
       {
         name: "Average Rating",
-        data: [categoryA, categoryB, categoryC, categoryD, categoryE],
+        data: dataSeries,
       },
     ],
     xaxis: {
@@ -159,13 +154,12 @@ const renderChart = (categoryAvg: CategoryAvg[]) => {
     const chartElement = document.querySelector("#professorradar");
     if (chartElement) {
       if (chart) {
-        chart.updateOptions(options);
-      } else {
-        chart = new ApexCharts(chartElement, options);
-        chart.render();
+        chart.destroy(); // Destroy previous instance if exists
       }
+      chart = new ApexCharts(chartElement, options);
+      chart.render();
     } else {
-      console.error("Chart element still not found.");
+      console.error("Chart element not found.");
     }
   });
 };
@@ -174,9 +168,20 @@ onMounted(() => {
   fetchProfessorData();
 });
 
-watch(professorData, (newprofessor) => {
-  if (newprofessor && newprofessor.numerical_summary.length > 0) {
-    renderChart(newprofessor.numerical_summary[0].category_avg);
+watch(professorData, (newProfessor) => {
+  if (
+    newProfessor &&
+    newProfessor.numerical_summary &&
+    Array.isArray(newProfessor.numerical_summary.category_avg) &&
+    newProfessor.numerical_summary.category_avg.length > 0
+  ) {
+    renderChart(newProfessor.numerical_summary.category_avg);
+  }
+});
+
+onBeforeUnmount(() => {
+  if (chart) {
+    chart.destroy(); // Clean up the chart instance on component unmount
   }
 });
 </script>

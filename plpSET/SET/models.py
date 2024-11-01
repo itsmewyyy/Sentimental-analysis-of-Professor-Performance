@@ -1,5 +1,6 @@
 from django.db import models
 from datetime import datetime
+from django.utils import timezone
 
 class year_level(models.Model): 
     year_level_id = models.PositiveSmallIntegerField(primary_key=True)
@@ -47,6 +48,7 @@ class student_info(models.Model):
     extension_name = models.CharField(max_length=5, blank=True, null=True)
     section = models.ForeignKey(section, on_delete=models.CASCADE, related_name='students')
     status = models.ForeignKey(student_status, on_delete=models.CASCADE, related_name='students')
+    is_counted = models.BooleanField(default=False)
 
     def full_name(self):
         names = [self.surname, self.first_name]
@@ -167,3 +169,12 @@ class feedbacks(models.Model):
     def __str__(self):
         return f'{self.feedback_id}'
 
+
+class EvaluationPeriod(models.Model):
+    start_date = models.DateTimeField()
+    end_date = models.DateTimeField()
+    year_semester = models.CharField(max_length=20)
+
+    def is_active(self):
+        now = timezone.now()
+        return self.start_date <= now <= self.end_date

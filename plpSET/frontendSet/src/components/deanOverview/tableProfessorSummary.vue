@@ -36,9 +36,6 @@ interface Summary {
 
 const router = useRouter();
 const collegeData = ref<College | null>(null);
-const collegeIdentifier = localStorage.getItem("college");
-const yearsemIdentifier = "24-25-1";
-//const yearsemIdentifier = localStorage.getItem("year_sem");
 
 const fetchCollegeData = async () => {
   try {
@@ -46,15 +43,14 @@ const fetchCollegeData = async () => {
       "http://127.0.0.1:8000/api/college-ratings-summary/"
     );
 
-    if (response.data.length && yearsemIdentifier) {
-      // First, find the specific year_sem data
-      const selectedYearSem = response.data.find(
-        (summary: Summary) => summary.year_sem === yearsemIdentifier
-      );
+    if (response.data && response.data.summary) {
+      const yearsemIdentifier = localStorage.getItem("current_year_sem");
+      const collegeIdentifier = localStorage.getItem("college");
 
-      if (selectedYearSem && collegeIdentifier) {
-        // Next, find the specific college within the selected year_sem
-        const selectedCollege = selectedYearSem.summary.find(
+      const selectedYearSem = response.data.year_sem === yearsemIdentifier;
+
+      if (selectedYearSem) {
+        const selectedCollege = response.data.summary.find(
           (collegeSummary: College) => collegeSummary.name === collegeIdentifier
         );
 
@@ -68,10 +64,13 @@ const fetchCollegeData = async () => {
           );
         }
       } else {
-        console.error("No matching year_sem found or invalid identifiers.");
+        console.error(
+          "No matching year_sem found for identifier:",
+          yearsemIdentifier
+        );
       }
     } else {
-      console.error("No data received or year_sem identifier is invalid.");
+      console.error("No data received or invalid year_sem identifier.");
     }
   } catch (error) {
     console.error("Error fetching college data:", error);
@@ -156,7 +155,9 @@ const onRowClick = (professor: Professor) => {
             </TableCell>
             <TableCell>
               <div class="flex flex-col items-center">
-                <p class="text-xs font-bold">{{ professor.total_avg }}</p>
+                <p class="text-xs font-bold">
+                  {{ professor.total_avg.toFixed(2) }}
+                </p>
                 <p :class="professor.rating_color" class="text-xs">
                   {{ professor.rating_label }}
                 </p>

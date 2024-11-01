@@ -6,7 +6,7 @@ import DataTable from "@/components/collegerecurringPhrases/DataTable.vue";
 
 const data = ref<Phrase[]>([]);
 const collegeIdentifier = localStorage.getItem("college");
-const yearsemIdentifier = "24-25-1";
+const yearsemIdentifier = localStorage.getItem("current_year_sem");
 
 async function getData(): Promise<Phrase[]> {
   try {
@@ -20,17 +20,30 @@ async function getData(): Promise<Phrase[]> {
     const result = await response.json();
 
     if (result && Array.isArray(result) && result.length > 0) {
-      return result
-        .filter((item) => item.year_sem === yearsemIdentifier) // Filter by year_sem
-        .flatMap((item) => item.college_phrases) // Flatten professor phrases
-        .filter((college) => college.dept_id === collegeIdentifier) // Filter by dept_id
-        .flatMap((college) =>
-          college.recurring_phrases.map((recurring_phrase) => ({
-            count: recurring_phrase.count,
-            sentiment: recurring_phrase.sentiment,
-            phrase: recurring_phrase.phrase,
-          }))
-        );
+      // Create a map to store aggregated phrase counts
+      const phraseCounts: {
+        [key: string]: { count: number; sentiment: string; phrase: string };
+      } = {};
+
+      result
+        .filter((item) => item.year_sem === yearsemIdentifier)
+        .flatMap((item) => item.college_phrases)
+        .filter((college) => college.dept_id === collegeIdentifier)
+        .flatMap((college) => college.recurring_phrases)
+        .forEach((recurring_phrase) => {
+          const phraseKey = recurring_phrase.phrase;
+          if (phraseCounts[phraseKey]) {
+            phraseCounts[phraseKey].count += Number(recurring_phrase.count);
+          } else {
+            phraseCounts[phraseKey] = {
+              count: Number(recurring_phrase.count),
+              sentiment: recurring_phrase.sentiment,
+              phrase: recurring_phrase.phrase,
+            };
+          }
+        });
+
+      return Object.values(phraseCounts);
     }
     return [];
   } catch (error) {

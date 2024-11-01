@@ -1,6 +1,6 @@
 from django.urls import path
-from .views import CategoriesAndQuestionsView, ProfSubjs, AdminDetailView, EnrolledSubjsPost, ProfessorStatusView, YearLevelView, StudentListView, CollegeDetailView, SubjectDetailView, ProfessorDetailView, ProgramDetailView, SectionDetailView, NumericalCategoryDetailView, FeedbackQuestionsView, CollegeListView, SectionStudentsView, StudentStatusView, SubmitRatingsView, EnrolledSubjsView, AdminListView, ProfessorListView, DepartmentListView, ProgramListView, SectionListView, SubjectListView, NumericalCategoryView, NumericalQuestionsView, StudentDetailView, NumericalQuestionDetailView, FeedbackQuestionDetailView
-
+from . import views
+from .views import CategoriesAndQuestionsView, get_current_year_sem, ProfSubjs, SetAcademicTermView, EvaluationStatusView, AdminDetailView, EnrolledSubjsPost, ProfessorStatusView, YearLevelView, StudentListView, CollegeDetailView, SubjectDetailView, ProfessorDetailView, ProgramDetailView, SectionDetailView, NumericalCategoryDetailView, FeedbackQuestionsView, CollegeListView, SectionStudentsView, StudentStatusView, SubmitRatingsView, EnrolledSubjsView, AdminListView, ProfessorListView, DepartmentListView, ProgramListView, SectionListView, SubjectListView, NumericalCategoryView, NumericalQuestionsView, StudentDetailView, NumericalQuestionDetailView, FeedbackQuestionDetailView
 
 urlpatterns = [
     path('categories-and-questions/', CategoriesAndQuestionsView.as_view(), name='categories-and-questions'),
@@ -44,5 +44,8 @@ urlpatterns = [
     path('subjectcrud/<str:subject_code>/', SubjectDetailView.as_view()),
     path('prof-subjs/', ProfSubjs.as_view()),
     path('enrolled-subjs/', EnrolledSubjsPost.as_view()),
+    path('set-academic-term/', SetAcademicTermView.as_view(), name='set_academic_term'),
+    path('evaluation-status/', EvaluationStatusView.as_view(), name='evaluation_status'),
+    path('current-year-sem/', views.get_current_year_sem, name='current-year-sem'),
 
 ]

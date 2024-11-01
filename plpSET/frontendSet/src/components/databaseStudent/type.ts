@@ -7,4 +7,5 @@ export interface Student {
   first_name: string;
   extension_name: string;
   status: string;
+  is_counted: boolean;
 }

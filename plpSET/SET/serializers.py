@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from datetime import datetime
-from .models import section, programs, year_level, professor_status, department, student_info, numerical_ratings, feedbacks, student_enrolled_subjs, numerical_questions, feedback_questions, professor_subjs, professor_info, subjects, categories, student_status
+from .models import section, programs, year_level, academic_year, academic_yearsem, professor_status, department, student_info, numerical_ratings, feedbacks, student_enrolled_subjs, numerical_questions, feedback_questions, professor_subjs, professor_info, subjects, categories, student_status
 from userLogin.models import admin_acc
 from django.utils import timezone
 
@@ -206,3 +206,45 @@ class ProfSubjsSerizalier(serializers.ModelSerializer):
         model = professor_subjs
         fields = ['prof_subjects_id', 'year_sem_id', 'professor_id', 'subject_code', 'section_id']
 
+
+
+class AcademicYearSemSerializer(serializers.ModelSerializer):
+    acad_year = serializers.CharField(write_only=True)  # Accept the academic year as a string
+
+    class Meta:
+        model = academic_yearsem
+        fields = ['year_sem_id', 'acad_year', 'semester_desc']
+
+    def create(self, validated_data):
+        # Extract acad_year and semester_desc from validated data
+        acad_year_code = validated_data.pop('acad_year')  # This is the year (e.g., "24-25")
+        semester_desc = validated_data['semester_desc']   # This will be "1st Semester" or "2nd Semester"
+
+        # Retrieve or create the academic year instance
+        acad_year_instance, created = academic_year.objects.get_or_create(
+            acad_year=acad_year_code,
+            defaults={'academic_year_desc': f"Academic Year {acad_year_code}"}
+        )
+
+        # Set the academic year instance in the validated data
+        validated_data['acad_year'] = acad_year_instance
+
+        # Create year_sem_id using the submitted academic year and semester number
+        semester_number = validated_data['year_sem_id'].split('-')[-1]  # Assuming year_sem_id is in the format "24-25-1" or "24-25-2"
+        validated_data['year_sem_id'] = f"{acad_year_code}-{semester_number}"  # e.g., "24-25-1" or "24-25-2"
+        
+        return super().create(validated_data)
+    
+
+from .models import EvaluationPeriod
+
+class EvaluationPeriodSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EvaluationPeriod
+        fields = ['start_date', 'end_date', 'year_semester']
+        
+    def validate(self, data):
+        # Ensure start_date is before end_date
+        if data['start_date'] >= data['end_date']:
+            raise serializers.ValidationError("The start date must be before the end date.")
+        return data
