@@ -178,3 +178,10 @@ class EvaluationPeriod(models.Model):
     def is_active(self):
         now = timezone.now()
         return self.start_date <= now <= self.end_date
+
+class EnrollmentSummary(models.Model):
+    year_sem_id = models.CharField(max_length=20)  
+    total_students = models.IntegerField(default=0)
+
+class RegisteredAccountSummary(models.Model):
+    total_registered_accounts = models.IntegerField(default=0)

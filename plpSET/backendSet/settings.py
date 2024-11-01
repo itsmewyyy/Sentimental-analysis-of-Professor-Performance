@@ -168,6 +168,10 @@ CELERY_BEAT_SCHEDULE = {
     },
     'update_professor_recurring_phrases': {
         'task': 'SET.tasks.update_professor_recurring_phrases',
+        'schedule': crontab(minute='*/15'),  
+    },
+    'count_students_and_accounts': {
+        'task': 'SET.tasks.count_students_and_accounts',
         'schedule': crontab(minute='*/1'),  
     },
 }

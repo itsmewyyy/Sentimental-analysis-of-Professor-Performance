@@ -334,3 +334,17 @@ class collegePhrases(APIView):
 
         # Return the response
         return Response(recurring_phrases_list)
+    
+
+
+
+
+
+
+
+
+
+
+
+
+

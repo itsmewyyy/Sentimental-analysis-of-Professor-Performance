@@ -13,6 +13,8 @@ from reportsAnalysis.models import ( college_numerical_total, RecurringPhrase, c
     professor_numerical_summary_category,
     professor_feedback_total,
     professor_feedback_summary, professor_numerical_summary_questions, processed_feedbacks)
+from .models import student_info,  EnrollmentSummary, RegisteredAccountSummary
+from userLogin.models import student_acc
 from joblib import load
 from datetime import timedelta
 from django.db import transaction
@@ -441,3 +443,39 @@ def update_professor_recurring_phrases():
             recurring_phrase.sentiment_rating = sentiment_rating  
             
             recurring_phrase.save() 
+
+
+
+@shared_task
+def count_students_and_accounts():
+    with transaction.atomic():
+        # Count enrolled students by year and semester (year_sem_id) who have not been counted
+        enrolled_students = student_info.objects.filter(is_counted=False).values('year_sem_id').annotate(total=Count('student_id'))
+        
+        # Iterate through each year_sem_id group
+        for entry in enrolled_students:
+            year_sem_id = entry['year_sem_id']
+            total_students = entry['total']
+
+            # Store each count in EnrollmentSummary
+            summary, created = EnrollmentSummary.objects.get_or_create(
+                year_sem_id=year_sem_id,
+                defaults={'total_students': total_students}
+            )
+            if not created:
+                summary.total_students += total_students
+                summary.save()
+
+            # Mark students as counted to avoid recounting
+            student_info.objects.filter(year_sem_id=year_sem_id, is_counted=False).update(is_counted=True)
+
+        # Count total registered accounts that haven’t been counted
+        total_accounts = student_acc.objects.filter(is_counted=False).count()
+
+        # Update or create an entry for total registered accounts
+        RegisteredAccountSummary.objects.update_or_create(
+            defaults={'total_registered_accounts': total_accounts}
+        )
+
+        # Mark accounts as counted to prevent re-counting
+        student_acc.objects.filter(is_counted=False).update(is_counted=True)
