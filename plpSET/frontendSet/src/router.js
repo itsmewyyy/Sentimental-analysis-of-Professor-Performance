@@ -12,6 +12,9 @@ import dashboardDeanProfessorData from "./pages/dashboardDeanProfessorData.vue";
 import dashboardMIS from "./pages/dashboardMIS.vue";
 import dashboardMISDatabaseManagement from "./pages/dashboardMISDatabaseManagement.vue";
 import dashboardMISAnalytics from "./pages/dashboardMISAnalytics.vue";
+import dashboardMISCollegeData from "./pages/dashboardMISCollegeData.vue";
+import dashboardMISProfessorData from "./pages/dashboardMISProfessorData.vue";
+import StudentProfile from "./pages/StudentProfile.vue";
 import { createRouter, createWebHistory } from "vue-router";
 
 const routes = [
@@ -107,8 +110,25 @@ const routes = [
     name: "DeanDashboard",
   },
   {
+    path: "/MISDashboard-College-Analytics",
+    component: dashboardMISCollegeData,
+    meta: {
+      title:
+        "College Analytics | Pamantasan ng Lungsod ng Pasig Student Evaluation of Teaching",
+    },
+    name: "MISCollegeDataDashboard",
+  },
+  {
     path: "/DeanDashboard-ProfessorAnalytics",
     component: dashboardDeanProfessorData,
+    meta: {
+      title:
+        "Professor Analytics | Pamantasan ng Lungsod ng Pasig Student Evaluation of Teaching",
+    },
+  },
+  {
+    path: "/MISDashboard-Professor-Analytics",
+    component: dashboardMISProfessorData,
     meta: {
       title:
         "Professor Analytics | Pamantasan ng Lungsod ng Pasig Student Evaluation of Teaching",
@@ -128,6 +148,14 @@ const routes = [
     meta: {
       title:
         "Analytics | Pamantasan ng Lungsod ng Pasig Student Evaluation of Teaching",
+    },
+  },
+  {
+    path: "/StudentProfile",
+    component: StudentProfile,
+    meta: {
+      title:
+        "Student Profile | Pamantasan ng Lungsod ng Pasig Student Evaluation of Teaching",
     },
   },
 ];

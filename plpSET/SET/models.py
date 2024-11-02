@@ -48,7 +48,6 @@ class student_info(models.Model):
     extension_name = models.CharField(max_length=5, blank=True, null=True)
     section = models.ForeignKey(section, on_delete=models.CASCADE, related_name='students')
     status = models.ForeignKey(student_status, on_delete=models.CASCADE, related_name='students')
-    is_counted = models.BooleanField(default=False)
 
     def full_name(self):
         names = [self.surname, self.first_name]
@@ -179,9 +178,9 @@ class EvaluationPeriod(models.Model):
         now = timezone.now()
         return self.start_date <= now <= self.end_date
 
-class EnrollmentSummary(models.Model):
-    year_sem_id = models.CharField(max_length=20)  
-    total_students = models.IntegerField(default=0)
+class SubmissionSummary(models.Model):
+    total_submissions = models.IntegerField(default=0)
+    updated_at = models.DateTimeField(auto_now=True)  
 
-class RegisteredAccountSummary(models.Model):
-    total_registered_accounts = models.IntegerField(default=0)
+    def __str__(self):
+        return f'Total Submissions: {self.total_submissions}'

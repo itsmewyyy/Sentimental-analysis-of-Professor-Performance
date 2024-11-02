@@ -20,9 +20,10 @@ async function fetchCategories(): Promise<Student[]> {
 }
 
 const { data } = useQuery<Student[]>({
-  queryKey: ["items"],
+  queryKey: ["items", sectionId],
   queryFn: fetchCategories,
   initialData: [],
+  refetchOnWindowFocus: true,
 });
 </script>
 

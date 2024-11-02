@@ -25,7 +25,7 @@ import feedbackquestionlist from "@/components/databaseManagement/feedbackquesti
 <template>
   <Toaster />
   <MISNavbar></MISNavbar>
-  <section class="p-20 pt-14">
+  <section class="p-20 pt-32">
     <div
       class="w-full border border-black/25 rounded-md space-y-8 pb-4 px-9 pt-9"
     >

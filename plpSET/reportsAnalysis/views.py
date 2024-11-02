@@ -7,81 +7,96 @@ from .models import academic_yearsem, filtered_feedbacks, college_numerical_tota
 
 class CollegeRatingsSummaryView(APIView):
     def get(self, request, *args, **kwargs):
-        year_sem_id = kwargs.get('year_sem_id')  # Pass the year_sem_id as a URL parameter
-        year_sem_data = academic_yearsem.objects.all()  # Fetch the academic year-semester
-        
+        year_sem_id = kwargs.get('year_sem_id')  
+        year_sem_data = academic_yearsem.objects.all()  
+        if not year_sem_data.exists():
+            return Response({"error": "Year-Semester not found"}, status=404)
+
+        year_sem = year_sem_data.first()
         summary = []
 
-        # Get the college details (modify this according to your actual college fetching logic)
-        colleges = department.objects.all()  # Assuming departments correspond to colleges
+  
+        colleges = department.objects.all()
         
-        for year_sem in year_sem_data:
-            for college in colleges:
-                college_summary = {
-                    "name": college.department_id,
-                    "description": college.department_desc,  # Modify as necessary if you have a different description
-                    "numerical_summary": [],
-                    "feedback_summary": [],
-                    "professor_list": []
-                }
+        for college in colleges:
+            college_summary = {
+                "name": college.department_id,
+                "description": college.department_desc,  # Modify as necessary if you have a different description
+                "numerical_summary": [],
+                "feedback_summary": [],
+                "professor_list": []
+            }
 
-                # Fetching the numerical summary
-                college_numerical_totals = college_numerical_total.objects.filter(year_sem_id=year_sem, department=college)
-                total_avg = 0
-                category_averages = []
+            # Fetching the numerical summary
+            college_numerical_totals = college_numerical_total.objects.filter(year_sem_id=year_sem, department=college)
+            total_avg = 0
+            category_averages = []
 
-                for total in college_numerical_totals:
-                    total_avg = total.total_average
+            for total in college_numerical_totals:
+                total_avg = total.total_average
 
-                    # Fetching category averages
-                    category_summaries = college_numerical_summary.objects.filter(year_sem_id=year_sem, department=college)
-                    for category in category_summaries:
-                        category_avg_data = {
-                            "category_id": category.category.category_id,
-                            "category_desc": category.category.category_desc,
-                            "average": category.college_average,
-                        }
-                        category_averages.append(category_avg_data)
-
-                college_summary["numerical_summary"].append({
-                    "total_avg": total_avg,
-                    "category_avg": category_averages
-                })
-
-                # Fetching feedback summary
-                feedback_totals = college_feedback_total.objects.filter(year_sem_id=year_sem, department=college).first()
-                if feedback_totals:
-                    college_summary["feedback_summary"].append({
-                        "total_feedbacks": feedback_totals.total_feedbacks,
-                        "total_positive": feedback_totals.total_positive,
-                        "total_neutral": feedback_totals.total_neutral,
-                        "total_negative": feedback_totals.total_negative,
-                    })
-
-                # Fetching professors related to the college
-                professor_totals = professor_numerical_total.objects.filter(year_sem_id=year_sem, prof_id__department=college)
-                for prof_total in professor_totals:
-                    full_name = f"{prof_total.prof_id.surname} {prof_total.prof_id.first_name} {prof_total.prof_id.middle_name or ''}".strip()
-                    professor = prof_total.prof_id
-                    professor_data = {
-                        "id": professor.professor_id,
-                        "name": full_name,  # Assuming surname is used for name
-                        #"avatarUrl": professor.avatar_url,  # Ensure this field exists
-                        #"initials": professor.initials,  # Ensure this field exists
-                        "total_avg": prof_total.total_average,
-                        "total_feedbacks": feedback_totals.total_feedbacks if feedback_totals else 0,
-                        "total_positive": feedback_totals.total_positive if feedback_totals else 0,
-                        "total_neutral": feedback_totals.total_neutral if feedback_totals else 0,
-                        "total_negative": feedback_totals.total_negative if feedback_totals else 0,
+                # Fetching category averages
+                category_summaries = college_numerical_summary.objects.filter(year_sem_id=year_sem, department=college)
+                for category in category_summaries:
+                    category_avg_data = {
+                        "category_id": category.category.category_id,
+                        "category_desc": category.category.category_desc,
+                        "average": category.college_average,
                     }
-                    college_summary["professor_list"].append(professor_data)
+                    category_averages.append(category_avg_data)
 
-                summary.append(college_summary)
+            college_summary["numerical_summary"].append({
+                "total_avg": total_avg,
+                "category_avg": category_averages
+            })
+
+            # Fetching feedback summary including question-level feedback
+            feedback_totals = college_feedback_total.objects.filter(year_sem_id=year_sem, department=college).first()
+            feedback_summary_data = {
+                "total_feedbacks": feedback_totals.total_feedbacks if feedback_totals else 0,
+                "total_positive": feedback_totals.total_positive if feedback_totals else 0,
+                "total_neutral": feedback_totals.total_neutral if feedback_totals else 0,
+                "total_negative": feedback_totals.total_negative if feedback_totals else 0,
+                "question_summary": []
+            }
+
+            # Adding question-level summaries
+            question_summaries = college_feedback_summary.objects.filter(year_sem_id=year_sem, department=college)
+            for question_summary in question_summaries:
+                question_data = {
+                    "question_id": question_summary.feedback_question_id.feedback_question_id,
+                    "total_feedbacks": question_summary.total_feedbacks,
+                    "total_positive": question_summary.total_positive,
+                    "total_neutral": question_summary.total_neutral,
+                    "total_negative": question_summary.total_negative,
+                }
+                feedback_summary_data["question_summary"].append(question_data)
+
+            college_summary["feedback_summary"].append(feedback_summary_data)
+
+            # Fetching professors related to the college
+            professor_totals = professor_numerical_total.objects.filter(year_sem_id=year_sem, prof_id__department=college)
+            for prof_total in professor_totals:
+                full_name = f"{prof_total.prof_id.surname} {prof_total.prof_id.first_name} {prof_total.prof_id.middle_name or ''}".strip()
+                professor = prof_total.prof_id
+                professor_data = {
+                    "id": professor.professor_id,
+                    "name": full_name,
+                    "total_avg": prof_total.total_average,
+                    "total_feedbacks": feedback_totals.total_feedbacks if feedback_totals else 0,
+                    "total_positive": feedback_totals.total_positive if feedback_totals else 0,
+                    "total_neutral": feedback_totals.total_neutral if feedback_totals else 0,
+                    "total_negative": feedback_totals.total_negative if feedback_totals else 0,
+                }
+                college_summary["professor_list"].append(professor_data)
+
+            summary.append(college_summary)
 
         return Response({
             "year_sem": year_sem.year_sem_id,
             "summary": summary
         })
+
     
 class ProfessorRatingsSummaryView(APIView):
     def get(self, request, *args, **kwargs):

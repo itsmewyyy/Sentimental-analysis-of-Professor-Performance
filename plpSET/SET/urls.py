@@ -47,5 +47,6 @@ urlpatterns = [
     path('set-academic-term/', SetAcademicTermView.as_view(), name='set_academic_term'),
     path('evaluation-status/', EvaluationStatusView.as_view(), name='evaluation_status'),
     path('current-year-sem/', views.get_current_year_sem, name='current-year-sem'),
+    path('student-profile/', views.get_student_profile, name='get_student_profile')
 
 ]

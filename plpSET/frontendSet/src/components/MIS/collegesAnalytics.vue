@@ -38,7 +38,7 @@ const fetchColleges = async () => {
 
 const seeAnalytics = (college: College) => {
   localStorage.setItem("college", college.name);
-  router.push({ name: "DeanDashboard", params: { id: college.id } });
+  router.push({ name: "MISCollegeDataDashboard", params: { id: college.id } });
 };
 
 onMounted(() => {

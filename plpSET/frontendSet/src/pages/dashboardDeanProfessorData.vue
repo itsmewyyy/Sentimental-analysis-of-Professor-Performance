@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import subjectComponent from "@/components/SET/subjectComponent.vue";
-import navbar from "@/components/navigation/deanNavbar.vue";
+import navbar from "@/components/navigation/NavBarDean.vue";
 import { ref, onMounted, computed } from "vue";
 import { useAuthStore } from "@/store/student";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";

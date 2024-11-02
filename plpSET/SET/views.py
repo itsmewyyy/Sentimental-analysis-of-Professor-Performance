@@ -3,10 +3,11 @@ from rest_framework.response import Response
 from .models import categories, numerical_questions, academic_yearsem, EvaluationPeriod, professor_status, feedback_questions, programs, department, year_level, student_info, student_enrolled_subjs, feedbacks, professor_info, section, subjects, student_status
 from .serializers import StudentSerializer, YearLevelInfoSerializer, AcademicYearSemSerializer, ProfSubjsSerizalier, EvaluationPeriodSerializer, ProfessorStatusSerializer, SubmitRatingsSerializer, EnrolledSubjectsSerializer, AdminSerializer, ProfessorInfoSerializer, ProgramsSerializer, DepartmentSerializer, SectionSerializer, SubjectInfoSerializer, FeedbackQuestionsSerializer, NumericalCategorySerializer, NumericalQuestionsSerializer, StudentStatusSerializer
 from rest_framework import status
-from userLogin.models import admin_acc
+from userLogin.models import admin_acc, student_acc
 from django.contrib.auth.hashers import make_password
 from .tasks import (process_feedback_task)
 from django.utils import timezone
+from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
 
 
@@ -765,3 +766,35 @@ def get_current_year_sem(request):
         "semester_desc": current_year_sem.semester_desc,
     }
     return JsonResponse(data)
+
+
+
+def get_student_profile(request):
+    # Retrieve the student ID from the query parameters
+    student_id = request.GET.get('student_id')
+
+    if not student_id:
+        return JsonResponse({'error': 'Student ID not provided'}, status=400)
+
+    # Fetch data from the models
+    student_account = get_object_or_404(student_acc, student_acc_number=student_id)
+    student_details = get_object_or_404(student_info, student_id=student_id)
+
+    # Construct response data
+    profile_data = {
+        'account': {
+            'student_acc_number': student_account.student_acc_number,
+            'plp_email': student_account.plp_email,
+            'date_of_birth': student_account.date_of_birth,
+        },
+        'info': {
+            'surname': student_details.surname,
+            'first_name': student_details.first_name,
+            'middle_name': student_details.middle_name,
+            'extension_name': student_details.extension_name,
+            'status': student_details.status.student_status_desc,  # Assuming student_status has a status_name field
+            'section': student_details.section.section_id,  # Assuming section has a section_name field
+        }
+    }
+
+    return JsonResponse(profile_data)

@@ -1,14 +1,34 @@
 <!-- Admin Login -->
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { cn } from "@/lib/utils";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "@/store/adminStore";
 import axios from "axios";
 
+const authStore = useAuthStore();
 const router = useRouter();
+authStore.restoreSession();
 const adminUsername = ref("");
 const password = ref("");
+const isAuthenticated = computed(() => authStore.isAuthenticated);
+
+onMounted(() => {
+  if (isAuthenticated.value) {
+    const userType = localStorage.getItem("user_type");
+
+    // Redirect based on user_type
+    if (userType === "MIS") {
+      router.push("/MISDashboard");
+    } else if (userType === "Dean") {
+      router.push("/DeanDashboard");
+    } else if (userType === "Secretary") {
+      router.push("/SecretaryDashboard");
+    } else {
+      router.push("/MISDashboard");
+    }
+  }
+});
 
 const login = async () => {
   const authAdminLogin = useAuthStore();
@@ -47,7 +67,10 @@ const login = async () => {
 </script>
 
 <template>
-  <div class="min-h-screen flex items-center justify-center">
+  <div
+    class="min-h-screen flex items-center justify-center"
+    v-if="!isAuthenticated"
+  >
     <section class="bg-plpyellow-100/15 rounded-lg px-5 font-raleway">
       <div
         class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 grid lg:grid-cols-2 gap-8 lg:gap-16"

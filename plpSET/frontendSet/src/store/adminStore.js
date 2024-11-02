@@ -38,12 +38,28 @@ export const useAuthStore = defineStore("adminStore", {
     },
 
     logout() {
+      // Clear user data and local storage
       this.isAuthenticated = false;
       this.user = null;
-
       localStorage.clear();
-    },
 
+      // Call the backend API to complete the logout process
+      return axios
+        .post(
+          "http://localhost:8000/api/adminLogout/",
+          {},
+          { withCredentials: true }
+        ) // Explicitly set withCredentials
+        .then(() => {
+          this.alertMessage = "Logged out successfully";
+          this.alertType = "success";
+        })
+        .catch((error) => {
+          console.error("Logout API failed:", error);
+          this.alertMessage = "Logout failed";
+          this.alertType = "error";
+        });
+    },
     restoreSession() {
       const adminId = localStorage.getItem("admin_id");
       const userType = localStorage.getItem("user_type");

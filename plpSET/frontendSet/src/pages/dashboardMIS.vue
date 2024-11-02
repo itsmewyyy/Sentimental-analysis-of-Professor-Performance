@@ -5,6 +5,7 @@ import year_semester from "@/components/MIS/year_semester.vue";
 import evaluationPeriod from "@/components/MIS/evaluationPeriod.vue";
 import axios from "axios";
 import submissionChart from "@/components/MIS/submissionChart.vue";
+import generateReports from "@/components/reportsGeneration/MISExports/generateReports.vue";
 
 interface Counts {
   enrolled_students: number;
@@ -22,12 +23,7 @@ const fetchCounts = async () => {
     }
     const data = await response.json();
 
-    // Assuming the API returns an array, we take the first item
-    if (Array.isArray(data) && data.length > 0) {
-      Count.value = data[0] as Counts;
-    } else {
-      Count.value = null;
-    }
+    Count.value = data as Counts;
   } catch (error) {
     console.error("Failed to fetch counts:", error);
     Count.value = null;
@@ -39,7 +35,8 @@ onMounted(fetchCounts);
 
 <template>
   <MISNavbar />
-  <section class="p-20 pt-20 space-y-6">
+  <section class="p-20 pt-32 space-y-6">
+    <generateReports></generateReports>
     <div class="grid grid-cols-6 grid-rows-7 gap-4 h-[480px]">
       <div class="col-span-2 row-span-2 border border-black/15 rounded-md">
         <div class="p-7 pt-9">

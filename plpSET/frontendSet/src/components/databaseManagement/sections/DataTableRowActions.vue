@@ -61,7 +61,7 @@ const storeItems = () => {
                 <editSection></editSection>
               </DropdownMenuItem>
               <DropdownMenuItem
-                class="flex justify-between items-center"
+                class="flex justify-between items-center cursor-pointer"
                 @click="deleteRow"
               >
                 Delete

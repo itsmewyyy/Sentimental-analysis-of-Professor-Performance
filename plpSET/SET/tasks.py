@@ -13,7 +13,7 @@ from reportsAnalysis.models import ( college_numerical_total, RecurringPhrase, c
     professor_numerical_summary_category,
     professor_feedback_total,
     professor_feedback_summary, professor_numerical_summary_questions, processed_feedbacks)
-from .models import student_info,  EnrollmentSummary, RegisteredAccountSummary
+from .models import student_info, student_enrolled_subjs, SubmissionSummary
 from userLogin.models import student_acc
 from joblib import load
 from datetime import timedelta
@@ -445,37 +445,26 @@ def update_professor_recurring_phrases():
             recurring_phrase.save() 
 
 
-
 @shared_task
-def count_students_and_accounts():
+def count_total_submissions():
     with transaction.atomic():
-        # Count enrolled students by year and semester (year_sem_id) who have not been counted
-        enrolled_students = student_info.objects.filter(is_counted=False).values('year_sem_id').annotate(total=Count('student_id'))
+        total_submissions = 0
+
+        students = student_info.objects.prefetch_related('enrolled_subjects').all()
+
+        for student in students:
+            enrolled_subjects = student.enrolled_subjects.all()
+            evaluated_count = enrolled_subjects.filter(is_evaluated=True).count()
+            total_count = enrolled_subjects.count()
+            
         
-        # Iterate through each year_sem_id group
-        for entry in enrolled_students:
-            year_sem_id = entry['year_sem_id']
-            total_students = entry['total']
+            if total_count > 0 and evaluated_count == total_count:
+                total_submissions += 1
 
-            # Store each count in EnrollmentSummary
-            summary, created = EnrollmentSummary.objects.get_or_create(
-                year_sem_id=year_sem_id,
-                defaults={'total_students': total_students}
-            )
-            if not created:
-                summary.total_students += total_students
-                summary.save()
 
-            # Mark students as counted to avoid recounting
-            student_info.objects.filter(year_sem_id=year_sem_id, is_counted=False).update(is_counted=True)
+        # Update or create a SubmissionSummary entry
+        summary, created = SubmissionSummary.objects.get_or_create(id=1)  # Assuming single summary entry
+        summary.total_submissions = total_submissions
+        summary.save()
 
-        # Count total registered accounts that haven’t been counted
-        total_accounts = student_acc.objects.filter(is_counted=False).count()
-
-        # Update or create an entry for total registered accounts
-        RegisteredAccountSummary.objects.update_or_create(
-            defaults={'total_registered_accounts': total_accounts}
-        )
-
-        # Mark accounts as counted to prevent re-counting
-        student_acc.objects.filter(is_counted=False).update(is_counted=True)
+        return total_submissions

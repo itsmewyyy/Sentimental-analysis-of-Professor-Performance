@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex justify-between items-center w-full bg-white h-16 border-b border-black/25 px-4 z-10 top-0 sticky"
+    class="flex justify-between items-center w-full bg-white h-16 border-b border-black/25 px-4 z-10 top-0 fixed"
   >
     <!-- Left Section: Logo and Text -->
     <RouterLink to="/MISDashboard">
@@ -69,7 +69,10 @@
           </DropdownMenuItem>
           <DropdownMenuSeparator class="bg-plpgreen-100" />
           <DropdownMenuItem>
-            <div class="flex items-center space-x-2 w-full cursor-pointer">
+            <div
+              class="flex items-center space-x-2 w-full cursor-pointer"
+              @click="logout"
+            >
               <LogOut size="16" />
               <span class="text-sm">Logout</span>
             </div>
@@ -80,7 +83,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang>
 import {
   HoverCard,
   HoverCardContent,
@@ -107,4 +110,20 @@ import {
   GraduationCap,
 } from "lucide-vue-next";
 import { RouterLink } from "vue-router";
+import axios from "axios";
+import { useAuthStore } from "@/store/adminStore";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+
+const logout = async () => {
+  const authAdminLogin = useAuthStore();
+
+  try {
+    await authAdminLogin.logout();
+    router.push("/");
+  } catch (error) {
+    console.error("Logout failed:", error);
+  }
+};
 </script>

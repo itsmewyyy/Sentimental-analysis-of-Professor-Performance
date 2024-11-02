@@ -55,8 +55,8 @@ CSRF_TRUSTED_ORIGINS = ['http://localhost:5173']
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
-    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.security.SecurityMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -66,7 +66,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'backendSet.urls'
 
-SESSION_ENGINE = 'django.contrib.sessions.backends.db' 
+
 
 
 TEMPLATES = [
@@ -146,7 +146,10 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Session expiration 
-SESSION_COOKIE_AGE = 1209600  # 2 weeks
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # Use database-backed sessions
+SESSION_COOKIE_NAME = 'sessionid'
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SECURE = False  # Set to True if using HTTPS
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # Expire session when the browser closes
 
 
@@ -172,6 +175,10 @@ CELERY_BEAT_SCHEDULE = {
     },
     'count_students_and_accounts': {
         'task': 'SET.tasks.count_students_and_accounts',
+        'schedule': crontab(minute='*/1'),  
+    },
+    'count_total_submissions': {
+        'task': 'SET.tasks.count_total_submissions',
         'schedule': crontab(minute='*/1'),  
     },
 }

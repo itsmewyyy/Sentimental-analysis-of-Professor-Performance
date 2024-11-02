@@ -31,10 +31,6 @@ interface Summary {
 }
 
 const collegeData = ref<College | null>(null);
-const collegeIdentifier = localStorage.getItem("college");
-const yearsemIdentifier = localStorage.getItem("current_year_sem");
-console.log("College Identifier:", collegeIdentifier);
-console.log("Year Semester Identifier:", yearsemIdentifier);
 
 const fetchCollegeData = async () => {
   try {

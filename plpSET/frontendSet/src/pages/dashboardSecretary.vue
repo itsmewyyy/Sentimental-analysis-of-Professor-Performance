@@ -14,13 +14,8 @@ import {
 } from "@/components/ui/select";
 import subjectTagging from "@/components/subject-sectionTagging/subjectTagging.vue";
 import sectionTagging from "@/components/subject-sectionTagging/sectionTagging.vue";
-import secretaryNavbar from "@/components/navigation/secretaryNavbar.vue";
-import { ChevronDown } from "lucide-vue-next";
+import secretaryNavbar from "@/components/navigation/NavBarSecretary.vue";
 import axios from "axios";
-import { useToast } from "@/components/ui/toast";
-import Toast from "@/components/ui/toast/Toast.vue";
-import Toaster from "@/components/ui/toast/Toaster.vue";
-
 const subjectsectionTags = ref<Array<number>>([]);
 
 const professors = ref<Array<any>>([]);
