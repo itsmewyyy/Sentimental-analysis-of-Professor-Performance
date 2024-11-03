@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 import dj_database_url
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,10 +22,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-l979g06^m7*8rgaqpnxg8bzujdw5i#)mf9ewzup8dr5nihnjr%'
+SECRET_KEY = config("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config("DEBUG", cast=bool)
 
 
 
@@ -49,7 +50,7 @@ INSTALLED_APPS = [
 ]
 
 CORS_ALLOW_CREDENTIALS = True
-ALLOWED_HOSTS = ["sentiment-professor-feedback-1.onrender.com", '127.0.0.1']
+ALLOWED_HOSTS = config("ALLOWED_HOSTS").split(",")
 
 CORS_ALLOWED_ORIGINS = ["https://sentiment-professor-feedback.vercel.app", "http://localhost:5173"]  
 CSRF_TRUSTED_ORIGINS = ['https://sentiment-professor-feedback.vercel.app', 'https://sentiment-professor-feedback-1.onrender.com' ]  
@@ -106,7 +107,7 @@ DATABASES = {
     }
 }
 
-DATABASES["default"] = dj_database_url.parse("postgresql://django_db_zugs_user:SIzCSyD6GfsX0Wlb3HJJjtq9IcfFXPdI@dpg-csjpig68ii6s73d6vmg0-a.oregon-postgres.render.com/django_db_zugs")
+DATABASES["default"] = dj_database_url.parse(config("DATABASE_URL"))
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
