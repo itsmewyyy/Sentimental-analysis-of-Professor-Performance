@@ -97,10 +97,10 @@ WSGI_APPLICATION = 'backendSet.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'plpset',
-        'USER': 'plpsetadmin',
-        'PASSWORD': 'plpset_admin',
-        'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
+        'NAME': 'railway',
+        'USER': 'root',
+        'PASSWORD': 'xEOIrcIGEgYZfErKZTvhJwnhbKmqVydE',
+        'HOST': 'mysql.railway.internal',   # Or an IP Address that your DB is hosted on
         'PORT': '3306',        # Default MySQL port
     }
 }
