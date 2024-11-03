@@ -12,14 +12,14 @@ ENV MYSQLCLIENT_CFLAGS=-I/usr/include/mysql
 ENV MYSQLCLIENT_LDFLAGS=-L/usr/lib/mysql
 
 # Set up the application environment
-WORKDIR /app
+WORKDIR /backendSet
 
 # Copy and install dependencies
 COPY requirements.txt /app/
 RUN pip install -r requirements.txt
 
 # Copy the rest of the application files
-COPY . /app
+COPY . /backendSet
 
 # Expose the application port
 EXPOSE 8000
