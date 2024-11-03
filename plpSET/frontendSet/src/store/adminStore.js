@@ -1,6 +1,7 @@
 // store/adminStore.js
 import { defineStore } from "pinia";
 import axios from "axios";
+import axiosInstance from "@/axios-config";
 
 export const useAuthStore = defineStore("adminStore", {
   state: () => ({
@@ -13,8 +14,8 @@ export const useAuthStore = defineStore("adminStore", {
   actions: {
     async login(adminUsername, password) {
       try {
-        const response = await axios.post(
-          "https://sentiment-professor-feedback-1.onrender.com/api/adminLogin/",
+        const response = await axiosInstance.post(
+          "/api/adminLogin/",
           {
             adminUsername,
             password,
@@ -45,12 +46,8 @@ export const useAuthStore = defineStore("adminStore", {
       localStorage.clear();
 
       // Call the backend API to complete the logout process
-      return axios
-        .post(
-          "https://sentiment-professor-feedback-1.onrender.com/api/adminLogout/",
-          {},
-          { withCredentials: true }
-        ) // Explicitly set withCredentials
+      return axiosInstance
+        .post("/api/adminLogout/", {}, { withCredentials: true }) // Explicitly set withCredentials
         .then(() => {
           this.alertMessage = "Logged out successfully";
           this.alertType = "success";
