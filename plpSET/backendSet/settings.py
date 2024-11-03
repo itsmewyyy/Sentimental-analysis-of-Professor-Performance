@@ -98,11 +98,11 @@ WSGI_APPLICATION = 'backendSet.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'railway',
-        'USER': 'root',
-        'PASSWORD': 'xEOIrcIGEgYZfErKZTvhJwnhbKmqVydE',
-        'HOST': 'mysql.railway.internal',   # Or an IP Address that your DB is hosted on
-        'PORT': '3306',        # Default MySQL port
+        'NAME': 'defaultdb',
+        'USER': 'avnadmin',
+        'PASSWORD': 'AVNS_cEraRL3eSt5us4l3590',
+        'HOST': 'mysql-37287325-ryanintalan-a986.h.aivencloud.com',   # Or an IP Address that your DB is hosted on
+        'PORT': '18189',        # Default MySQL port
     }
 }
 
