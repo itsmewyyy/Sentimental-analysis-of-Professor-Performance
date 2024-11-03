@@ -15,7 +15,7 @@ export const useAuthStore = defineStore("adminStore", {
     async login(adminUsername, password) {
       try {
         const response = await axiosInstance.post(
-          "/api/adminLogin/",
+          "https://sentiment-professor-feedback-1.onrender.com/api/adminLogin/",
           {
             adminUsername,
             password,
@@ -46,8 +46,12 @@ export const useAuthStore = defineStore("adminStore", {
       localStorage.clear();
 
       // Call the backend API to complete the logout process
-      return axiosInstance
-        .post("/api/adminLogout/", {}, { withCredentials: true }) // Explicitly set withCredentials
+      return axios
+        .post(
+          "https://sentiment-professor-feedback-1.onrender.com/api/adminLogout/",
+          {},
+          { withCredentials: true }
+        ) // Explicitly set withCredentials
         .then(() => {
           this.alertMessage = "Logged out successfully";
           this.alertType = "success";
