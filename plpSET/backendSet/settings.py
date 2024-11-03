@@ -49,7 +49,7 @@ INSTALLED_APPS = [
 ]
 
 CORS_ALLOW_CREDENTIALS = True
-ALLOWED_HOSTS = ["sentiment-professor-feedback-1.onrender.com"]
+ALLOWED_HOSTS = ["sentiment-professor-feedback-1.onrender.com", '127.0.0.1']
 
 CORS_ALLOWED_ORIGINS = ["https://sentiment-professor-feedback.vercel.app", "http://localhost:5173"]  
 CSRF_TRUSTED_ORIGINS = ['https://sentiment-professor-feedback.vercel.app', 'https://sentiment-professor-feedback-1.onrender.com' ]  
