@@ -37,7 +37,7 @@ const login = async () => {
     await authAdminLogin.login(adminUsername.value, password.value);
 
     const yearSemResponse = await axios.get(
-      "http://127.0.0.1:8000/api/current-year-sem/"
+      "http://sentiment-professor-feedback-1.onrender.com/api/current-year-sem/"
     );
 
     if (yearSemResponse.status === 200) {
