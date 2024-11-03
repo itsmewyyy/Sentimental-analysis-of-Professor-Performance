@@ -25,8 +25,7 @@ SECRET_KEY = 'django-insecure-l979g06^m7*8rgaqpnxg8bzujdw5i#)mf9ewzup8dr5nihnjr%
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['sentiment-professor-feedback-production.up.railway.app']
-
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -50,15 +49,14 @@ INSTALLED_APPS = [
 ]
 
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOWED_ORIGINS = ["https://sentiment-professor-feedback.vercel.app"]  
-CSRF_TRUSTED_ORIGINS = ['https://sentiment-professor-feedback.vercel.app/', 'https://sentiment-professor-feedback-production.up.railway.app/']  
+CORS_ALLOWED_ORIGINS = ["http://localhost:5173"]  
+CSRF_TRUSTED_ORIGINS = ['http://localhost:5173']  
 
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.security.SecurityMiddleware',
-    "whitenoise.middleware.WhiteNoiseMiddlewayre",
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -98,11 +96,11 @@ WSGI_APPLICATION = 'backendSet.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'defaultdb',
-        'USER': 'avnadmin',
-        'PASSWORD': 'AVNS_cEraRL3eSt5us4l3590',
-        'HOST': 'mysql-37287325-ryanintalan-a986.h.aivencloud.com',   # Or an IP Address that your DB is hosted on
-        'PORT': '18189',        # Default MySQL port
+        'NAME': 'plpset',
+        'USER': 'plpsetadmin',
+        'PASSWORD': 'plpset_admin',
+        'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
+        'PORT': '3306',        # Default MySQL port
     }
 }
 
@@ -155,11 +153,11 @@ SESSION_COOKIE_SECURE = False  # Set to True if using HTTPS
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # Expire session when the browser closes
 
 
-
-CELERY_BROKER_URL = 'redis://default:HrXmnBnCQHcOyZTzjRwIotfjDGFqCQgt@redis.railway.internal:6379'  
+# Celery settings
+CELERY_BROKER_URL = 'redis://localhost:6379/0'  # This points Celery to your Redis server.
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
-CELERY_RESULT_BACKEND = 'redis://default:HrXmnBnCQHcOyZTzjRwIotfjDGFqCQgt@redis.railway.internal:6379'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 
 
@@ -184,5 +182,3 @@ CELERY_BEAT_SCHEDULE = {
         'schedule': crontab(minute='*/1'),  
     },
 }
-
-STATICSTORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"

@@ -5,17 +5,14 @@ from celery import Celery
 # Set the default Django settings module for the 'celery' program.
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backendSet.settings')
 
-app = Celery('backendSet',
-             backend=os.getenv('REDIS_URL'),
-             broker=os.getenv('REDIS_URL')
-             )
+# Create the Celery app
+app = Celery('backendSet')
 
-
+# Load task modules from all registered Django app configs.
 app.config_from_object('django.conf:settings', namespace='CELERY')
 
-# Load task modules from all registered Django apps.
+# Autodiscover tasks from your installed apps
 app.autodiscover_tasks()
 
-@app.task(bind=True)
-def debug_task(self):
-    print(f'Request: {self.request!r}')
+
+
