@@ -9,7 +9,7 @@ from .models import (
     numerical_ratings,
     feedbacks,
 )
-from reportsAnalysis.models import ( college_numerical_total, RecurringPhrase, college_numerical_summary, college_feedback_total, college_feedback_summary, professor_numerical_total,
+from reportsAnalysis.models import ( college_numerical_total, RecurringPhrase, college_numerical_summary_questions, college_numerical_summary, college_feedback_total, college_feedback_summary, professor_numerical_total,
     professor_numerical_summary_category,
     professor_feedback_total,
     professor_feedback_summary, professor_numerical_summary_questions, processed_feedbacks)
@@ -183,7 +183,34 @@ def update_college_numerical_summaries(recent_ratings):
         year_sem = rating.student_subj_id.prof_subj_id.year_sem_id
         category = rating.numerical_question_id.category
 
-        # Fetch or create college numerical summary for the department and category
+        # Fetch or create college numerical summary for each question
+        college_numerical_summary_question, _ = college_numerical_summary_questions.objects.get_or_create(
+            college_numerical_summary_question_id=f"{department}-{year_sem}-{rating.numerical_question_id}",
+            defaults={'college_question_average': 0},
+            numerical_question_id=rating.numerical_question_id,
+            year_sem_id=year_sem,
+            department=department,
+        )
+
+        # Calculate question-level average
+        total_ratings_question = numerical_ratings.objects.filter(
+            student_subj_id__prof_subj_id__subject_code__assoc_college=department,
+            student_subj_id__prof_subj_id__year_sem_id=year_sem,
+            numerical_question_id=rating.numerical_question_id
+        ).count()
+
+        total_ratings_sum = numerical_ratings.objects.filter(
+            student_subj_id__prof_subj_id__subject_code__assoc_college=department,
+            student_subj_id__prof_subj_id__year_sem_id=year_sem,
+            numerical_question_id=rating.numerical_question_id
+        ).aggregate(total_sum=Sum('numerical_rating'))['total_sum']
+
+        college_numerical_summary_question.college_question_average = (
+            total_ratings_sum / total_ratings_question
+        ) if total_ratings_question > 0 else 0
+        college_numerical_summary_question.save()
+
+        # Update category-level numerical summary
         college_numerical_summary_category, _ = college_numerical_summary.objects.get_or_create(
             college_numerical_summary_id=f"{department}-{year_sem}-{category}",
             defaults={'college_average': 0},
@@ -198,14 +225,14 @@ def update_college_numerical_summaries(recent_ratings):
             numerical_question_id__category=category
         ).count()
 
-        total_sum_category = numerical_ratings.objects.filter(
+        total_ratings_sum = numerical_ratings.objects.filter(
             student_subj_id__prof_subj_id__subject_code__assoc_college=department,
             student_subj_id__prof_subj_id__year_sem_id=year_sem,
             numerical_question_id__category=category
         ).aggregate(total_sum=Sum('numerical_rating'))['total_sum']
 
         college_numerical_summary_category.college_average = (
-            total_sum_category / total_ratings_category
+            total_ratings_sum / total_ratings_category
         ) if total_ratings_category > 0 else 0
         college_numerical_summary_category.save()
 
@@ -222,13 +249,13 @@ def update_college_numerical_summaries(recent_ratings):
             student_subj_id__prof_subj_id__year_sem_id=year_sem
         ).count()
 
-        total_sum_total = numerical_ratings.objects.filter(
+        total_sum = numerical_ratings.objects.filter(
             student_subj_id__prof_subj_id__subject_code__assoc_college=department,
             student_subj_id__prof_subj_id__year_sem_id=year_sem
         ).aggregate(total_sum=Sum('numerical_rating'))['total_sum']
 
         college_numerical_totals.total_average = (
-            total_sum_total / total_ratings_total
+            total_sum / total_ratings_total
         ) if total_ratings_total > 0 else 0
         college_numerical_totals.save()
 

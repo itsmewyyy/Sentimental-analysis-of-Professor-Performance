@@ -62,6 +62,18 @@ class college_numerical_summary(models.Model):
     
     def __str__(self):
         return f'{self.college_numerical_summary_id} - {self.college_average}'
+    
+class college_numerical_summary_questions(models.Model):
+    college_numerical_summary_question_id = models.CharField(primary_key=True,max_length=50)
+    numerical_question_id = models.ForeignKey(numerical_questions, on_delete=models.CASCADE)
+    year_sem_id = models.ForeignKey(academic_yearsem, on_delete=models.CASCADE)
+    department = models.ForeignKey(department, on_delete=models.CASCADE)
+    category = models.ForeignKey(categories, on_delete=models.CASCADE)
+    college_question_average = models.FloatField()
+    numerical_question_id = models.ForeignKey(numerical_questions, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.college_numerical_summary_question_id} - {self.college_question_average}'
 
 class college_feedback_total(models.Model):
     college_total_summary_id = models.CharField(primary_key=True,max_length=50)

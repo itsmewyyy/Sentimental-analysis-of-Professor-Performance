@@ -6,7 +6,7 @@ import DataTable from "@/components/profsrecurringPhrases/DataTable.vue";
 
 const data = ref<Phrase[]>([]);
 const professorIdentifier = localStorage.getItem("professor");
-const yearsemIdentifier = "24-25-1";
+const yearsemIdentifier = localStorage.getItem("current_year_sem");
 
 async function getData(): Promise<Phrase[]> {
   if (!professorIdentifier) {

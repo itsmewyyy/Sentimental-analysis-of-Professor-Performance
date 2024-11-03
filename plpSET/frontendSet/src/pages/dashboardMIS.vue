@@ -5,7 +5,6 @@ import year_semester from "@/components/MIS/year_semester.vue";
 import evaluationPeriod from "@/components/MIS/evaluationPeriod.vue";
 import axios from "axios";
 import submissionChart from "@/components/MIS/submissionChart.vue";
-import generateReports from "@/components/reportsGeneration/MISExports/generateReports.vue";
 
 interface Counts {
   enrolled_students: number;
@@ -14,6 +13,10 @@ interface Counts {
 }
 
 const Count = ref<Counts | null>(null);
+
+const props = defineProps({
+  refreshData: Boolean,
+});
 
 const fetchCounts = async () => {
   try {
@@ -36,7 +39,6 @@ onMounted(fetchCounts);
 <template>
   <MISNavbar />
   <section class="p-20 pt-32 space-y-6">
-    <generateReports></generateReports>
     <div class="grid grid-cols-6 grid-rows-7 gap-4 h-[480px]">
       <div class="col-span-2 row-span-2 border border-black/15 rounded-md">
         <div class="p-7 pt-9">
@@ -54,6 +56,7 @@ onMounted(fetchCounts);
             Registered Accounts
           </p>
           <p class="text-3xl font-bold text-plpyellow-200">
+            s
             {{ Count?.registered_accounts ?? "Loading..." }}
           </p>
         </div>
@@ -85,12 +88,12 @@ onMounted(fetchCounts);
       <div
         class="col-span-3 row-span-2 col-start-1 row-start-2 border border-black/15 rounded-md pt-1"
       >
-        <year_semester></year_semester>
+        <year_semester :refreshData="refreshData"></year_semester>
       </div>
       <div
         class="col-span-3 row-span-2 col-start-4 row-start-2 border border-black/15 rounded-md pt-1"
       >
-        <evaluationPeriod></evaluationPeriod>
+        <evaluationPeriod :refreshData="refreshData"></evaluationPeriod>
       </div>
       <div class="col-span-6 col-start-1 row-start-1">
         <p class="font-semibold text-xl pt-4">Lorem Ipsum</p>

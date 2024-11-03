@@ -77,10 +77,7 @@
             </div>
           </DropdownMenuItem>
           <DropdownMenuItem>
-            <div class="flex items-center space-x-2 cursor-pointer w-full">
-              <Download size="14" />
-              <span class="text-sm">Generate Reports</span>
-            </div>
+            <generateReports></generateReports>
           </DropdownMenuItem>
           <DropdownMenuSeparator class="bg-plpgreen-100" />
           <DropdownMenuItem>
@@ -115,6 +112,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { CalendarDays, Clock, LogOut, User, Download } from "lucide-vue-next";
+import generateReports from "../reportsGeneration/deanExports/generateReports.vue";
 
 import { RouterLink } from "vue-router";
 import axios from "axios";

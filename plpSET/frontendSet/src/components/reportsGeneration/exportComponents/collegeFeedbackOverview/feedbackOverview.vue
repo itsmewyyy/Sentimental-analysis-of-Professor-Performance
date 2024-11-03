@@ -1,11 +1,11 @@
 <template>
   <section class="pt-12 space-y-10">
-    <div class="space-y-4">
-      <div class="flex flex-col">
+    <div class="flex flex-row items-center space-x-32">
+      <div class="flex flex-col space-y-16">
         <p class="text-2xl font-bold">Feedback Overview</p>
         <CollegeFeedbackChart :refreshChart="refreshChart" />
       </div>
-      <div class="text-base flex flex-col">
+      <div class="text-base flex flex-col pt-3">
         <div class="flex flex-row space-x-2 items-center">
           <p class="font-bold text-lg text-darks-700">Total Feedbacks:</p>
           <p v-if="collegeData" class="text-lg">
@@ -32,7 +32,6 @@
         </div>
       </div>
     </div>
-
     <div>
       <p class="text-xl font-bold pl-1">Recurring Phrases</p>
       <CollegereccuringphrasesTable

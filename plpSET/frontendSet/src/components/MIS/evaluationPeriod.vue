@@ -15,6 +15,7 @@ import axios from "axios";
 
 const { state, setEvaluationPeriod } = academicTermStore;
 const evaluationPeriod = ref({ start: null, end: null });
+const newlyset_acadyearsem = localStorage.getItem("year_sem");
 
 const date = ref({
   start: new Date(2022, 0, 20),
@@ -31,7 +32,7 @@ async function onSetEvaluationPeriod() {
       await axios.post("http://127.0.0.1:8000/api/evaluation-status/", {
         start_date: formattedStart,
         end_date: formattedEnd,
-        year_semester: state.yearSem,
+        year_semester: newlyset_acadyearsem,
       });
 
       setEvaluationPeriod(); // Update your state/store

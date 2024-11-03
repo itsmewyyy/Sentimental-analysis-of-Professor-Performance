@@ -22,7 +22,7 @@
           </Select>
 
           <!-- Conditional Question Select -->
-          <div v-if="rating === 'feedback'">
+          <div v-if="rating === 'feedback' && !selectedProfessor">
             <Select v-model="selectedQuestion">
               <SelectTrigger>
                 <SelectValue placeholder="Select Question" />
@@ -32,6 +32,9 @@
                   <SelectLabel>Question</SelectLabel>
                   <SelectItem value="1">Question 1</SelectItem>
                   <SelectItem value="2">Question 2</SelectItem>
+                  <SelectItem value="3">Question 3</SelectItem>
+                  <SelectItem value="4">Question 4</SelectItem>
+                  <SelectItem value="5">Question 5</SelectItem>
                 </SelectGroup>
               </SelectContent>
             </Select>
@@ -47,20 +50,31 @@
             <SelectContent>
               <SelectGroup>
                 <SelectLabel>Colleges</SelectLabel>
-                <SelectItem value="CAS">CAS</SelectItem>
-                <SelectItem value="CCS">CCS</SelectItem>
+                <SelectItem
+                  v-for="college in colleges"
+                  :key="college.name"
+                  :value="college.name"
+                >
+                  {{ college.description }}
+                </SelectItem>
               </SelectGroup>
             </SelectContent>
           </Select>
 
-          <Select v-model="selectedProfessor">
+          <Select v-model="selectedProfessor" v-if="selectedCollege">
             <SelectTrigger>
               <SelectValue placeholder="Select Professor" />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
                 <SelectLabel>Professors</SelectLabel>
-                <SelectItem value="prof1">Prof. 1</SelectItem>
+                <SelectItem
+                  v-for="professor in filteredProfessors"
+                  :key="professor.professor_id"
+                  :value="professor.professor_id"
+                >
+                  {{ professor.full_name }}
+                </SelectItem>
               </SelectGroup>
             </SelectContent>
           </Select>
@@ -142,14 +156,14 @@
                   v-if="selectedProfessor != null"
                 >
                   <p class="font-semibold">Name of Faculty:</p>
-                  <p>{{ selectedProfessor }}</p>
+                  <p>{{ selectedProfessorFullName }}</p>
                 </div>
                 <div class="flex flex-row space-x-4">
                   <p class="font-semibold">Department:</p>
                   <p>{{ selectedCollege }}</p>
                 </div>
               </div>
-              <div class="px-8 pb-32">
+              <div class="px-8 pb-28">
                 <component
                   :is="selectedReportComponent"
                   :college="selectedCollege"
@@ -168,7 +182,16 @@
   <!-- Desktop Dialog for Editing Profile -->
   <Dialog v-if="isDesktop" v-model="isOpen">
     <DialogTrigger as-child>
-      <Button variant="outline">Edit Profile</Button>
+      <Button
+        @click.stop
+        class="border-none bg-transparent hover:bg-transparent w-full h-3 pl-0 py-2.5"
+        ><div
+          class="flex items-center space-x-3 w-full cursor-pointer text-black"
+        >
+          <Download class="w-4 h-4" />
+          <span class="text-sm">Generate Reports</span>
+        </div></Button
+      >
     </DialogTrigger>
     <DialogContent class="sm:max-w-[1440px] h-5/6 p-0">
       <GridForm />
@@ -201,6 +224,7 @@
 import html2canvas from "html2canvas";
 import { jsPDF } from "jspdf";
 import { Button } from "@/components/ui/button";
+import { Download } from "lucide-vue-next";
 import {
   Dialog,
   DialogContent,
@@ -229,14 +253,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { createReusableTemplate, useMediaQuery } from "@vueuse/core";
-import { ref, computed } from "vue";
+import { ref, computed, watch, onMounted } from "vue";
+import axios from "axios";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import feedbackOverview from "@/components/reportsGeneration/exportComponents/collegeFeedbackOverview/feedbackOverview.vue";
-import numericalOverview from "@/components/reportsGeneration/exportComponents/numericalOverview.vue";
+import numericalOverview from "@/components/reportsGeneration/exportComponents/collegeNumericalOverview/numericalOverview.vue";
 import numericalProfessor from "@/components/reportsGeneration/exportComponents/numericalProfessor.vue";
-import feedbackProfessor from "@/components/reportsGeneration/exportComponents/feedbackProfessor.vue";
-import feedbackQuestionProfessor from "@/components/reportsGeneration/exportComponents/feedbackQuestionProfessor.vue";
+import feedbackProfessor from "@/components/reportsGeneration/exportComponents/feedbackProfessorOverview/feedbackProfessor.vue";
 import feedbackQuestionOverview from "@/components/reportsGeneration/exportComponents/collegeFeedbackQuestionOverview/feedbackQuestionOverview.vue";
 
 const [UseTemplate, GridForm] = createReusableTemplate();
@@ -249,6 +273,45 @@ const selectedQuestion = ref(null);
 
 const refreshChart = ref(false);
 
+const colleges = ref([]);
+const professors = ref([]);
+
+const selectedProfessorFullName = computed(() => {
+  const professor = professors.value.find(
+    (prof) => prof.professor_id === selectedProfessor.value
+  );
+  return professor ? professor.full_name : "";
+});
+
+// Fetch the data on mount
+onMounted(async () => {
+  try {
+    const collegeResponse = await axios.get(
+      "http://127.0.0.1:8000/api/colleges/"
+    );
+    const professorResponse = await axios.get(
+      "http://127.0.0.1:8000/api/professor-list/"
+    );
+    colleges.value = collegeResponse.data;
+    professors.value = professorResponse.data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+});
+
+const filteredProfessors = computed(() => {
+  if (!selectedCollege.value) return [];
+  return professors.value.filter(
+    (professor) => professor.department === selectedCollege.value
+  );
+});
+
+watch(selectedProfessor, (newVal) => {
+  if (newVal) {
+    selectedQuestion.value = null;
+  }
+});
+
 const selectedReportComponent = computed(() => {
   if (rating.value === "numerical") {
     if (selectedCollege.value && selectedProfessor.value) {
@@ -257,13 +320,7 @@ const selectedReportComponent = computed(() => {
       return numericalOverview;
     }
   } else if (rating.value === "feedback") {
-    if (
-      selectedCollege.value &&
-      selectedProfessor.value &&
-      selectedQuestion.value
-    ) {
-      return feedbackQuestionProfessor;
-    } else if (selectedCollege.value && selectedQuestion.value) {
+    if (selectedCollege.value && selectedQuestion.value) {
       return feedbackQuestionOverview;
     } else if (selectedCollege.value && selectedProfessor.value) {
       return feedbackProfessor;
@@ -277,6 +334,7 @@ const selectedReportComponent = computed(() => {
 const generateReports = () => {
   localStorage.setItem("college", selectedCollege.value);
   localStorage.setItem("question", selectedQuestion.value);
+  localStorage.setItem("professor", selectedProfessor.value);
   refreshChart.value = !refreshChart.value;
 };
 
@@ -297,9 +355,9 @@ function exportPDF(): void {
       heightLeft -= pageHeight; // Update height left after adding the first page
 
       // Loop to add additional pages if necessary
-      while (heightLeft >= 0) {
-        position = heightLeft - imgHeight; // Calculate position for the next page
+      while (heightLeft > 0) {
         pdf.addPage(); // Add a new page
+        position = 0; // Reset position to the top of the new page
         pdf.addImage(imgData, "PNG", 10, position, imgWidth, imgHeight); // Add the image
         heightLeft -= pageHeight; // Update height left
       }

@@ -12,11 +12,20 @@ import { ref, onMounted, watch, nextTick, onBeforeUnmount } from "vue";
 import axios from "axios";
 import ApexCharts from "apexcharts";
 
+interface QuestionSummary {
+  question_id: string;
+  total_feedbacks: number;
+  total_positive: number;
+  total_neutral: number;
+  total_negative: number;
+}
+
 interface FeedbackSummary {
   total_feedbacks: number;
   total_positive: number;
   total_neutral: number;
   total_negative: number;
+  question_summary: QuestionSummary[];
 }
 
 interface College {
@@ -53,6 +62,7 @@ const fetchCollegeData = async () => {
     if (response.data && response.data.summary) {
       const yearsemIdentifier = localStorage.getItem("current_year_sem");
       const collegeIdentifier = localStorage.getItem("college");
+      const questionIdentifier = localStorage.getItem("question");
 
       const selectedYearSem = response.data.year_sem === yearsemIdentifier;
 
@@ -63,6 +73,22 @@ const fetchCollegeData = async () => {
 
         if (selectedCollege) {
           collegeData.value = selectedCollege;
+
+          // Filter for specific question summary
+          const questionSummary =
+            selectedCollege.feedback_summary[0].question_summary.find(
+              (question: QuestionSummary) =>
+                question.question_id === questionIdentifier
+            );
+
+          if (questionSummary) {
+            renderChart(questionSummary);
+          } else {
+            console.error(
+              "No matching question found for identifier:",
+              questionIdentifier
+            );
+          }
         } else {
           console.error(
             "No matching college found for the identifier:",
@@ -85,23 +111,17 @@ const fetchCollegeData = async () => {
 
 let chart: ApexCharts | null = null;
 
-const renderChart = (feedbackSummary: FeedbackSummary[]) => {
-  if (!feedbackSummary || feedbackSummary.length === 0) {
-    console.error("No feedback summary available");
+const renderChart = (questionSummary: QuestionSummary) => {
+  if (!questionSummary) {
+    console.error("No question summary available");
     return;
   }
 
-  // Access the first item in the feedback_summary array
-  const summary = feedbackSummary[0];
+  const totalFeedbacks = questionSummary.total_feedbacks || 1;
+  const totalPositive = questionSummary.total_positive;
+  const totalNeutral = questionSummary.total_neutral;
+  const totalNegative = questionSummary.total_negative;
 
-  console.log("Rendering chart with data:", summary); // Check if we get feedback data
-
-  const totalFeedbacks = Number(summary.total_feedbacks) || 1;
-  const totalPositive = Number(summary.total_positive);
-  const totalNeutral = Number(summary.total_neutral);
-  const totalNegative = Number(summary.total_negative);
-
-  // Log the data for debugging
   console.log({
     totalFeedbacks,
     totalPositive,
@@ -184,12 +204,6 @@ const renderChart = (feedbackSummary: FeedbackSummary[]) => {
 
 onMounted(() => {
   fetchCollegeData();
-});
-
-watch(collegeData, (newCollege) => {
-  if (newCollege) {
-    renderChart(newCollege.feedback_summary);
-  }
 });
 
 onBeforeUnmount(() => {

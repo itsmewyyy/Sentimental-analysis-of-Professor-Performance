@@ -6,7 +6,7 @@ import DataTable from "@/components/feedbacks/DataTable.vue";
 
 const data = ref<Feedback[]>([]);
 const professorIdentifier = localStorage.getItem("professor");
-const yearsemIdentifier = "24-25-1";
+const yearsemIdentifier = localStorage.getItem("current_year_sem");
 
 async function getData(): Promise<Feedback[]> {
   try {

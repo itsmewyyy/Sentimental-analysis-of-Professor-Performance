@@ -2,26 +2,24 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .models import academic_yearsem, filtered_feedbacks, college_numerical_total, RecurringPhrase, college_numerical_summary, college_feedback_total, college_feedback_summary, department, professor_feedback_summary, professor_numerical_total, professor_numerical_summary_questions, professor_numerical_summary_category, professor_feedback_total
+from .models import academic_yearsem, filtered_feedbacks, college_numerical_summary_questions, college_numerical_total, RecurringPhrase, college_numerical_summary, college_feedback_total, college_feedback_summary, department, professor_feedback_summary, professor_numerical_total, professor_numerical_summary_questions, professor_numerical_summary_category, professor_feedback_total
 
 
 class CollegeRatingsSummaryView(APIView):
     def get(self, request, *args, **kwargs):
-        year_sem_id = kwargs.get('year_sem_id')  
-        year_sem_data = academic_yearsem.objects.all()  
+        year_sem_data = academic_yearsem.objects.all()
         if not year_sem_data.exists():
             return Response({"error": "Year-Semester not found"}, status=404)
 
         year_sem = year_sem_data.first()
         summary = []
 
-  
         colleges = department.objects.all()
         
         for college in colleges:
             college_summary = {
                 "name": college.department_id,
-                "description": college.department_desc,  # Modify as necessary if you have a different description
+                "description": college.department_desc,
                 "numerical_summary": [],
                 "feedback_summary": [],
                 "professor_list": []
@@ -35,13 +33,32 @@ class CollegeRatingsSummaryView(APIView):
             for total in college_numerical_totals:
                 total_avg = total.total_average
 
-                # Fetching category averages
+                # Fetching category and question-level averages
                 category_summaries = college_numerical_summary.objects.filter(year_sem_id=year_sem, department=college)
                 for category in category_summaries:
+                    question_averages = []
+
+                    # Fetching question-level averages for the category
+                    question_summaries = college_numerical_summary_questions.objects.filter(
+                        year_sem_id=year_sem,
+                        department=college,
+                        category=category.category
+                    )
+
+                    for question_summary in question_summaries:
+                        question_avg_data = {
+                            "question_id": question_summary.numerical_question_id.numerical_question_id,
+                            "question_desc": question_summary.numerical_question_id.question,
+                            "average": question_summary.college_question_average,
+                        }
+                        question_averages.append(question_avg_data)
+
+                    # Add category data with question averages
                     category_avg_data = {
                         "category_id": category.category.category_id,
                         "category_desc": category.category.category_desc,
                         "average": category.college_average,
+                        "question_avg": question_averages,
                     }
                     category_averages.append(category_avg_data)
 

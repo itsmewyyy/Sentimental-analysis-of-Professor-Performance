@@ -25,6 +25,7 @@ import professorRadar from "@/components/deanProfessorAnalytics/professorRadar.v
 import professorFeedbacksTable from "@/components/feedbacks/professorFeedbacksTable.vue";
 import profreccuringphrasesTable from "@/components/profsrecurringPhrases/profreccuringphrasesTable.vue";
 import axios from "axios";
+import AdjetiveRating from "@/components/AdjetiveRating.vue";
 
 const authStore = useAuthStore();
 authStore.restoreSession();
@@ -231,22 +232,6 @@ onMounted(() => {
           </div>
         </div>
         <div class="flex space-x-2">
-          <Select>
-            <SelectTrigger
-              class="h-10 font-medium text-sm text-plpgreen-400 border border-plpgreen-200/40 focus:ring-plpgreen-200 px-4"
-            >
-              <SelectValue placeholder="Select Year and Semester" />
-            </SelectTrigger>
-
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>Year and Semesters</SelectLabel>
-                <SelectItem value="sample">
-                  2024 - 2025 2nd Semester
-                </SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
           <Button
             class="px-4 h-10 rounded-md font-medium text-sm bg-plpgreen-100 text-gray-700 hover:bg-plpgreen-200/80 hover:text-white"
           >
@@ -276,10 +261,7 @@ onMounted(() => {
                   </p></TooltipTrigger
                 >
                 <TooltipContent>
-                  <div class="p-8">
-                    <div><p>Adjectival Rating Scale:</p></div>
-                    <div></div>
-                  </div>
+                  <AdjetiveRating></AdjetiveRating>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>

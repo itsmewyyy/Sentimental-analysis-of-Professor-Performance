@@ -53,7 +53,6 @@ const fetchCollegeData = async () => {
     if (response.data && response.data.summary) {
       const yearsemIdentifier = localStorage.getItem("current_year_sem");
       const collegeIdentifier = localStorage.getItem("college");
-      const questionIdentifier = localStorage.getItem("question");
 
       const selectedYearSem = response.data.year_sem === yearsemIdentifier;
 
@@ -158,9 +157,9 @@ const renderChart = (feedbackSummary: FeedbackSummary[]) => {
       },
     },
     legend: {
-      position: "right",
+      position: "left",
       offsetY: 40,
-      offsetX: 240,
+      offsetX: -20,
       fontSize: "14px",
       fontWeight: 400,
       fontFamily: "Roboto",

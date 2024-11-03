@@ -62,10 +62,7 @@
             </DropdownMenuItem>
           </RouterLink>
           <DropdownMenuItem>
-            <div class="flex items-center space-x-3 w-full cursor-pointer">
-              <Download size="16" />
-              <span class="text-sm">Generate Reports</span>
-            </div>
+            <generateReports></generateReports>
           </DropdownMenuItem>
           <DropdownMenuSeparator class="bg-plpgreen-100" />
           <DropdownMenuItem>
@@ -113,6 +110,7 @@ import { RouterLink } from "vue-router";
 import axios from "axios";
 import { useAuthStore } from "@/store/adminStore";
 import { useRouter } from "vue-router";
+import generateReports from "../reportsGeneration/MISExports/generateReports.vue";
 
 const router = useRouter();
 
