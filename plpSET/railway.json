@@ -6,13 +6,7 @@
       "providers": ["python"],
       "phases": {
         "setup": {
-          "nixPkgs": [
-            "mysqlclient",
-            "nodejs",
-            "mariadb-connector-c",
-            "gcc",
-            "python3-pip"
-          ]
+          "nixPkgs": ["mariadb", "nodejs", "gcc", "python3", "python3-pip"]
         }
       }
     },
