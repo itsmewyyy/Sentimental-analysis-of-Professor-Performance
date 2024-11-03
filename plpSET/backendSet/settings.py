@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-l979g06^m7*8rgaqpnxg8bzujdw5i#)mf9ewzup8dr5nihnjr%
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["https://sentiment-professor-feedback-1.onrender.com/"]
+ALLOWED_HOSTS = ["https://sentiment-professor-feedback-1.onrender.com"]
 
 
 # Application definition
