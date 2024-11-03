@@ -14,11 +14,12 @@ export const useAuthStore = defineStore("adminStore", {
     async login(adminUsername, password) {
       try {
         const response = await axios.post(
-          "http://localhost:8000/api/adminLogin/",
+          "http://127.0.0.1:8000/api/adminLogin/",
           {
             adminUsername,
             password,
-          }
+          },
+          { withCredentials: true }
         );
         this.isAuthenticated = true;
         this.user = response.data;
@@ -46,7 +47,7 @@ export const useAuthStore = defineStore("adminStore", {
       // Call the backend API to complete the logout process
       return axios
         .post(
-          "http://localhost:8000/api/adminLogout/",
+          "http://127.0.0.1:8000/api/adminLogout/",
           {},
           { withCredentials: true }
         ) // Explicitly set withCredentials

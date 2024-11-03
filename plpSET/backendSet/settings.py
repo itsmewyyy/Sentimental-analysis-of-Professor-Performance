@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -49,8 +50,9 @@ INSTALLED_APPS = [
 ]
 
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOWED_ORIGINS = ["http://localhost:5173"]  
-CSRF_TRUSTED_ORIGINS = ['http://localhost:5173']  
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS = ["https://sentiment-professor-feedback.vercel.app", "http://localhost:5173"]  
+CSRF_TRUSTED_ORIGINS = ['https://sentiment-professor-feedback.vercel.app/']  
 
 
 MIDDLEWARE = [
@@ -99,11 +101,12 @@ DATABASES = {
         'NAME': 'plpset',
         'USER': 'plpsetadmin',
         'PASSWORD': 'plpset_admin',
-        'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
-        'PORT': '3306',        # Default MySQL port
+        'HOST': 'localhost',   
+        'PORT': '3306',       
     }
 }
 
+DATABASES["default"] = dj_database_url.parse("postgresql://django_db_zugs_user:SIzCSyD6GfsX0Wlb3HJJjtq9IcfFXPdI@dpg-csjpig68ii6s73d6vmg0-a.oregon-postgres.render.com/django_db_zugs")
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
@@ -149,8 +152,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # Use database-backed sessions
 SESSION_COOKIE_NAME = 'sessionid'
 SESSION_COOKIE_HTTPONLY = True
-SESSION_COOKIE_SECURE = False  # Set to True if using HTTPS
+SESSION_COOKIE_SECURE = True  # Set to True if using HTTPS
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # Expire session when the browser closes
+SESSION_COOKIE_SAMESITE = 'None'
 
 
 # Celery settings
