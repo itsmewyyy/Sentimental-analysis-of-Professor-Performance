@@ -43,7 +43,8 @@ export const useRatingsStore = defineStore("ratings", {
             numericalRatings: this.numericalRatings,
             feedbackRatings: this.feedbackRatings,
             studentEnrolledSubjId: this.studentEnrolledSubjId,
-          }
+          },
+          { withCredentials: true }
         );
 
         return response.data;

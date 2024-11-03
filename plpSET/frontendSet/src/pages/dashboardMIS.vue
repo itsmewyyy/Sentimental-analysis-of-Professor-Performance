@@ -56,7 +56,6 @@ onMounted(fetchCounts);
             Registered Accounts
           </p>
           <p class="text-3xl font-bold text-plpyellow-200">
-            s
             {{ Count?.registered_accounts ?? "Loading..." }}
           </p>
         </div>

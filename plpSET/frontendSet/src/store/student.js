@@ -25,7 +25,8 @@ export const useAuthStore = defineStore("student", {
             confirm_password,
             dateofbirth,
             student_email,
-          }
+          },
+          { withCredentials: true }
         );
         this.userInfo = response.data.student;
         return response.data;
