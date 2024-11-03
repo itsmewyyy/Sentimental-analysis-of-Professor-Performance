@@ -25,7 +25,8 @@ SECRET_KEY = 'django-insecure-l979g06^m7*8rgaqpnxg8bzujdw5i#)mf9ewzup8dr5nihnjr%
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ['sentiment-professor-feedback-production.up.railway.app']
+
 
 
 # Application definition
@@ -49,8 +50,8 @@ INSTALLED_APPS = [
 ]
 
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOWED_ORIGINS = ["http://localhost:5173"]  
-CSRF_TRUSTED_ORIGINS = ['http://localhost:5173']  
+CORS_ALLOWED_ORIGINS = ["https://sentiment-professor-feedback.vercel.app/"]  
+CSRF_TRUSTED_ORIGINS = ['https://sentiment-professor-feedback.vercel.app/', 'https://sentiment-professor-feedback-production.up.railway.app/']  
 
 
 MIDDLEWARE = [
