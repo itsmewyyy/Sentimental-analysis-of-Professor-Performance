@@ -1,7 +1,6 @@
 // store/adminStore.js
 import { defineStore } from "pinia";
 import axios from "axios";
-import axiosInstance from "@/axios-config";
 
 export const useAuthStore = defineStore("adminStore", {
   state: () => ({
@@ -14,7 +13,7 @@ export const useAuthStore = defineStore("adminStore", {
   actions: {
     async login(adminUsername, password) {
       try {
-        const response = await axiosInstance.post(
+        const response = await axios.post(
           "https://sentiment-professor-feedback-1.onrender.com/api/adminLogin/",
           {
             adminUsername,
