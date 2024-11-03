@@ -12,6 +12,12 @@ from sklearn.model_selection import train_test_split
 from collections import Counter
 import pickle
 import joblib
+import nltk
+
+try:
+    nltk.data.find('corpora/stopwords')
+except LookupError:
+    nltk.download('stopwords')
 
 nltk.download('punkt')
 nltk.download('punkt_tab')

@@ -26,6 +26,12 @@ from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
 from django.conf import settings
 
+import nltk
+try:
+    nltk.data.find('corpora/stopwords')
+except LookupError:
+    nltk.download('stopwords')
+
 import logging
 logger = logging.getLogger(__name__)
 
