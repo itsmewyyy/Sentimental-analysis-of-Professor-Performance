@@ -6,7 +6,7 @@
       "providers": ["python"],
       "phases": {
         "setup": {
-          "nixPkgs": ["mariadb", "nodejs", "gcc", "python3", "python3-pip"]
+          "nixPkgs": ["...", "nodejs"]
         }
       }
     },

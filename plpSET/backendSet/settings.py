@@ -50,7 +50,7 @@ INSTALLED_APPS = [
 ]
 
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOWED_ORIGINS = ["https://sentiment-professor-feedback.vercel.app/"]  
+CORS_ALLOWED_ORIGINS = ["https://sentiment-professor-feedback.vercel.app"]  
 CSRF_TRUSTED_ORIGINS = ['https://sentiment-professor-feedback.vercel.app/', 'https://sentiment-professor-feedback-production.up.railway.app/']  
 
 
