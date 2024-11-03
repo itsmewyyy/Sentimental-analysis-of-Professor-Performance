@@ -18,7 +18,7 @@ export const useAuthStore = defineStore("student", {
     ) {
       try {
         const response = await axios.post(
-          "http://localhost:8000/api/register/",
+          "https://sentiment-professor-feedback-1.onrender.com/api/register/",
           {
             student_id,
             password,
@@ -38,7 +38,7 @@ export const useAuthStore = defineStore("student", {
     async login(student_acc_number, password, dateofbirth) {
       try {
         const response = await axios.post(
-          "http://localhost:8000/api/login/",
+          "https://sentiment-professor-feedback-1.onrender.com/api/login/",
           {
             student_acc_number,
             password,
@@ -76,7 +76,7 @@ export const useAuthStore = defineStore("student", {
     logout() {
       return axios
         .post(
-          "http://localhost:8000/api/studentLogout/",
+          "https://sentiment-professor-feedback-1.onrender.com/api/studentLogout/",
           {},
           { withCredentials: true }
         ) // Add withCredentials here
