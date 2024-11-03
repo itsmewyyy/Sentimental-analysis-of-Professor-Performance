@@ -155,10 +155,10 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # Expire session when the browser closes
 
 
 # Celery settings
-CELERY_BROKER_URL = 'redis://localhost:6379/0'  # This points Celery to your Redis server.
+CELERY_BROKER_URL = 'redis://default:HrXmnBnCQHcOyZTzjRwIotfjDGFqCQgt@redis.railway.internal:6379'  # This points Celery to your Redis server.
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
-CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_RESULT_BACKEND = 'redis://default:HrXmnBnCQHcOyZTzjRwIotfjDGFqCQgt@redis.railway.internal:6379'
 CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 
 
