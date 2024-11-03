@@ -43,7 +43,7 @@ const router = useRouter();
 const fetchColleges = async () => {
   try {
     const response = await axios.get<College[]>(
-      "http://127.0.0.1:8000/api/colleges/"
+      "https://sentiment-professor-feedback-1.onrender.com/api/colleges/"
     );
     colleges.value = response.data;
     console.log("API response:", response.data);
