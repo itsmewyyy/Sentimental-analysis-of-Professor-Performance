@@ -1,2 +1,2 @@
-web: gunicorn bakendSet.wsgi --log-file -
-web: python manage.py migrate && gunicorn bakendSet.wsgi 
+web: celery -A backendSet worker --pool=threads --loglevel=info & python manage.py migrate && gunicorn bakendSet.wsgi  --bind 0.0.0.0:$PORT
+web: celery -A backendSet beat --loglevel=info  --bind 0.0.0.0:$PORT
