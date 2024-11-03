@@ -1,28 +1,76 @@
 <!-- Admin Login -->
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { cn } from "@/lib/utils";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "@/store/adminStore";
+import axios from "axios";
 
+const authStore = useAuthStore();
 const router = useRouter();
+authStore.restoreSession();
 const adminUsername = ref("");
 const password = ref("");
+const isAuthenticated = computed(() => authStore.isAuthenticated);
+
+onMounted(() => {
+  if (isAuthenticated.value) {
+    const userType = localStorage.getItem("user_type");
+
+    // Redirect based on user_type
+    if (userType === "MIS") {
+      router.push("/MISDashboard");
+    } else if (userType === "Dean") {
+      router.push("/DeanDashboard");
+    } else if (userType === "Secretary") {
+      router.push("/SecretaryDashboard");
+    } else {
+      router.push("/MISDashboard");
+    }
+  }
+});
 
 const login = async () => {
   const authAdminLogin = useAuthStore();
 
   try {
     await authAdminLogin.login(adminUsername.value, password.value);
-    router.push("/");
+
+    const yearSemResponse = await axios.get(
+      "http://127.0.0.1:8000/api/current-year-sem/"
+    );
+
+    if (yearSemResponse.status === 200) {
+      const currentYearSem = yearSemResponse.data;
+
+      localStorage.setItem("current_year_sem", currentYearSem.year_sem_id);
+    }
+
+    // Get user_type from the authenticated user or localStorage
+    const userType =
+      authAdminLogin.user?.user_type || localStorage.getItem("user_type");
+
+    // Redirect based on user_type
+    if (userType === "MIS") {
+      router.push("/MISDashboard");
+    } else if (userType === "Dean") {
+      router.push("/DeanDashboard");
+    } else if (userType === "Secretary") {
+      router.push("/SecretaryDashboard");
+    } else {
+      router.push("/MISDashboard");
+    }
   } catch (error) {
-    console.error(error);
+    console.error("Login or fetching current_year_sem failed:", error);
   }
 };
 </script>
 
 <template>
-  <div class="min-h-screen flex items-center justify-center">
+  <div
+    class="min-h-screen flex items-center justify-center"
+    v-if="!isAuthenticated"
+  >
     <section class="bg-plpyellow-100/15 rounded-lg px-5 font-raleway">
       <div
         class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 grid lg:grid-cols-2 gap-8 lg:gap-16"

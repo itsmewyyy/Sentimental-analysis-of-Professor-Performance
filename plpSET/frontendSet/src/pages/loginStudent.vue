@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { useAuthStore } from "@/store/student";
 import { format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-vue-next";
@@ -14,24 +14,34 @@ import { cn } from "@/lib/utils";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
+const authStore = useAuthStore();
+authStore.restoreSession();
+
 const student_acc_number = ref("");
 const password = ref("");
 const dateofbirth = ref<Date>();
+
+// Check if the user is authenticated
+const isAuthenticated = computed(() => authStore.isAuthenticated);
+
+// Redirect to the dashboard if already logged in
+onMounted(() => {
+  if (isAuthenticated.value) {
+    router.push("/StudentDashboard");
+  }
+});
 
 const login = async () => {
   const formattedDateOfBirth = dateofbirth.value
     ? format(dateofbirth.value, "yyyy-MM-dd")
     : "";
 
-  const authStudentLogin = useAuthStore();
-
   try {
-    await authStudentLogin.login(
+    await authStore.login(
       student_acc_number.value,
       password.value,
       formattedDateOfBirth
     );
-
     router.push("/StudentDashboard");
   } catch (error) {
     console.error(error);
@@ -40,7 +50,10 @@ const login = async () => {
 </script>
 
 <template>
-  <div class="min-h-screen flex items-center justify-center">
+  <div
+    class="min-h-screen flex items-center justify-center"
+    v-if="!isAuthenticated"
+  >
     <section class="bg-plpyellow-100/15 rounded-xl px-5">
       <div
         class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 grid lg:grid-cols-2 gap-8 lg:gap-16"

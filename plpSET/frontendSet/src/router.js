@@ -4,9 +4,17 @@ import registerStudent_page from "./pages/registerStudent.vue";
 import loginAdmin_page from "./pages/loginAdmin.vue";
 import dashboardStudent from "./pages/dashboardStudent.vue";
 import studentList from "./pages/studentList.vue";
-import adminstudentSections from "./pages/adminstudentSections.vue";
-import profsubjTagging from "./pages/profsubjTagging.vue";
+import studentDatabase from "./pages/dashboardMISDatabasesStudent.vue";
+import dashboardSecretary from "./pages/dashboardSecretary.vue";
 import evaluationPage from "./pages/evaluationPage.vue";
+import dashboardDean from "./pages/dashboardDean.vue";
+import dashboardDeanProfessorData from "./pages/dashboardDeanProfessorData.vue";
+import dashboardMIS from "./pages/dashboardMIS.vue";
+import dashboardMISDatabaseManagement from "./pages/dashboardMISDatabaseManagement.vue";
+import dashboardMISAnalytics from "./pages/dashboardMISAnalytics.vue";
+import dashboardMISCollegeData from "./pages/dashboardMISCollegeData.vue";
+import dashboardMISProfessorData from "./pages/dashboardMISProfessorData.vue";
+import StudentProfile from "./pages/StudentProfile.vue";
 import { createRouter, createWebHistory } from "vue-router";
 
 const routes = [
@@ -34,7 +42,14 @@ const routes = [
         "Student Register | Pamantasan ng Lungsod ng Pasig Student Evaluation of Teaching",
     },
   },
-  { path: "/AdminLogin", component: loginAdmin_page },
+  {
+    path: "/AdminLogin",
+    component: loginAdmin_page,
+    meta: {
+      title:
+        "Admin Login | Pamantasan ng Lungsod ng Pasig Student Evaluation of Teaching",
+    },
+  },
 
   {
     path: "/StudentDashboard",
@@ -44,19 +59,103 @@ const routes = [
         "Student Dashboard | Pamantasan ng Lungsod ng Pasig Student Evaluation of Teaching",
     },
   },
-  { path: "/Colleges", component: adminstudentSections },
+  {
+    path: "/DatabaseManagement",
+    component: dashboardMISDatabaseManagement,
+    meta: {
+      title:
+        "Database Management | Pamantasan ng Lungsod ng Pasig Student Evaluation of Teaching",
+    },
+  },
+  {
+    path: "/StudentDatabase",
+    component: studentDatabase,
+    meta: {
+      title:
+        "Colleges | Pamantasan ng Lungsod ng Pasig Student Evaluation of Teaching",
+    },
+  },
   {
     path: "/StudentList/:sectionId",
-    name: "StudentList",
+
     component: studentList,
+    meta: {
+      title:
+        "Student List | Pamantasan ng Lungsod ng Pasig Student Evaluation of Teaching",
+    },
   },
-  { path: "/Prof-Subject", component: profsubjTagging },
   {
-    path: "/evaluation",
+    path: "/SecretaryDashboard",
+    component: dashboardSecretary,
+    meta: {
+      title:
+        "Secretary Dashboard | Pamantasan ng Lungsod ng Pasig Student Evaluation of Teaching",
+    },
+  },
+  {
+    path: "/Evaluation",
     component: evaluationPage,
     meta: {
       title:
         "Student Evaluation of Teaching | Pamantasan ng Lungsod ng Pasig Student Evaluation of Teaching",
+    },
+  },
+  {
+    path: "/DeanDashboard",
+    component: dashboardDean,
+    meta: {
+      title:
+        "Dean Dashboard | Pamantasan ng Lungsod ng Pasig Student Evaluation of Teaching",
+    },
+    name: "DeanDashboard",
+  },
+  {
+    path: "/MISDashboard-College-Analytics",
+    component: dashboardMISCollegeData,
+    meta: {
+      title:
+        "College Analytics | Pamantasan ng Lungsod ng Pasig Student Evaluation of Teaching",
+    },
+    name: "MISCollegeDataDashboard",
+  },
+  {
+    path: "/DeanDashboard-ProfessorAnalytics",
+    component: dashboardDeanProfessorData,
+    meta: {
+      title:
+        "Professor Analytics | Pamantasan ng Lungsod ng Pasig Student Evaluation of Teaching",
+    },
+  },
+  {
+    path: "/MISDashboard-Professor-Analytics",
+    component: dashboardMISProfessorData,
+    meta: {
+      title:
+        "Professor Analytics | Pamantasan ng Lungsod ng Pasig Student Evaluation of Teaching",
+    },
+  },
+  {
+    path: "/MISDashboard",
+    component: dashboardMIS,
+    meta: {
+      title:
+        "MIS Dashboard | Pamantasan ng Lungsod ng Pasig Student Evaluation of Teaching",
+    },
+  },
+  {
+    path: "/MISDashboardAnalytics",
+    component: dashboardMISAnalytics,
+    meta: {
+      title:
+        "Analytics | Pamantasan ng Lungsod ng Pasig Student Evaluation of Teaching",
+    },
+  },
+  {
+    path: "/StudentProfile",
+    component: StudentProfile,
+    meta: {
+      title:
+        "Student Profile | Pamantasan ng Lungsod ng Pasig Student Evaluation of Teaching",
     },
   },
 ];

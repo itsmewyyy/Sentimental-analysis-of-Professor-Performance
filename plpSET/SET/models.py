@@ -1,5 +1,6 @@
 from django.db import models
 from datetime import datetime
+from django.utils import timezone
 
 class year_level(models.Model): 
     year_level_id = models.PositiveSmallIntegerField(primary_key=True)
@@ -15,13 +16,12 @@ class student_status(models.Model):
     def __str__(self):
         return f'{self.student_status_desc}'
     
-
 class department(models.Model):
     department_id = models.CharField(max_length=6, primary_key=True)
     department_desc = models.CharField(max_length=100)
     
     def __str__(self):
-        return f'{self.department_desc}'
+        return f'{self.department_id}'
 
 class programs(models.Model):
     program_id = models.CharField(max_length=8, primary_key=True)
@@ -45,14 +45,15 @@ class student_info(models.Model):
     surname = models.CharField(max_length=100)
     middle_name = models.CharField(max_length=100, blank=True, null=True)
     first_name = models.CharField(max_length=100)
+    extension_name = models.CharField(max_length=5, blank=True, null=True)
     section = models.ForeignKey(section, on_delete=models.CASCADE, related_name='students')
     status = models.ForeignKey(student_status, on_delete=models.CASCADE, related_name='students')
 
     def full_name(self):
         names = [self.surname, self.first_name]
         if self.middle_name:
-            names.insert(1, self.middle_name) 
-        return ' '.join(names)
+            names.insert(2, self.middle_name)  
+        return f"{self.surname}, {' '.join(names[1:])}"
 
     def __str__(self):
         return f'{self.student_id}'
@@ -70,7 +71,7 @@ class academic_yearsem(models.Model):
     semester_desc = models.CharField(max_length=100)
 
     def __str__(self):
-        return f'{self.year_sem_id} {self.semester_desc}'
+        return f'{self.year_sem_id}'
 
 class subjects(models.Model):
     subject_code = models.CharField(max_length=10, primary_key=True)
@@ -95,6 +96,13 @@ class professor_info(models.Model):
     status = models.ForeignKey(professor_status, on_delete=models.CASCADE, related_name='professors')
     department = models.ForeignKey(department, on_delete=models.CASCADE, related_name='professors')
     is_dean = models.BooleanField(default=False)
+    extension_name = models.CharField(max_length=5, blank=True, null=True)
+
+    def full_name(self):
+        names = [self.surname, self.first_name]
+        if self.middle_name:
+            names.insert(2, self.middle_name)  
+        return f"{self.surname}, {' '.join(names[1:])}"
 
     def __str__(self):
         return f'{self.surname} {self.first_name} {self.department}'
@@ -123,7 +131,7 @@ class categories(models.Model):
     category_desc = models.CharField(max_length=100)
 
     def __str__(self):
-        return f'{self.category_id} {self.category_desc}'
+        return f'{self.category_id}'
 
 class numerical_questions(models.Model):
     numerical_question_id = models.CharField(max_length=4, primary_key=True)
@@ -144,7 +152,7 @@ class numerical_ratings(models.Model):
         return f'{self.numerical_id}'
 
 class feedback_questions(models.Model): 
-    feedback_question_id = models.IntegerField(primary_key=True)
+    feedback_question_id = models.CharField(max_length=4, primary_key=True)
     question = models.CharField(max_length=150)
 
     def __str__(self):
@@ -160,3 +168,19 @@ class feedbacks(models.Model):
     def __str__(self):
         return f'{self.feedback_id}'
 
+
+class EvaluationPeriod(models.Model):
+    start_date = models.DateTimeField()
+    end_date = models.DateTimeField()
+    year_semester = models.CharField(max_length=20)
+
+    def is_active(self):
+        now = timezone.now()
+        return self.start_date <= now <= self.end_date
+
+class SubmissionSummary(models.Model):
+    total_submissions = models.IntegerField(default=0)
+    updated_at = models.DateTimeField(auto_now=True)  
+
+    def __str__(self):
+        return f'Total Submissions: {self.total_submissions}'

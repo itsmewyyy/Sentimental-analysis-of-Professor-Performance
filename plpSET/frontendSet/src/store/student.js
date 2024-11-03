@@ -36,38 +36,72 @@ export const useAuthStore = defineStore("student", {
     },
     async login(student_acc_number, password, dateofbirth) {
       try {
-        const response = await axios.post("http://localhost:8000/api/login/", {
-          student_acc_number,
-          password,
-          dateofbirth,
-        });
-        this.isAuthenticated = true;
-        this.user = response.data;
+        const response = await axios.post(
+          "http://localhost:8000/api/login/",
+          {
+            student_acc_number,
+            password,
+            dateofbirth,
+          },
+          { withCredentials: true } // Add this to include cookies
+        );
 
-        console.log(response.data.student_id);
-        // Store relevant user info in LocalStorage
-        localStorage.setItem("student_id", response.data.student_id);
-        localStorage.setItem("user_type", response.data.user_type);
+        // Check if the response contains expected data
+        if (
+          response.data &&
+          response.data.student_id &&
+          response.data.user_type
+        ) {
+          this.isAuthenticated = true;
+          this.user = response.data;
 
-        return response.data;
+          // Store relevant user info in LocalStorage
+          localStorage.setItem("student_id", response.data.student_id);
+          localStorage.setItem("user_type", response.data.user_type);
+
+          return response.data; // Return the response for further use
+        } else {
+          throw new Error("Login response did not contain expected data.");
+        }
       } catch (error) {
+        // Handle login failure
         this.isAuthenticated = false;
-        this.alertMessage = error.response.data.error || "Login failed";
+        this.alertMessage = error.response?.data?.error || "Login failed";
         this.alertType = "error";
-        throw error.response.data; // Throw error for handling in the component
+        throw error.response?.data; // Throw error for handling in the component
       }
     },
-    logout() {
-      this.isAuthenticated = false;
-      this.user = null;
 
-      // Clear session data from LocalStorage
-      localStorage.removeItem("student_id");
-      localStorage.removeItem("user_type");
-      localStorage.removeItem("student_enrolled_subj_id");
+    logout() {
+      return axios
+        .post(
+          "http://localhost:8000/api/studentLogout/",
+          {},
+          { withCredentials: true }
+        ) // Add withCredentials here
+        .then((response) => {
+          // If the logout request succeeds, clear the state and local storage
+          if (response.status === 200) {
+            this.isAuthenticated = false;
+            this.user = null;
+            localStorage.clear();
+
+            this.alertMessage = "Logged out successfully";
+            this.alertType = "success";
+          } else {
+            // Handle cases where logout was not successful
+            console.error("Logout response was not successful:", response);
+            this.alertMessage = "Logout failed. Please try again.";
+            this.alertType = "error";
+          }
+        })
+        .catch((error) => {
+          console.error("Logout API failed:", error);
+          this.alertMessage = "Logout failed. Please try again.";
+          this.alertType = "error";
+        });
     },
 
-    // Restore session from LocalStorage on app load
     restoreSession() {
       const studentId = localStorage.getItem("student_id");
       const userType = localStorage.getItem("user_type");

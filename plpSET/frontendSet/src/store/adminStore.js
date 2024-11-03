@@ -6,8 +6,8 @@ export const useAuthStore = defineStore("adminStore", {
   state: () => ({
     isAuthenticated: false,
     user: null,
-    alertMessage: "", // Message from register/login APIs
-    alertType: "", // success or error, will be used for alert component
+    alertMessage: "",
+    alertType: "",
   }),
 
   actions: {
@@ -26,6 +26,7 @@ export const useAuthStore = defineStore("adminStore", {
         // Store relevant user info in LocalStorage
         localStorage.setItem("admin_id", response.data.admin_id);
         localStorage.setItem("user_type", response.data.user_type);
+        localStorage.setItem("college", response.data.dept_id);
 
         return response.data;
       } catch (error) {
@@ -37,21 +38,40 @@ export const useAuthStore = defineStore("adminStore", {
     },
 
     logout() {
+      // Clear user data and local storage
       this.isAuthenticated = false;
       this.user = null;
+      localStorage.clear();
 
-      // Clear session data from LocalStorage
-      localStorage.removeItem("admin_id");
-      localStorage.removeItem("user_type");
+      // Call the backend API to complete the logout process
+      return axios
+        .post(
+          "http://localhost:8000/api/adminLogout/",
+          {},
+          { withCredentials: true }
+        ) // Explicitly set withCredentials
+        .then(() => {
+          this.alertMessage = "Logged out successfully";
+          this.alertType = "success";
+        })
+        .catch((error) => {
+          console.error("Logout API failed:", error);
+          this.alertMessage = "Logout failed";
+          this.alertType = "error";
+        });
     },
-
-    // Restore session from LocalStorage on app load
     restoreSession() {
       const adminId = localStorage.getItem("admin_id");
       const userType = localStorage.getItem("user_type");
+      const deptId = localStorage.getItem("college");
+
       if (adminId && userType) {
         this.isAuthenticated = true;
-        this.user = { admin_id: adminId, user_type: userType };
+        this.user = {
+          admin_id: adminId,
+          user_type: userType,
+          dept_id: deptId,
+        };
       }
     },
   },

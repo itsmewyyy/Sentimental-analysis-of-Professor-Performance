@@ -1,14 +1,16 @@
 from rest_framework import serializers
 from datetime import datetime
-from .models import section, programs, year_level, department, student_info, numerical_ratings, feedbacks, student_enrolled_subjs, numerical_questions, feedback_questions, professor_subjs, professor_info, subjects
+from .models import section, programs, year_level, academic_year, academic_yearsem, professor_status, department, student_info, numerical_ratings, feedbacks, student_enrolled_subjs, numerical_questions, feedback_questions, professor_subjs, professor_info, subjects, categories, student_status
+from userLogin.models import admin_acc
 from django.utils import timezone
+
 class SectionSerializer(serializers.ModelSerializer):
 
     name = serializers.CharField(source='section')
 
     class Meta:
         model = section
-        fields = ['section_id', 'name']
+        fields = ['section_id', 'name', 'program', 'year_level']
 
 
 class ProgramSerializer(serializers.ModelSerializer):
@@ -16,7 +18,13 @@ class ProgramSerializer(serializers.ModelSerializer):
 
     class Meta: 
         model = programs
-        fields = ['program_id', 'program_desc', 'sections']
+        fields = ['program_id', 'program_desc', 'sections', 'dept_id']
+
+class ProgramsSerializer(serializers.ModelSerializer):
+
+    class Meta: 
+        model = programs
+        fields = ['program_id', 'program_desc', 'dept_id']
 
 
 class YearLevelSerializer(serializers.ModelSerializer):
@@ -52,7 +60,7 @@ class StudentSerializer(serializers.ModelSerializer):
     class Meta:
         model = student_info
         # Include the editable fields
-        fields = ['student_id', 'first_name', 'middle_name', 'surname', 'section', 'status', 'full_name']  
+        fields = ['student_id', 'first_name', 'middle_name', 'surname', 'section', 'status', 'full_name', 'extension_name']  
 
 class SubmitRatingsSerializer(serializers.Serializer):
     numericalRatings = serializers.DictField(child=serializers.IntegerField())
@@ -118,18 +126,21 @@ class SubmitRatingsSerializer(serializers.Serializer):
 class ProfessorInfoSerializer(serializers.ModelSerializer):
     department_desc = serializers.SerializerMethodField()
 
+    full_name = serializers.ReadOnlyField()
+
     class Meta:
         model = professor_info
-        fields = ['surname', 'first_name', 'department_desc']  # Add department description
+        fields = ['professor_id', 'surname', 'first_name','middle_name', 'full_name', 'department', 'department_desc',   'is_dean', 'status'] 
 
     # Method to get department description
     def get_department_desc(self, obj):
         return obj.department.department_desc if obj.department else None
+
 # Serializer for Subject Info
 class SubjectInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = subjects
-        fields = ['subject_code', 'subject_desc' ]
+        fields = ['subject_code', 'subject_desc', 'assoc_college' ]
 
 # Serializer for Student Enrolled Subjects
 class EnrolledSubjectsSerializer(serializers.ModelSerializer):
@@ -138,4 +149,102 @@ class EnrolledSubjectsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = student_enrolled_subjs
-        fields = ['student_enrolled_subj_id', 'prof_info', 'subj_name', 'is_evaluated']
+        fields = ['student_enrolled_subj_id', 'prof_info', 'subj_name', 'is_evaluated', 'student_id', 'prof_subj_id']
+
+#Serializer for Admin List
+class AdminSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = admin_acc
+        # Include the editable fields
+        fields = ['admin_acc_id', 'admin_username', 'is_mis', 'is_dean', 'is_secretary', 'dept_id', 'password']  
+
+
+#Serializer for Feedback Questions
+class FeedbackQuestionsSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = feedback_questions
+        fields = ['feedback_question_id', 'question']  
+
+#Serializer for Category
+class NumericalCategorySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = categories
+        fields = ['category_id', 'category_desc']  
+
+#Serializer for Numerical Questions
+class NumericalQuestionsSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = numerical_questions
+        fields = ['category', 'numerical_question_id', 'question']  
+
+class StudentStatusSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = student_status
+        fields = ['student_status_id', 'student_status_desc',]  
+
+
+class ProfessorStatusSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = professor_status
+        fields = ['professor_status_id', 'professor_status_desc',]  
+
+
+class YearLevelInfoSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = year_level
+        fields = ['year_level_id', 'year_level_desc']  
+
+class ProfSubjsSerizalier(serializers.ModelSerializer):
+    class Meta:
+        model = professor_subjs
+        fields = ['prof_subjects_id', 'year_sem_id', 'professor_id', 'subject_code', 'section_id']
+
+
+
+class AcademicYearSemSerializer(serializers.ModelSerializer):
+    acad_year = serializers.CharField(write_only=True)  # Accept the academic year as a string
+
+    class Meta:
+        model = academic_yearsem
+        fields = ['year_sem_id', 'acad_year', 'semester_desc']
+
+    def create(self, validated_data):
+        # Extract acad_year and semester_desc from validated data
+        acad_year_code = validated_data.pop('acad_year')  # This is the year (e.g., "24-25")
+        semester_desc = validated_data['semester_desc']   # This will be "1st Semester" or "2nd Semester"
+
+        # Retrieve or create the academic year instance
+        acad_year_instance, created = academic_year.objects.get_or_create(
+            acad_year=acad_year_code,
+            defaults={'academic_year_desc': f"Academic Year {acad_year_code}"}
+        )
+
+        # Set the academic year instance in the validated data
+        validated_data['acad_year'] = acad_year_instance
+
+        # Create year_sem_id using the submitted academic year and semester number
+        semester_number = validated_data['year_sem_id'].split('-')[-1]  # Assuming year_sem_id is in the format "24-25-1" or "24-25-2"
+        validated_data['year_sem_id'] = f"{acad_year_code}-{semester_number}"  # e.g., "24-25-1" or "24-25-2"
+        
+        return super().create(validated_data)
+    
+
+from .models import EvaluationPeriod
+
+class EvaluationPeriodSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EvaluationPeriod
+        fields = ['start_date', 'end_date', 'year_semester']
+        
+    def validate(self, data):
+        # Ensure start_date is before end_date
+        if data['start_date'] >= data['end_date']:
+            raise serializers.ValidationError("The start date must be before the end date.")
+        return data

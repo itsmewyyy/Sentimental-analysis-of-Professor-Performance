@@ -23,4 +23,3 @@ class admin_acc(models.Model):
     def __str__(self):
         return f'{self.admin_acc_id} - {self.admin_username}'
 
- 
