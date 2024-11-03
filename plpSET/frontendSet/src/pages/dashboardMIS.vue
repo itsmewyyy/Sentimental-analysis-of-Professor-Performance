@@ -20,7 +20,9 @@ const props = defineProps({
 
 const fetchCounts = async () => {
   try {
-    const response = await fetch("http://127.0.0.1:8000/api/students-summary/");
+    const response = await fetch(
+      "https://sentiment-professor-feedback-1.onrender.com/api/students-summary/"
+    );
     if (!response.ok) {
       throw new Error(`An error occurred: ${response.statusText}`);
     }

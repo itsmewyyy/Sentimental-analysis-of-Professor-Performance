@@ -73,7 +73,7 @@ const position = ref("");
 const fetchInfo = async () => {
   try {
     const response = await axios.get(
-      `http://127.0.0.1:8000/api/admininfocrud/${adminId.value}/`
+      `https://sentiment-professor-feedback-1.onrender.com/api/admininfocrud/${adminId.value}/`
     );
     if (response.status === 200) {
       const data = response.data;
@@ -108,7 +108,7 @@ const submitForm = async () => {
     isSecretary.value = position.value === "secretary";
 
     const matchResponse = await axios.get(
-      `http://127.0.0.1:8000/api/department-list/?department_id=${dept.value}`
+      `https://sentiment-professor-feedback-1.onrender.com/api/department-list/?department_id=${dept.value}`
     );
 
     const matchedData = matchResponse.data.find(

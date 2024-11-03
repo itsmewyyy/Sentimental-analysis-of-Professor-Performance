@@ -63,7 +63,7 @@ const status = ref("");
 const fetchStudentInfo = async () => {
   try {
     const response = await axios.get(
-      `http://127.0.0.1:8000/api/students/${studentId.value}/`
+      `https://sentiment-professor-feedback-1.onrender.com/api/students/${studentId.value}/`
     );
     if (response.status === 200) {
       const student = response.data;

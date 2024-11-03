@@ -7,7 +7,7 @@ import { useQuery } from "@tanstack/vue-query";
 
 async function fetchCategories(): Promise<Category[]> {
   const response = await fetch(
-    `http://127.0.0.1:8000/api/numerical-categories/`
+    `https://sentiment-professor-feedback-1.onrender.com/api/numerical-categories/`
   );
   if (!response.ok) {
     throw new Error("Failed to fetch categories");

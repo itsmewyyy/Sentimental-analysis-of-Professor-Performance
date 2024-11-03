@@ -27,7 +27,7 @@ export function useEdit() {
   return useMutation<void, Error, FeedbackQuestion>({
     mutationFn: async (updatedItem: FeedbackQuestion) => {
       await axios.put(
-        `http://127.0.0.1:8000/api/feedback-questioncrud/${updatedItem.feedback_question_id}/`,
+        `https://sentiment-professor-feedback-1.onrender.com/api/feedback-questioncrud/${updatedItem.feedback_question_id}/`,
         updatedItem
       );
     },
@@ -46,7 +46,7 @@ export function useDelete() {
   return useMutation<void, Error, string>({
     mutationFn: async (Item: string) => {
       await axios.delete(
-        `http://127.0.0.1:8000/api/feedback-questioncrud/${Item}/`
+        `https://sentiment-professor-feedback-1.onrender.com/api/feedback-questioncrud/${Item}/`
       );
     },
     onSuccess: () => {

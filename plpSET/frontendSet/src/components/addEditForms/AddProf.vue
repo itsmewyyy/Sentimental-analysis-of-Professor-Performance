@@ -64,10 +64,10 @@ const isdean = ref(false);
 const submitForm = async () => {
   try {
     const DataResponse = await axios.get(
-      `http://127.0.0.1:8000/api/department-list/?department_id=${department.value}`
+      `https://sentiment-professor-feedback-1.onrender.com/api/department-list/?department_id=${department.value}`
     );
     const statusResponse = await axios.get(
-      `http://127.0.0.1:8000/api/professor-status/?professor_status_id=${status.value}`
+      `https://sentiment-professor-feedback-1.onrender.com/api/professor-status/?professor_status_id=${status.value}`
     );
 
     const matchedData = DataResponse.data.find(

@@ -29,11 +29,14 @@ async function onSetEvaluationPeriod() {
     try {
       const formattedStart = format(start, "yyyy-MM-dd'T'HH:mm:ssxxx");
       const formattedEnd = format(end, "yyyy-MM-dd'T'HH:mm:ssxxx");
-      await axios.post("http://127.0.0.1:8000/api/evaluation-status/", {
-        start_date: formattedStart,
-        end_date: formattedEnd,
-        year_semester: newlyset_acadyearsem,
-      });
+      await axios.post(
+        "https://sentiment-professor-feedback-1.onrender.com/api/evaluation-status/",
+        {
+          start_date: formattedStart,
+          end_date: formattedEnd,
+          year_semester: newlyset_acadyearsem,
+        }
+      );
 
       setEvaluationPeriod(); // Update your state/store
     } catch (error) {

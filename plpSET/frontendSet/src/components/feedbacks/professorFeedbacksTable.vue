@@ -11,7 +11,7 @@ const yearsemIdentifier = localStorage.getItem("current_year_sem");
 async function getData(): Promise<Feedback[]> {
   try {
     const response = await fetch(
-      `http://127.0.0.1:8000/api/professor-feedbacks/?year_sem=${yearsemIdentifier}&professor_id=${professorIdentifier}`
+      `https://sentiment-professor-feedback-1.onrender.com/api/professor-feedbacks/?year_sem=${yearsemIdentifier}&professor_id=${professorIdentifier}`
     );
 
     if (!response.ok) {

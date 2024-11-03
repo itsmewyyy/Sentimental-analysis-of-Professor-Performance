@@ -68,7 +68,7 @@ const yearLevelDescriptions = {
 const fetchInfo = async () => {
   try {
     const response = await axios.get(
-      `http://127.0.0.1:8000/api/sectioncrud/${sectionId.value}/`
+      `https://sentiment-professor-feedback-1.onrender.com/api/sectioncrud/${sectionId.value}/`
     );
     if (response.status === 200) {
       const info = response.data;

@@ -24,7 +24,7 @@ const fetchStudents = async () => {
 
   try {
     const response = await axios.get<Student[]>(
-      `http://127.0.0.1:8000/api/section/${sectionId.value}/`
+      `https://sentiment-professor-feedback-1.onrender.com/api/section/${sectionId.value}/`
     );
 
     if (Array.isArray(response.data)) {

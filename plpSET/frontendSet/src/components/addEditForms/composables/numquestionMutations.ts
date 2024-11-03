@@ -8,7 +8,7 @@ export function useAdd() {
   return useMutation<void, Error, NumQuestion>({
     mutationFn: async (Item: NumQuestion) => {
       await axios.post(
-        "http://127.0.0.1:8000/api/numerical-questioncrud/",
+        "https://sentiment-professor-feedback-1.onrender.com/api/numerical-questioncrud/",
         Item
       );
     },
@@ -27,7 +27,7 @@ export function useEdit() {
   return useMutation<void, Error, NumQuestion>({
     mutationFn: async (updatedItem: NumQuestion) => {
       await axios.put(
-        `http://127.0.0.1:8000/api/numerical-questioncrud/${updatedItem.numerical_question_id}/`,
+        `https://sentiment-professor-feedback-1.onrender.com/api/numerical-questioncrud/${updatedItem.numerical_question_id}/`,
         updatedItem
       );
     },

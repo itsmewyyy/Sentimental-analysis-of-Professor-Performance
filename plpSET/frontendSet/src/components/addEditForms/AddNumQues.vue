@@ -61,7 +61,7 @@ const categories = ref([]);
 onMounted(async () => {
   try {
     const response = await axios.get(
-      "http://127.0.0.1:8000/api/numerical-categories/"
+      "https://sentiment-professor-feedback-1.onrender.com/api/numerical-categories/"
     );
     categories.value = response.data;
   } catch (error) {
@@ -72,7 +72,7 @@ onMounted(async () => {
 const submitForm = async () => {
   try {
     const matchResponse = await axios.get(
-      `http://127.0.0.1:8000/api/numerical-categories/?category_id=${questioncategory.value}`
+      `https://sentiment-professor-feedback-1.onrender.com/api/numerical-categories/?category_id=${questioncategory.value}`
     );
 
     const matchedData = matchResponse.data.find(

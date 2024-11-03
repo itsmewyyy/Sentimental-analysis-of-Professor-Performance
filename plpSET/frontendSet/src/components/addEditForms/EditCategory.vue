@@ -60,7 +60,7 @@ const categoryDesc = ref("");
 const fetchInfo = async () => {
   try {
     const response = await axios.get(
-      `http://127.0.0.1:8000/api/categorycrud/${categoryId.value}/`
+      `https://sentiment-professor-feedback-1.onrender.com/api/categorycrud/${categoryId.value}/`
     );
     if (response.status === 200) {
       const info = response.data;

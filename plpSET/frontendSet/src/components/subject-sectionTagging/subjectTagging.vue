@@ -24,7 +24,7 @@ const loadSubjectsByCollege = async () => {
   if (college) {
     try {
       const response = await axios.get(
-        "http://127.0.0.1:8000/api/subject-list/"
+        "https://sentiment-professor-feedback-1.onrender.com/api/subject-list/"
       );
       FRAMEWORKS.value = response.data
         .filter(

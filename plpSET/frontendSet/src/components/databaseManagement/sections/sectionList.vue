@@ -6,7 +6,9 @@ import DataTable from "@/components/databaseManagement/sections/DataTable.vue";
 import { useQuery } from "@tanstack/vue-query";
 
 async function fetchCategories(): Promise<Section[]> {
-  const response = await fetch("http://127.0.0.1:8000/api/section-list/");
+  const response = await fetch(
+    "https://sentiment-professor-feedback-1.onrender.com/api/section-list/"
+  );
   if (!response.ok) {
     throw new Error("Failed to fetch");
   }

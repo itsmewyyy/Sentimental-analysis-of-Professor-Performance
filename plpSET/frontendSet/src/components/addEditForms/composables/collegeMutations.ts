@@ -7,7 +7,10 @@ export function useAdd() {
 
   return useMutation<void, Error, Department>({
     mutationFn: async (Item: Department) => {
-      await axios.post("http://127.0.0.1:8000/api/collegecrud/", Item);
+      await axios.post(
+        "https://sentiment-professor-feedback-1.onrender.com/api/collegecrud/",
+        Item
+      );
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["items"] });
@@ -24,7 +27,7 @@ export function useEdit() {
   return useMutation<void, Error, Department>({
     mutationFn: async (updatedItem: Department) => {
       await axios.put(
-        `http://127.0.0.1:8000/api/collegecrud/${updatedItem.department_id}/`,
+        `https://sentiment-professor-feedback-1.onrender.com/api/collegecrud/${updatedItem.department_id}/`,
         updatedItem
       );
     },
@@ -42,7 +45,9 @@ export function useDelete() {
 
   return useMutation<void, Error, string>({
     mutationFn: async (Item: string) => {
-      await axios.delete(`http://127.0.0.1:8000/api/collegecrud/${Item}/`);
+      await axios.delete(
+        `https://sentiment-professor-feedback-1.onrender.com/api/collegecrud/${Item}/`
+      );
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["items"] });

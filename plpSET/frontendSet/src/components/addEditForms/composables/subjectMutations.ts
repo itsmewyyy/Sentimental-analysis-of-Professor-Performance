@@ -7,7 +7,10 @@ export function useAdd() {
 
   return useMutation<void, Error, Subject>({
     mutationFn: async (Item: Subject) => {
-      await axios.post("http://127.0.0.1:8000/api/subjectcrud/", Item);
+      await axios.post(
+        "https://sentiment-professor-feedback-1.onrender.com/api/subjectcrud/",
+        Item
+      );
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["items"] });
@@ -24,7 +27,7 @@ export function useEdit() {
   return useMutation<void, Error, Subject>({
     mutationFn: async (updatedItem: Subject) => {
       await axios.put(
-        `http://127.0.0.1:8000/api/subjectcrud/${updatedItem.subject_code}/`,
+        `https://sentiment-professor-feedback-1.onrender.com/api/subjectcrud/${updatedItem.subject_code}/`,
         updatedItem
       );
     },

@@ -37,7 +37,7 @@ const collegeData = ref<College | null>(null);
 const fetchCollegeData = async () => {
   try {
     const response = await axios.get(
-      "http://127.0.0.1:8000/api/college-ratings-summary/"
+      "https://sentiment-professor-feedback-1.onrender.com/api/college-ratings-summary/"
     );
 
     if (response.data && response.data.summary) {

@@ -16,7 +16,7 @@ async function getData(): Promise<Phrase[]> {
 
   try {
     const response = await fetch(
-      `http://127.0.0.1:8000/api/recurring-phrases/?year_sem=${yearsemIdentifier}&professor_id=${professorIdentifier}`
+      `https://sentiment-professor-feedback-1.onrender.com/api/recurring-phrases/?year_sem=${yearsemIdentifier}&professor_id=${professorIdentifier}`
     );
 
     if (!response.ok) {

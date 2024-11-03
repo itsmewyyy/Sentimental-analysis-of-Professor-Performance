@@ -45,7 +45,7 @@ const fetchSubjects = async () => {
   try {
     const student_id = localStorage.getItem("student_id"); // Fetch student ID from localStorage
     const response = await axios.get<Subject[]>(
-      `http://127.0.0.1:8000/api/enrolled_subjs/${student_id}`
+      `https://sentiment-professor-feedback-1.onrender.com/api/enrolled_subjs/${student_id}`
     );
 
     // Assign response directly if it's an array of subjects

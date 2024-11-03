@@ -24,7 +24,7 @@ export function useEditCategory() {
   return useMutation<void, Error, Category>({
     mutationFn: async (updatedCategory: Category) => {
       await axios.put(
-        `http://127.0.0.1:8000/api/categorycrud/${updatedCategory.category_id}/`,
+        `https://sentiment-professor-feedback-1.onrender.com/api/categorycrud/${updatedCategory.category_id}/`,
         updatedCategory
       );
     },
@@ -43,7 +43,7 @@ export function useDeleteCategory() {
   return useMutation<void, Error, string>({
     mutationFn: async (categoryId: string) => {
       await axios.delete(
-        `http://127.0.0.1:8000/api/categorycrud/${categoryId}/`
+        `https://sentiment-professor-feedback-1.onrender.com/api/categorycrud/${categoryId}/`
       );
     },
     onSuccess: () => {

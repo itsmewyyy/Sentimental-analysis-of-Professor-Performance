@@ -44,7 +44,9 @@ const loadSectionsByCollege = async () => {
   const college = localStorage.getItem("college");
   if (college) {
     try {
-      const response = await axios.get("http://127.0.0.1:8000/api/colleges/");
+      const response = await axios.get(
+        "https://sentiment-professor-feedback-1.onrender.com/api/colleges/"
+      );
       const colleges: College[] = response.data;
 
       const selectedCollege = colleges.find((c) => c.name === college);

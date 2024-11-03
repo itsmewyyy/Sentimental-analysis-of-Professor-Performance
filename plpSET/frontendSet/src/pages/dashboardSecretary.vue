@@ -32,7 +32,7 @@ const students = ref<Array<any>>([]); // Holds students for each section
 const loadStudents = async (sectionId: string) => {
   try {
     const response = await axios.get(
-      `http://127.0.0.1:8000/api/section/${sectionId}`
+      `https://sentiment-professor-feedback-1.onrender.com/api/section/${sectionId}`
     );
     students.value = response.data;
     console.log(response.data);

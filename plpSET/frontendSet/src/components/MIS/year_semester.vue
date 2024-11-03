@@ -27,12 +27,15 @@ const {
 async function onSetAcademicTerm() {
   const yearSemId = `${selectedYear.value}-${selectedSemester.value}`;
   try {
-    await axios.post("http://127.0.0.1:8000/api/set-academic-term/", {
-      year_sem_id: yearSemId,
-      acad_year: selectedYear.value,
-      semester_desc:
-        selectedSemester.value === "1" ? "1st Semester" : "2nd Semester",
-    });
+    await axios.post(
+      "https://sentiment-professor-feedback-1.onrender.com/api/set-academic-term/",
+      {
+        year_sem_id: yearSemId,
+        acad_year: selectedYear.value,
+        semester_desc:
+          selectedSemester.value === "1" ? "1st Semester" : "2nd Semester",
+      }
+    );
     setAcademicTerm(yearSemId);
   } catch (error) {
     console.error("Error setting academic term:", error);

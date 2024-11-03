@@ -11,7 +11,7 @@ const sectionId = route.params.sectionId as string;
 
 async function fetchCategories(): Promise<Student[]> {
   const response = await fetch(
-    `http://127.0.0.1:8000/api/section/${sectionId}/`
+    `https://sentiment-professor-feedback-1.onrender.com/api/section/${sectionId}/`
   );
   if (!response.ok) {
     throw new Error("Failed to fetch categories");

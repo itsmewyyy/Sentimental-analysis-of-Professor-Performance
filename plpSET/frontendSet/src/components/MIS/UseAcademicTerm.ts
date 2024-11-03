@@ -10,7 +10,7 @@ export function useAcademicTerm() {
   async function checkEvaluationStatus() {
     try {
       const response = await axios.get(
-        "http://127.0.0.1:8000/api/evaluation-status/"
+        "https://sentiment-professor-feedback-1.onrender.com/api/evaluation-status/"
       );
       isAcademicTermSet.value = response.data.isAcademicTermSet;
       isEvaluationPeriodSet.value = response.data.isEvaluationPeriodSet;

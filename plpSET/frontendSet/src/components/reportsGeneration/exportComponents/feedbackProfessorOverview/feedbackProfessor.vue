@@ -109,7 +109,7 @@ const fetchProfessorData = async () => {
     const collegeIdentifier = localStorage.getItem("college");
     const yearsemIdentifier = localStorage.getItem("current_year_sem");
     const response = await axios.get(
-      "http://127.0.0.1:8000/api/professor-ratings-summary/"
+      "https://sentiment-professor-feedback-1.onrender.com/api/professor-ratings-summary/"
     );
 
     if (response.data.length && yearsemIdentifier) {

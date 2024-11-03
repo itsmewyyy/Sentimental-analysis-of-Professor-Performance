@@ -175,7 +175,7 @@ onMounted(async () => {
   if (studentId) {
     try {
       const response = await axios.get(
-        `http://127.0.0.1:8000/api/student-profile?student_id=${studentId}`
+        `https://sentiment-professor-feedback-1.onrender.com/api/student-profile?student_id=${studentId}`
       );
       studentProfile.value = response.data;
     } catch (error) {

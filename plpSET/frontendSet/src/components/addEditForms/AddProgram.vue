@@ -60,7 +60,7 @@ const dept = ref("");
 const submitForm = async () => {
   try {
     const matchResponse = await axios.get(
-      `http://127.0.0.1:8000/api/department-list/?department_id=${dept.value}`
+      `https://sentiment-professor-feedback-1.onrender.com/api/department-list/?department_id=${dept.value}`
     );
 
     const matchedData = matchResponse.data.find(

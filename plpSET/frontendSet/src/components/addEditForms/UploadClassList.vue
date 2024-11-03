@@ -101,10 +101,10 @@ const loadExcelFile = (file) => {
 const submitForm = async (studentData) => {
   try {
     const sectionResponse = await axios.get(
-      `http://127.0.0.1:8000/api/section-list/?section_id=${section.value}`
+      `https://sentiment-professor-feedback-1.onrender.com/api/section-list/?section_id=${section.value}`
     );
     const statusResponse = await axios.get(
-      `http://127.0.0.1:8000/api/student-status/?student_status_desc=${status.value}`
+      `https://sentiment-professor-feedback-1.onrender.com/api/student-status/?student_status_desc=${status.value}`
     );
 
     const matchedSection = sectionResponse.data.find(

@@ -63,7 +63,7 @@ const isdean = ref(false);
 const fetchInfo = async () => {
   try {
     const response = await axios.get(
-      `http://127.0.0.1:8000/api/professorinfocrud/${professorId.value}/`
+      `https://sentiment-professor-feedback-1.onrender.com/api/professorinfocrud/${professorId.value}/`
     );
     if (response.status === 200) {
       const data = response.data;

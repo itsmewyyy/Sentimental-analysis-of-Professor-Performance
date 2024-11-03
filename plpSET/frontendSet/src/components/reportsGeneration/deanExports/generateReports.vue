@@ -246,10 +246,10 @@ const selectedProfessorFullName = computed(() => {
 onMounted(async () => {
   try {
     const collegeResponse = await axios.get(
-      "http://127.0.0.1:8000/api/colleges/"
+      "https://sentiment-professor-feedback-1.onrender.com/api/colleges/"
     );
     const professorResponse = await axios.get(
-      "http://127.0.0.1:8000/api/professor-list/"
+      "https://sentiment-professor-feedback-1.onrender.com/api/professor-list/"
     );
     colleges.value = collegeResponse.data;
     professors.value = professorResponse.data;
