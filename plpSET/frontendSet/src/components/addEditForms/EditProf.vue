@@ -95,10 +95,10 @@ onMounted(() => {
 const submitForm = async () => {
   try {
     const DataResponse = await axios.get(
-      `http://127.0.0.1:8000/api/department-list/?department_id=${department.value}`
+      `https://sentiment-professor-feedback-1.onrender.com/api/department-list/?department_id=${department.value}`
     );
     const statusResponse = await axios.get(
-      `http://127.0.0.1:8000/api/professor-status/?professor_status_id=${status.value}`
+      `https://sentiment-professor-feedback-1.onrender.com/api/professor-status/?professor_status_id=${status.value}`
     );
 
     const matchedData = DataResponse.data.find(
@@ -129,7 +129,7 @@ const submitForm = async () => {
         isOpen.value = false;
         toast({
           title: "Success",
-          description: "Added successfully!",
+          description: "Professor information updated!",
         });
       },
     });

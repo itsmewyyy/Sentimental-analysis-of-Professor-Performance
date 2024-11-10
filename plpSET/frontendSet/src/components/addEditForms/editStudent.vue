@@ -102,10 +102,10 @@ const submitForm = async () => {
 
     // Fetch section and status data from the backend
     const sectionResponse = await axios.get(
-      `http://127.0.0.1:8000/api/section-list/?section_id=${section.value}`
+      `https://sentiment-professor-feedback-1.onrender.com/api/section-list/?section_id=${section.value}`
     );
     const statusResponse = await axios.get(
-      `http://127.0.0.1:8000/api/student-status/?student_status_desc=${status.value}`
+      `https://sentiment-professor-feedback-1.onrender.com/api/student-status/?student_status_desc=${status.value}`
     );
 
     // Log the responses to see what's coming back

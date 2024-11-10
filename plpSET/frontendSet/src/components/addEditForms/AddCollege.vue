@@ -55,7 +55,7 @@ const submitForm = () => {
       isOpen.value = false;
       toast({
         title: "Success",
-        description: "Added successfully!",
+        description: "Department added successfully!",
       });
     },
     onError: (error) => {

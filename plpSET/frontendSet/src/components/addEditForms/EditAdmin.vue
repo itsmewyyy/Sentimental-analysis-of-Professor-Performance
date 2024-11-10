@@ -137,7 +137,7 @@ const submitForm = async () => {
         isOpen.value = false;
         toast({
           title: "Success",
-          description: "Added successfully!",
+          description: "Admin information updated!",
         });
       },
       onError: (error) => {

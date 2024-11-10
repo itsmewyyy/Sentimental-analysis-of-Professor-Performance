@@ -98,7 +98,7 @@ const submitForm = async () => {
         isOpen.value = false;
         toast({
           title: "Success",
-          description: "Added successfully!",
+          description: "Professor added successfully!",
         });
       },
     });

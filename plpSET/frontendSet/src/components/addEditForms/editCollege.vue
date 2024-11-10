@@ -83,7 +83,7 @@ const submitForm = () => {
       isOpen.value = false;
       toast({
         title: "Success",
-        description: "Edited successfully!",
+        description: "College updated successfully!",
       });
     },
     onError: (error) => {

@@ -96,10 +96,10 @@ onMounted(() => {
 const submitForm = async () => {
   try {
     const programResponse = await axios.get(
-      `http://127.0.0.1:8000/api/program-list/?program_id=${program.value}`
+      `https://sentiment-professor-feedback-1.onrender.com/api/program-list/?program_id=${program.value}`
     );
     const statusResponse = await axios.get(
-      `http://127.0.0.1:8000/api/years-list/?year_level_desc=${yearLevel.value}`
+      `https://sentiment-professor-feedback-1.onrender.com/api/years-list/?year_level_desc=${yearLevel.value}`
     );
 
     const matchedSection = programResponse.data.find(
@@ -135,7 +135,7 @@ const submitForm = async () => {
         isOpen.value = false;
         toast({
           title: "Success",
-          description: "Added successfully!",
+          description: "Section updated successfully!",
         });
       },
     });

@@ -96,7 +96,7 @@ const submitForm = () => {
       isOpen.value = false;
       toast({
         title: "Success",
-        description: "Category updated added successfully!",
+        description: "Category updated successfully!",
       });
     },
     onError: (error) => {

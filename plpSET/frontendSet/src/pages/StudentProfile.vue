@@ -108,13 +108,24 @@
               >
             </DialogHeader>
             <div class="flex items-center space-x-2">
-              <div class="grid flex-1 gap-2">
-                <Label for="link" class="sr-only">Link</Label>
+              <div class="grid gap-2">
+                <Label html-for="password" class="text-xs">Password</Label>
                 <Input
-                  id="link"
-                  default-value="23454"
-                  read-only
+                  id="password"
                   type="password"
+                  default-value=""
+                  v-model="passWord"
+                />
+              </div>
+              <div class="grid gap-2">
+                <Label html-for="cpassword" class="text-xs"
+                  >Confirm Password</Label
+                >
+                <Input
+                  id="cpassword"
+                  type="password"
+                  default-value=""
+                  v-model="confirmpassword"
                 />
               </div>
             </div>

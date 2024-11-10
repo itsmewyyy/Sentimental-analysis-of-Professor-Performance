@@ -85,7 +85,7 @@ const submitForm = () => {
       isOpen.value = false;
       toast({
         title: "Success",
-        description: "Feedback question added successfully!",
+        description: "Feedback question updated successfully!",
       });
     },
     onError: (error) => {
