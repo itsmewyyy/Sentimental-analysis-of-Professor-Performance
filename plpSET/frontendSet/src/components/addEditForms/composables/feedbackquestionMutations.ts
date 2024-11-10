@@ -8,7 +8,7 @@ export function useAdd() {
   return useMutation<void, Error, FeedbackQuestion>({
     mutationFn: async (Item: FeedbackQuestion) => {
       await axios.post(
-        "http://127.0.0.1:8000/api/feedback-questioncrud/",
+        "https://sentiment-professor-feedback-1.onrender.com/api/feedback-questioncrud/",
         Item
       );
     },

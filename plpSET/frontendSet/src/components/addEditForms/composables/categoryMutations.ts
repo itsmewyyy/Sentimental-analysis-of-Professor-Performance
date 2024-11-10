@@ -7,7 +7,10 @@ export function useAddCategory() {
 
   return useMutation<void, Error, Category>({
     mutationFn: async (newCategory: Category) => {
-      await axios.post("http://127.0.0.1:8000/api/categorycrud/", newCategory);
+      await axios.post(
+        "https://sentiment-professor-feedback-1.onrender.com/api/categorycrud/",
+        newCategory
+      );
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["categories"] });

@@ -45,7 +45,9 @@ export function useDelete() {
 
   return useMutation<void, Error, string>({
     mutationFn: async (Item: string) => {
-      await axios.delete(`http://127.0.0.1:8000/api/students/${Item}/`);
+      await axios.delete(
+        `https://sentiment-professor-feedback-1.onrender.com/api/students/${Item}/`
+      );
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["items"] });
