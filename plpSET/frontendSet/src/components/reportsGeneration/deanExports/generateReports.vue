@@ -218,7 +218,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import feedbackOverview from "@/components/reportsGeneration/exportComponents/collegeFeedbackOverview/feedbackOverview.vue";
 import numericalOverview from "@/components/reportsGeneration/exportComponents/collegeNumericalOverview/numericalOverview.vue";
-import numericalProfessor from "@/components/reportsGeneration/exportComponents/numericalProfessor.vue";
+import numericalProfessor from "@/components/reportsGeneration/exportComponents/professorNumerical/numericalProfessor.vue";
 import feedbackProfessor from "@/components/reportsGeneration/exportComponents/feedbackProfessorOverview/feedbackProfessor.vue";
 import feedbackQuestionOverview from "@/components/reportsGeneration/exportComponents/collegeFeedbackQuestionOverview/feedbackQuestionOverview.vue";
 

@@ -20,6 +20,9 @@ import subjectList from "@/components/databaseManagement/subjects/subjectList.vu
 import categoryList from "@/components/databaseManagement/categories/categoryList.vue";
 import NumQuestionList from "@/components/databaseManagement/numericalQuestions/NumQuestionList.vue";
 import feedbackquestionlist from "@/components/databaseManagement/feedbackquestions/feedbackquestionlist.vue";
+import { useAuthStore } from "@/store/adminStore";
+const authStore = useAuthStore();
+authStore.restoreSession();
 </script>
 
 <template>

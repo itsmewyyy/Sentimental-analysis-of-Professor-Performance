@@ -2,7 +2,6 @@
 import subjectComponent from "@/components/SET/subjectComponent.vue";
 import navbar from "@/components/navigation/NavBarMIS.vue";
 import { ref, onMounted, computed } from "vue";
-import { useAuthStore } from "@/store/student";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Tooltip,
@@ -27,7 +26,7 @@ import professorFeedbacksTable from "@/components/feedbacks/professorFeedbacksTa
 import profreccuringphrasesTable from "@/components/profsrecurringPhrases/profreccuringphrasesTable.vue";
 import AdjetiveRating from "@/components/AdjetiveRating.vue";
 import axios from "axios";
-
+import { useAuthStore } from "@/store/adminStore";
 const authStore = useAuthStore();
 authStore.restoreSession();
 

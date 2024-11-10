@@ -99,4 +99,7 @@ import { Button } from "@/components/ui/button";
 import { Pencil } from "lucide-vue-next";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useAuthStore } from "@/store/adminStore";
+const authStore = useAuthStore();
+authStore.restoreSession();
 </script>

@@ -19,6 +19,9 @@ import {
 import { useRouter } from "vue-router";
 import { useRatingsStore } from "@/store/ratingStore";
 import axios from "axios";
+import { useAuthStore } from "@/store/student";
+const authStore = useAuthStore();
+authStore.restoreSession();
 
 // Define interfaces
 interface ProfessorInfo {

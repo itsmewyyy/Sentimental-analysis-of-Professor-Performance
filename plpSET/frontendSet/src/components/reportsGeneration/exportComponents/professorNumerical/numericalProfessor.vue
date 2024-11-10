@@ -1,11 +1,12 @@
 <template>
   <div class="pt-16">
-    <TablePrint :refreshChart="refreshChart"></TablePrint>
+    <professornumericalTable
+      :refreshChart="refreshChart"
+    ></professornumericalTable>
   </div>
 </template>
 <script setup lang="ts">
-import TablePrint from "./collegenumericalTable.vue";
-
+import professornumericalTable from "./professornumericalTable.vue";
 defineProps({
   college: String,
   professor: String,

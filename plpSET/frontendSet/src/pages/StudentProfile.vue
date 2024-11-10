@@ -167,6 +167,9 @@ import NavBarStudent from "@/components/navigation/NavBarStudent.vue";
 
 import { ref, onMounted } from "vue";
 import axios from "axios";
+import { useAuthStore } from "@/store/student";
+const authStore = useAuthStore();
+authStore.restoreSession();
 
 const studentProfile = ref(null); // Start with null
 

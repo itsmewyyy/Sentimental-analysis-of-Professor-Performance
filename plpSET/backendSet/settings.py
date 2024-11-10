@@ -54,7 +54,7 @@ CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
 ALLOWED_HOSTS = config("ALLOWED_HOSTS").split(",")
 
-CORS_ALLOWED_ORIGINS = ["https://sentiment-professor-feedback.vercel.app", "https://sentiment-professor-feedback-1.onrender.com","http://localhost:5173"]  
+CORS_ALLOWED_ORIGINS = ["https://sentiment-professor-feedback.vercel.app", "https://sentiment-professor-feedback-1.onrender.com"]  
 CSRF_TRUSTED_ORIGINS = ['https://sentiment-professor-feedback.vercel.app', 'https://sentiment-professor-feedback-1.onrender.com' ]  
 
 

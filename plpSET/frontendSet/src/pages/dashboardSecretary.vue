@@ -16,6 +16,9 @@ import subjectTagging from "@/components/subject-sectionTagging/subjectTagging.v
 import sectionTagging from "@/components/subject-sectionTagging/sectionTagging.vue";
 import secretaryNavbar from "@/components/navigation/NavBarSecretary.vue";
 import axios from "axios";
+import { useAuthStore } from "@/store/adminStore";
+const authStore = useAuthStore();
+authStore.restoreSession();
 const subjectsectionTags = ref<Array<number>>([]);
 
 const professors = ref<Array<any>>([]);

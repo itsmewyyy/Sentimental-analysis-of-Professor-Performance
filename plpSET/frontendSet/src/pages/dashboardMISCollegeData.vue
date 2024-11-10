@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import navbar from "@/components/navigation/NavBarMIS.vue";
 import { ref, onMounted, computed } from "vue";
-import { useAuthStore } from "@/store/student";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Select,
@@ -27,7 +26,7 @@ import facultyStars from "@/components/deanOverview/facultyStars.vue";
 import focusAreas from "@/components/deanOverview/focusAreas.vue";
 import CollegereccuringphrasesTable from "@/components/collegerecurringPhrases/collegereccuringphrasesTable.vue";
 import AdjetiveRating from "@/components/AdjetiveRating.vue";
-
+import { useAuthStore } from "@/store/adminStore";
 const authStore = useAuthStore();
 authStore.restoreSession();
 

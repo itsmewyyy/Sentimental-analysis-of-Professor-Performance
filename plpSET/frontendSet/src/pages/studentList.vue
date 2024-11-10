@@ -4,6 +4,9 @@ import { useRoute } from "vue-router";
 import axios from "axios";
 import StudentList from "@/components/databaseStudent/studentListTable.vue";
 import MISNavbar from "@/components/navigation/NavBarMIS.vue";
+import { useAuthStore } from "@/store/adminStore";
+const authStore = useAuthStore();
+authStore.restoreSession();
 
 interface Student {
   student_id: string;

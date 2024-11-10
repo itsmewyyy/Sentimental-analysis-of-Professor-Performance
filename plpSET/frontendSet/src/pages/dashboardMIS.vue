@@ -5,6 +5,9 @@ import year_semester from "@/components/MIS/year_semester.vue";
 import evaluationPeriod from "@/components/MIS/evaluationPeriod.vue";
 import axios from "axios";
 import submissionChart from "@/components/MIS/submissionChart.vue";
+import { useAuthStore } from "@/store/adminStore";
+const authStore = useAuthStore();
+authStore.restoreSession();
 
 interface Counts {
   enrolled_students: number;

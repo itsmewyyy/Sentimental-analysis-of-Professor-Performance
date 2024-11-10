@@ -16,4 +16,7 @@
 <script setup lang="ts">
 import collegeDropdown from "@/components/databaseStudent/collegesDropdown.vue";
 import MISNavbar from "@/components/navigation/NavBarMIS.vue";
+import { useAuthStore } from "@/store/adminStore";
+const authStore = useAuthStore();
+authStore.restoreSession();
 </script>
