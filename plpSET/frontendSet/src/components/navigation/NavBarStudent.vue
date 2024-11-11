@@ -30,7 +30,7 @@
         </HoverCardTrigger>
         <HoverCardContent class="w-80 mr-20">
           <div class="flex justify-between space-x-4">
-            <div class="space-y-1">
+            <div class="space-y-1" v-if="evaluationPeriod">
               <h4 class="text-sm font-semibold">Evaluation Period</h4>
               <p class="text-sm">{{ evaluationPeriod.year_semester }}</p>
               <div class="flex items-center pt-2">
@@ -55,7 +55,7 @@
             <AvatarFallback>PLP</AvatarFallback>
           </Avatar>
         </DropdownMenuTrigger>
-        <DropdownMenuContent class="w-48 mr-7">
+        <DropdownMenuContent class="w-48 mr-7" v-if="studentProfile">
           <DropdownMenuLabel>
             <div class="flex flex-col space-y-0 line-clamp-2">
               <span class="font-medium"
@@ -116,10 +116,9 @@ import { useAuthStore } from "@/store/student";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
+const authAdminLogin = useAuthStore();
 
 const logout = async () => {
-  const authAdminLogin = useAuthStore();
-
   try {
     await authAdminLogin.logout();
     if (!authAdminLogin.isAuthenticated) {
@@ -132,9 +131,11 @@ const logout = async () => {
   }
 };
 
-const studentProfile = ref(null); // Start with null
+const studentProfile = ref(null);
+const evaluationPeriod = ref(null);
 
 onMounted(async () => {
+  // Fetch student profile
   const studentId = localStorage.getItem("student_id");
   if (studentId) {
     try {
@@ -148,11 +149,8 @@ onMounted(async () => {
   } else {
     console.error("Student ID not found in localStorage.");
   }
-});
 
-const evaluationPeriod = ref(null);
-
-async function fetchEvaluationPeriod() {
+  // Fetch evaluation period
   try {
     const response = await axios.get(
       "https://sentiment-professor-feedback-1.onrender.com/api/latest-evaluation/"
@@ -161,9 +159,5 @@ async function fetchEvaluationPeriod() {
   } catch (error) {
     console.error("Error fetching evaluation period:", error);
   }
-}
-
-onMounted(async () => {
-  await fetchEvaluationPeriod();
 });
 </script>
