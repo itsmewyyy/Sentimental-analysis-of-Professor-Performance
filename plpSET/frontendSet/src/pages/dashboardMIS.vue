@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from "vue";
-import MISNavbar from "@/components/navigation/NavBarMIS.vue";
+import MISNavbar from "@/components/navigation/NavBarStudent.vue";
 import year_semester from "@/components/MIS/year_semester.vue";
 import evaluationPeriod from "@/components/MIS/evaluationPeriod.vue";
 import axios from "axios";
