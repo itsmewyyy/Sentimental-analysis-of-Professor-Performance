@@ -28,6 +28,7 @@ import focusAreas from "@/components/deanOverview/focusAreas.vue";
 import CollegereccuringphrasesTable from "@/components/collegerecurringPhrases/collegereccuringphrasesTable.vue";
 import { Card, CardContent } from "@/components/ui/card";
 import AdjetiveRating from "@/components/AdjetiveRating.vue";
+import ScrollArea from "@/components/ui/scroll-area/ScrollArea.vue";
 
 const authStore = useAuthStore();
 authStore.restoreSession();
@@ -169,126 +170,130 @@ onMounted(() => {
 
 <template>
   <navbar />
-  <section class="transition-all duration-300">
-    <section class="p-20 pt-32 space-y-12">
-      <div class="flex items-center justify-between">
-        <div class="flex items-center space-x-2">
-          <Avatar class="w-16 h-16">
-            <AvatarImage
-              src="https://i1.sndcdn.com/artworks-NuIfnZ3ZMRhLnlEz-QHsZQA-t500x500.jpg"
-            />
-            <AvatarFallback>PLP</AvatarFallback>
-          </Avatar>
-          <div class="w-4/6">
-            <p class="font-bold text-3xl">Overview of Faculty Performance</p>
-            <p class="text-sm text-darks-400/60 font-medium">
-              This performance overview provides insights into faculty
-              effectiveness, drawn from student feedback and ratings for the
-              academic year 2024-2025, second semester.
-            </p>
+  <ScrollArea class="h-svh w-full">
+    <section class="transition-all duration-300">
+      <section class="p-20 pt-32 space-y-12">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-2">
+            <Avatar class="w-16 h-16">
+              <AvatarImage
+                src="https://i1.sndcdn.com/artworks-NuIfnZ3ZMRhLnlEz-QHsZQA-t500x500.jpg"
+              />
+              <AvatarFallback>PLP</AvatarFallback>
+            </Avatar>
+            <div class="w-4/6">
+              <p class="font-bold text-3xl">Overview of Faculty Performance</p>
+              <p class="text-sm text-darks-400/60 font-medium">
+                This performance overview provides insights into faculty
+                effectiveness, drawn from student feedback and ratings for the
+                academic year 2024-2025, second semester.
+              </p>
+            </div>
+          </div>
+          <div class="flex space-x-2">
+            <Button
+              class="px-4 h-10 rounded-md font-medium text-sm bg-plpgreen-100 text-gray-800 hover:bg-plpgreen-200/80 hover:text-white"
+            >
+              Compare
+            </Button>
           </div>
         </div>
-        <div class="flex space-x-2">
-          <Button
-            class="px-4 h-10 rounded-md font-medium text-sm bg-plpgreen-100 text-gray-800 hover:bg-plpgreen-200/80 hover:text-white"
-          >
-            Compare
-          </Button>
-        </div>
-      </div>
 
-      <!---Summary---->
-      <div class="space-y-4">
-        <div class="grid grid-cols-10 grid-rows-8 gap-4 h-[480px]">
-          <div class="col-span-3 row-span-2 border border-black/15 rounded-md">
-            <div class="p-7">
-              <p class="text-sm text-darks-200/50 font-medium">
-                Faculty Rating
-              </p>
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger>
-                    <p
-                      v-if="collegeData?.numerical_summary?.length"
-                      :class="`text-2xl font-bold ${ratingColor}`"
+        <!---Summary---->
+        <div class="space-y-4">
+          <div class="grid grid-cols-10 grid-rows-8 gap-4 h-[480px]">
+            <div
+              class="col-span-3 row-span-2 border border-black/15 rounded-md"
+            >
+              <div class="p-7">
+                <p class="text-sm text-darks-200/50 font-medium">
+                  Faculty Rating
+                </p>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <p
+                        v-if="collegeData?.numerical_summary?.length"
+                        :class="`text-2xl font-bold ${ratingColor}`"
+                      >
+                        {{
+                          collegeData.numerical_summary[0]?.total_avg.toFixed(2)
+                        }}
+                        -
+                        {{ ratingLabel }}
+                      </p></TooltipTrigger
                     >
-                      {{
-                        collegeData.numerical_summary[0]?.total_avg.toFixed(2)
-                      }}
-                      -
-                      {{ ratingLabel }}
-                    </p></TooltipTrigger
-                  >
-                  <TooltipContent>
-                    <AdjetiveRating></AdjetiveRating>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
+                    <TooltipContent>
+                      <AdjetiveRating></AdjetiveRating>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </div>
+            </div>
+
+            <div
+              class="col-span-3 row-span-2 col-start-4 border border-black/15 rounded-md"
+            >
+              <div class="p-7">
+                <p class="text-sm text-darks-200/50 font-medium">
+                  Feedback Score
+                </p>
+                <p class="text-2xl font-bold" :class="feedbackColor">
+                  {{ feedbackScore }}
+                </p>
+              </div>
+            </div>
+            <div
+              class="col-span-4 row-span-8 col-start-7 border border-black/15 rounded-md"
+            >
+              <CollegereccuringphrasesTable></CollegereccuringphrasesTable>
+            </div>
+            <div
+              class="col-span-3 row-span-6 row-start-3 border border-black/15 rounded-md"
+            >
+              <collegeNumericalRadar />
+            </div>
+            <div
+              class="col-span-3 row-span-6 col-start-4 row-start-3 border border-black/15 rounded-md p-7"
+            >
+              <collegeFeedbackChart />
             </div>
           </div>
 
-          <div
-            class="col-span-3 row-span-2 col-start-4 border border-black/15 rounded-md"
-          >
-            <div class="p-7">
-              <p class="text-sm text-darks-200/50 font-medium">
-                Feedback Score
-              </p>
-              <p class="text-2xl font-bold" :class="feedbackColor">
-                {{ feedbackScore }}
-              </p>
+          <!---Professors---->
+
+          <div class="grid grid-cols-5 grid-rows-6 gap-4 h-[480px]">
+            <div class="col-span-3 font-semibold text-xl pt-10">
+              Professor Performance Summary
+            </div>
+            <div
+              class="col-span-3 row-span-5 col-start-1 row-start-2 border border-black/15 rounded-md p-4"
+            >
+              <tableProfessorSummary />
+            </div>
+            <div
+              class="col-span-2 col-start-4 row-start-1 font-semibold text-xl pt-10"
+            >
+              Faculty Stars
+            </div>
+            <div
+              class="col-span-2 row-span-2 col-start-4 row-start-2 border border-black/15 rounded-md p-2"
+            >
+              <facultyStars />
+            </div>
+            <div
+              class="col-span-2 col-start-4 row-start-4 font-semibold text-xl pt-10"
+            >
+              Focus Areas
+            </div>
+            <div
+              class="col-span-2 row-span-2 col-start-4 row-start-5 border border-black/15 rounded-md p-2"
+            >
+              <focusAreas />
             </div>
           </div>
-          <div
-            class="col-span-4 row-span-8 col-start-7 border border-black/15 rounded-md"
-          >
-            <CollegereccuringphrasesTable></CollegereccuringphrasesTable>
-          </div>
-          <div
-            class="col-span-3 row-span-6 row-start-3 border border-black/15 rounded-md"
-          >
-            <collegeNumericalRadar />
-          </div>
-          <div
-            class="col-span-3 row-span-6 col-start-4 row-start-3 border border-black/15 rounded-md p-7"
-          >
-            <collegeFeedbackChart />
-          </div>
         </div>
-
-        <!---Professors---->
-
-        <div class="grid grid-cols-5 grid-rows-6 gap-4 h-[480px]">
-          <div class="col-span-3 font-semibold text-xl pt-10">
-            Professor Performance Summary
-          </div>
-          <div
-            class="col-span-3 row-span-5 col-start-1 row-start-2 border border-black/15 rounded-md p-4"
-          >
-            <tableProfessorSummary />
-          </div>
-          <div
-            class="col-span-2 col-start-4 row-start-1 font-semibold text-xl pt-10"
-          >
-            Faculty Stars
-          </div>
-          <div
-            class="col-span-2 row-span-2 col-start-4 row-start-2 border border-black/15 rounded-md p-2"
-          >
-            <facultyStars />
-          </div>
-          <div
-            class="col-span-2 col-start-4 row-start-4 font-semibold text-xl pt-10"
-          >
-            Focus Areas
-          </div>
-          <div
-            class="col-span-2 row-span-2 col-start-4 row-start-5 border border-black/15 rounded-md p-2"
-          >
-            <focusAreas />
-          </div>
-        </div>
-      </div>
+      </section>
     </section>
-  </section>
+  </ScrollArea>
 </template>

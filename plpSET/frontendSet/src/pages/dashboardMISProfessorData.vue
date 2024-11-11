@@ -27,6 +27,7 @@ import profreccuringphrasesTable from "@/components/profsrecurringPhrases/profre
 import AdjetiveRating from "@/components/AdjetiveRating.vue";
 import axios from "axios";
 import { useAuthStore } from "@/store/adminStore";
+import ScrollArea from "@/components/ui/scroll-area/ScrollArea.vue";
 const authStore = useAuthStore();
 authStore.restoreSession();
 
@@ -211,137 +212,145 @@ onMounted(() => {
 </script>
 
 <template>
-  <navbar />
+  <ScrollArea class="h-svh w-full">
+    <navbar />
 
-  <section class="transition-all duration-300">
-    <section class="p-20 pt-32 space-y-12">
-      <div
-        class="flex items-center justify-between"
-        v-if="professorData?.numerical_summary?.category_avg?.length"
-      >
-        <div class="flex items-center space-x-2">
-          <Avatar class="w-16 h-16">
-            <AvatarImage :src="professorData.avatarUrl" />
-            <AvatarFallback>PLP</AvatarFallback>
-          </Avatar>
-          <div class="w-full">
-            <p class="font-bold text-3xl">{{ professorData.name }}</p>
-            <p class="text-base text-darks-400/60 font-medium">
-              {{ professorData.dept_desc }}
-            </p>
-          </div>
-        </div>
-        <div class="flex space-x-2">
-          <Button
-            class="px-4 h-10 rounded-md font-medium text-sm bg-plpgreen-100 text-gray-700 hover:bg-plpgreen-200/80 hover:text-white"
-          >
-            Compare
-          </Button>
-        </div>
-      </div>
-      <!----Numerical Ratings-->
-      <div class="grid grid-cols-9 grid-rows-8 gap-4 h-[480px]">
-        <div class="col-span-3 row-span-2 border border-black/15 rounded-md">
-          <div class="p-7">
-            <p class="text-sm text-darks-200/50 font-medium">Average Rating</p>
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger>
-                  <p
-                    v-if="
-                      professorData?.numerical_summary?.category_avg?.length
-                    "
-                    :class="`text-2xl font-bold ${ratingColor}`"
-                  >
-                    {{
-                      professorData.numerical_summary.category_avg[0]?.average
-                    }}
-                    -
-                    {{ ratingLabel }}
-                  </p></TooltipTrigger
-                >
-                <TooltipContent>
-                  <AdjetiveRating></AdjetiveRating>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          </div>
-        </div>
+    <section class="transition-all duration-300">
+      <section class="p-20 pt-32 space-y-12">
         <div
-          class="col-span-3 row-span-2 col-start-4 border border-black/15 rounded-md"
+          class="flex items-center justify-between"
+          v-if="professorData?.numerical_summary?.category_avg?.length"
         >
-          <div class="p-7">
-            <p class="text-sm text-darks-200/50 font-medium">Strength Areas</p>
-            <p
-              class="text-2xl font-bold text-plpgreen-200"
-              v-if="professorData?.numerical_summary?.category_avg?.length"
+          <div class="flex items-center space-x-2">
+            <Avatar class="w-16 h-16">
+              <AvatarImage :src="professorData.avatarUrl" />
+              <AvatarFallback>PLP</AvatarFallback>
+            </Avatar>
+            <div class="w-full">
+              <p class="font-bold text-3xl">{{ professorData.name }}</p>
+              <p class="text-base text-darks-400/60 font-medium">
+                {{ professorData.dept_desc }}
+              </p>
+            </div>
+          </div>
+          <div class="flex space-x-2">
+            <Button
+              class="px-4 h-10 rounded-md font-medium text-sm bg-plpgreen-100 text-gray-700 hover:bg-plpgreen-200/80 hover:text-white"
             >
-              {{ topCategory.category_desc }}
-            </p>
+              Compare
+            </Button>
           </div>
         </div>
-        <div
-          class="col-span-3 row-span-2 col-start-7 border border-black/15 rounded-md"
-        >
-          <div class="p-7">
-            <p class="text-sm text-darks-200/50 font-medium">Focus Areas</p>
-            <p
-              class="text-2xl font-bold text-reds-800"
-              v-if="professorData?.numerical_summary?.category_avg?.length"
-            >
-              {{ bottomCategory.category_desc }}
-            </p>
-          </div>
-        </div>
-        <div
-          class="col-span-3 row-span-6 row-start-3 border border-black/15 rounded-md"
-        >
-          <professorRadar />
-        </div>
-        <div
-          class="col-span-6 row-span-6 col-start-4 row-start-3 border border-black/15 rounded-md p-6 pb-14"
-        >
-          <p class="text-base text-darks-200/50 font-medium">
-            Rating Distribution
-          </p>
-          <professorHeatmap />
-        </div>
-      </div>
-
-      <!----Feedback Ratings-->
-      <div class="space-y-4">
-        <div class="flex items-center justify-between">
-          <p class="font-semibold text-xl">Feedback and Sentiment Insights</p>
-        </div>
-        <div class="grid grid-cols-9 grid-rows-12 gap-4 h-[720px]">
+        <!----Numerical Ratings-->
+        <div class="grid grid-cols-9 grid-rows-8 gap-4 h-[480px]">
           <div class="col-span-3 row-span-2 border border-black/15 rounded-md">
             <div class="p-7">
               <p class="text-sm text-darks-200/50 font-medium">
-                Feedback Score
+                Average Rating
               </p>
-              <p class="text-2xl font-bold" :class="feedbackColor">
-                {{ feedbackScore }}
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <p
+                      v-if="
+                        professorData?.numerical_summary?.category_avg?.length
+                      "
+                      :class="`text-2xl font-bold ${ratingColor}`"
+                    >
+                      {{
+                        professorData.numerical_summary.category_avg[0]?.average
+                      }}
+                      -
+                      {{ ratingLabel }}
+                    </p></TooltipTrigger
+                  >
+                  <TooltipContent>
+                    <AdjetiveRating></AdjetiveRating>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </div>
+          </div>
+          <div
+            class="col-span-3 row-span-2 col-start-4 border border-black/15 rounded-md"
+          >
+            <div class="p-7">
+              <p class="text-sm text-darks-200/50 font-medium">
+                Strength Areas
+              </p>
+              <p
+                class="text-2xl font-bold text-plpgreen-200"
+                v-if="professorData?.numerical_summary?.category_avg?.length"
+              >
+                {{ topCategory.category_desc }}
               </p>
             </div>
           </div>
           <div
-            class="col-span-3 row-span-4 row-start-3 border border-black/15 rounded-md py-2 px-1"
+            class="col-span-3 row-span-2 col-start-7 border border-black/15 rounded-md"
           >
-            <professorFeedbackChart />
+            <div class="p-7">
+              <p class="text-sm text-darks-200/50 font-medium">Focus Areas</p>
+              <p
+                class="text-2xl font-bold text-reds-800"
+                v-if="professorData?.numerical_summary?.category_avg?.length"
+              >
+                {{ bottomCategory.category_desc }}
+              </p>
+            </div>
           </div>
           <div
-            class="col-span-6 row-span-6 col-start-4 border border-black/15 rounded-md"
+            class="col-span-3 row-span-6 row-start-3 border border-black/15 rounded-md"
           >
-            <profreccuringphrasesTable></profreccuringphrasesTable>
+            <professorRadar />
           </div>
-
           <div
-            class="col-span-9 row-span-6 row-start-7 border border-black/15 rounded-md"
+            class="col-span-6 row-span-6 col-start-4 row-start-3 border border-black/15 rounded-md p-6 pb-14"
           >
-            <professorFeedbacksTable />
+            <p class="text-base text-darks-200/50 font-medium">
+              Rating Distribution
+            </p>
+            <professorHeatmap />
           </div>
         </div>
-      </div>
+
+        <!----Feedback Ratings-->
+        <div class="space-y-4">
+          <div class="flex items-center justify-between">
+            <p class="font-semibold text-xl">Feedback and Sentiment Insights</p>
+          </div>
+          <div class="grid grid-cols-9 grid-rows-12 gap-4 h-[720px]">
+            <div
+              class="col-span-3 row-span-2 border border-black/15 rounded-md"
+            >
+              <div class="p-7">
+                <p class="text-sm text-darks-200/50 font-medium">
+                  Feedback Score
+                </p>
+                <p class="text-2xl font-bold" :class="feedbackColor">
+                  {{ feedbackScore }}
+                </p>
+              </div>
+            </div>
+            <div
+              class="col-span-3 row-span-4 row-start-3 border border-black/15 rounded-md py-2 px-1"
+            >
+              <professorFeedbackChart />
+            </div>
+            <div
+              class="col-span-6 row-span-6 col-start-4 border border-black/15 rounded-md"
+            >
+              <profreccuringphrasesTable></profreccuringphrasesTable>
+            </div>
+
+            <div
+              class="col-span-9 row-span-6 row-start-7 border border-black/15 rounded-md"
+            >
+              <professorFeedbacksTable />
+            </div>
+          </div>
+        </div>
+      </section>
     </section>
-  </section>
+  </ScrollArea>
 </template>

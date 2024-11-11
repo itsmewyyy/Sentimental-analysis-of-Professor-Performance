@@ -5,6 +5,7 @@ import axios from "axios";
 import StudentList from "@/components/databaseStudent/studentListTable.vue";
 import MISNavbar from "@/components/navigation/NavBarMIS.vue";
 import { useAuthStore } from "@/store/adminStore";
+import ScrollArea from "@/components/ui/scroll-area/ScrollArea.vue";
 const authStore = useAuthStore();
 authStore.restoreSession();
 
@@ -53,16 +54,18 @@ onMounted(() => {
 <template>
   <Toaster />
   <MISNavbar></MISNavbar>
-  <section class="p-20 pt-20 min-h-full">
-    <div class="w-full border border-black/25 rounded-md px-9 pt-9">
-      <div class="border-b border-black/15 pb-6">
-        <h1 class="font-bold text-3xl">{{ sectionId }}</h1>
-        <p class="font-medium text-base text-darks-200/60">
-          Displayed below are the students enrolled in this section.
-        </p>
-      </div>
+  <ScrollArea class="h-svh w-full">
+    <section class="p-20 pt-20 min-h-full">
+      <div class="w-full border border-black/25 rounded-md px-9 pt-9">
+        <div class="border-b border-black/15 pb-6">
+          <h1 class="font-bold text-3xl">{{ sectionId }}</h1>
+          <p class="font-medium text-base text-darks-200/60">
+            Displayed below are the students enrolled in this section.
+          </p>
+        </div>
 
-      <div><StudentList></StudentList></div>
-    </div>
-  </section>
+        <div><StudentList></StudentList></div>
+      </div>
+    </section>
+  </ScrollArea>
 </template>

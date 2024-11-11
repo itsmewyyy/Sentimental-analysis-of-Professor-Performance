@@ -20,6 +20,7 @@ import { useRouter } from "vue-router";
 import { useRatingsStore } from "@/store/ratingStore";
 import axios from "axios";
 import { useAuthStore } from "@/store/student";
+import ScrollArea from "@/components/ui/scroll-area/ScrollArea.vue";
 const authStore = useAuthStore();
 authStore.restoreSession();
 
@@ -295,178 +296,185 @@ function goToPrev() {
 <template>
   <Toaster />
   <navbar />
-  <section class="pt-32 pl-32 pr-32 pb-auto">
-    <form>
-      <div class="sliding-container w-full space-y-2">
-        <transition :name="isNext ? 'slide-next' : 'slide-prev'" mode="out-in">
-          <div :key="currentStep" class="sliding-content">
-            <!-- Numerical -->
-            <div
-              v-if="currentStep === 1"
-              class="slide w-11/12 bg-white border border-black/15 h-5/6 pb-6 pt-8 px-16 rounded-lg"
-            >
-              <div class="flex flex-wrap space-y-8">
-                <div class="flex space-x-4 items-center">
-                  <Avatar class="w-20 h-20">
-                    <AvatarImage
-                      src="https://i.pinimg.com/564x/92/73/47/927347b099b1f06d5b1b49ba31b27de9.jpg"
-                    />
-                    <AvatarFallback>OM</AvatarFallback>
-                  </Avatar>
-                  <div class="flex flex-col">
-                    <!-- Dynamic professor name and department -->
-                    <h1 class="text-4xl font-bold text-darks-500">
-                      {{
-                        professorInfo
-                          ? professorInfo.first_name +
-                            " " +
-                            professorInfo.surname
-                          : "Loading..."
-                      }}
-                    </h1>
-                    <p class="text-base text-darks-200/80">
-                      {{ departmentDesc }}
-                    </p>
+  <ScrollArea class="h-svh w-full">
+    <section class="pt-32 pl-32 pr-32 pb-auto">
+      <form>
+        <div class="sliding-container w-full space-y-2">
+          <transition
+            :name="isNext ? 'slide-next' : 'slide-prev'"
+            mode="out-in"
+          >
+            <div :key="currentStep" class="sliding-content">
+              <!-- Numerical -->
+              <div
+                v-if="currentStep === 1"
+                class="slide w-11/12 bg-white border border-black/15 h-5/6 pb-6 pt-8 px-16 rounded-lg"
+              >
+                <div class="flex flex-wrap space-y-8">
+                  <div class="flex space-x-4 items-center">
+                    <Avatar class="w-20 h-20">
+                      <AvatarImage
+                        src="https://i.pinimg.com/564x/92/73/47/927347b099b1f06d5b1b49ba31b27de9.jpg"
+                      />
+                      <AvatarFallback>OM</AvatarFallback>
+                    </Avatar>
+                    <div class="flex flex-col">
+                      <!-- Dynamic professor name and department -->
+                      <h1 class="text-4xl font-bold text-darks-500">
+                        {{
+                          professorInfo
+                            ? professorInfo.first_name +
+                              " " +
+                              professorInfo.surname
+                            : "Loading..."
+                        }}
+                      </h1>
+                      <p class="text-base text-darks-200/80">
+                        {{ departmentDesc }}
+                      </p>
+                    </div>
                   </div>
-                </div>
-                <div class="w-full justify-center space-y-6">
-                  <Carousel
-                    class="w-full bg-plpgreen-100/40 rounded-lg pt-9 pb-6"
-                    @init-api="setCategoryApi"
-                  >
-                    <CarouselContent>
-                      <!-- Iterate through categories to create CarouselItems -->
-                      <CarouselItem
-                        v-for="(category, index) in categories"
-                        :key="index"
-                      >
-                        <cardComponent
-                          :header="
-                            category.category_id + ' ' + category.category_desc
-                          "
-                          :categoryId="category.category_id"
+                  <div class="w-full justify-center space-y-6">
+                    <Carousel
+                      class="w-full bg-plpgreen-100/40 rounded-lg pt-9 pb-6"
+                      @init-api="setCategoryApi"
+                    >
+                      <CarouselContent>
+                        <!-- Iterate through categories to create CarouselItems -->
+                        <CarouselItem
+                          v-for="(category, index) in categories"
+                          :key="index"
                         >
-                          <!-- Iterate through questions for each category -->
+                          <cardComponent
+                            :header="
+                              category.category_id +
+                              ' ' +
+                              category.category_desc
+                            "
+                            :categoryId="category.category_id"
+                          >
+                            <!-- Iterate through questions for each category -->
 
-                          <questioncomponent
-                            v-for="question in category.questions"
-                            :key="question.numerical_question_id"
-                            :body="question.question"
-                            @rating-selected="handleRatingSelection"
-                            :id="question.numerical_question_id"
+                            <questioncomponent
+                              v-for="question in category.questions"
+                              :key="question.numerical_question_id"
+                              :body="question.question"
+                              @rating-selected="handleRatingSelection"
+                              :id="question.numerical_question_id"
+                            />
+                          </cardComponent>
+                        </CarouselItem>
+                      </CarouselContent>
+                      <CarouselPrevious @click.prevent />
+                      <CarouselNext @click.prevent />
+                    </Carousel>
+                    <div class="text-center text-sm text-darks-100">
+                      Category {{ currentCategory }} of {{ totalCategoryCount }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Feedback -->
+              <div
+                v-if="currentStep === 2"
+                class="slide w-11/12 bg-white border border-black/15 h-5/6 pb-6 pt-8 px-16 rounded-lg"
+              >
+                <div class="flex flex-wrap space-y-8">
+                  <div class="flex space-x-4 items-center">
+                    <Avatar class="w-20 h-20">
+                      <AvatarImage
+                        src="https://i.pinimg.com/564x/92/73/47/927347b099b1f06d5b1b49ba31b27de9.jpg"
+                      />
+                      <AvatarFallback>OM</AvatarFallback>
+                    </Avatar>
+                    <div class="flex flex-col">
+                      <!-- Dynamic professor name and department -->
+                      <h1 class="text-4xl font-bold text-darks-700">
+                        {{
+                          professorInfo
+                            ? professorInfo.first_name +
+                              " " +
+                              professorInfo.surname
+                            : "Loading..."
+                        }}
+                      </h1>
+                      <p class="text-base text-darks-800">
+                        {{ departmentDesc }}
+                      </p>
+                    </div>
+                  </div>
+                  <div class="w-full justify-center space-y-6">
+                    <Carousel
+                      class="w-full h-64 bg-plpgreen-100/40 rounded-lg p-12"
+                      @init-api="setFeedbackApi"
+                    >
+                      <CarouselContent>
+                        <CarouselItem
+                          v-for="question in questions"
+                          :key="question.feedback_question_id"
+                        >
+                          <TextAreaComponent
+                            :id="String(question.feedback_question_id)"
+                            :label="
+                              question.feedback_question_id +
+                              '. ' +
+                              question.question
+                            "
+                            @input="
+                              (value) =>
+                                handleFeedback(
+                                  question.feedback_question_id,
+                                  value
+                                )
+                            "
                           />
-                        </cardComponent>
-                      </CarouselItem>
-                    </CarouselContent>
-                    <CarouselPrevious @click.prevent />
-                    <CarouselNext @click.prevent />
-                  </Carousel>
-                  <div class="text-center text-sm text-darks-100">
-                    Category {{ currentCategory }} of {{ totalCategoryCount }}
+                        </CarouselItem>
+                      </CarouselContent>
+                      <CarouselPrevious @click.prevent />
+                      <CarouselNext @click.prevent />
+                    </Carousel>
+                    <div class="text-center text-sm text-darks-100">
+                      Question {{ currentFeedback }} of
+                      {{ totalFeedbackQuestionCount }}
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
+          </transition>
 
-            <!-- Feedback -->
-            <div
-              v-if="currentStep === 2"
-              class="slide w-11/12 bg-white border border-black/15 h-5/6 pb-6 pt-8 px-16 rounded-lg"
-            >
-              <div class="flex flex-wrap space-y-8">
-                <div class="flex space-x-4 items-center">
-                  <Avatar class="w-20 h-20">
-                    <AvatarImage
-                      src="https://i.pinimg.com/564x/92/73/47/927347b099b1f06d5b1b49ba31b27de9.jpg"
-                    />
-                    <AvatarFallback>OM</AvatarFallback>
-                  </Avatar>
-                  <div class="flex flex-col">
-                    <!-- Dynamic professor name and department -->
-                    <h1 class="text-4xl font-bold text-darks-700">
-                      {{
-                        professorInfo
-                          ? professorInfo.first_name +
-                            " " +
-                            professorInfo.surname
-                          : "Loading..."
-                      }}
-                    </h1>
-                    <p class="text-base text-darks-800">
-                      {{ departmentDesc }}
-                    </p>
-                  </div>
-                </div>
-                <div class="w-full justify-center space-y-6">
-                  <Carousel
-                    class="w-full h-64 bg-plpgreen-100/40 rounded-lg p-12"
-                    @init-api="setFeedbackApi"
-                  >
-                    <CarouselContent>
-                      <CarouselItem
-                        v-for="question in questions"
-                        :key="question.feedback_question_id"
-                      >
-                        <TextAreaComponent
-                          :id="String(question.feedback_question_id)"
-                          :label="
-                            question.feedback_question_id +
-                            '. ' +
-                            question.question
-                          "
-                          @input="
-                            (value) =>
-                              handleFeedback(
-                                question.feedback_question_id,
-                                value
-                              )
-                          "
-                        />
-                      </CarouselItem>
-                    </CarouselContent>
-                    <CarouselPrevious @click.prevent />
-                    <CarouselNext @click.prevent />
-                  </Carousel>
-                  <div class="text-center text-sm text-darks-100">
-                    Question {{ currentFeedback }} of
-                    {{ totalFeedbackQuestionCount }}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </transition>
-
-        <div>
           <div>
-            <!--Buttons for navigation and submission-->
+            <div>
+              <!--Buttons for navigation and submission-->
+              <button
+                v-if="currentStep === 2"
+                @click.prevent="goToPrev"
+                class="text-plpgreen-400 bg-white border border-plpgreen-100 focus:outline-none hover:bg-plpgreen-400 hover:text-white focus:ring-4 focus:ring-gray-100 font-semibold rounded text-sm px-12 py-2.5 me-2 mb-2"
+              >
+                Back
+              </button>
+              <button
+                @click.prevent="submitAll"
+                v-if="currentStep === 2"
+                type="submit"
+                class="text-white bg-plpgreen-200 hover:bg-plpgreen-400 focus:ring-4 focus:ring-gray-100 font-semibold rounded text-sm px-12 py-2.5 me-2 mb-2"
+              >
+                Submit
+              </button>
+            </div>
             <button
-              v-if="currentStep === 2"
-              @click.prevent="goToPrev"
+              v-if="currentStep === 1"
+              @click.prevent="goToNext"
               class="text-plpgreen-400 bg-white border border-plpgreen-100 focus:outline-none hover:bg-plpgreen-400 hover:text-white focus:ring-4 focus:ring-gray-100 font-semibold rounded text-sm px-12 py-2.5 me-2 mb-2"
             >
-              Back
-            </button>
-            <button
-              @click.prevent="submitAll"
-              v-if="currentStep === 2"
-              type="submit"
-              class="text-white bg-plpgreen-200 hover:bg-plpgreen-400 focus:ring-4 focus:ring-gray-100 font-semibold rounded text-sm px-12 py-2.5 me-2 mb-2"
-            >
-              Submit
+              Next
             </button>
           </div>
-          <button
-            v-if="currentStep === 1"
-            @click.prevent="goToNext"
-            class="text-plpgreen-400 bg-white border border-plpgreen-100 focus:outline-none hover:bg-plpgreen-400 hover:text-white focus:ring-4 focus:ring-gray-100 font-semibold rounded text-sm px-12 py-2.5 me-2 mb-2"
-          >
-            Next
-          </button>
         </div>
-      </div>
-    </form>
-  </section>
+      </form>
+    </section>
+  </ScrollArea>
 </template>
 
 <style scoped>

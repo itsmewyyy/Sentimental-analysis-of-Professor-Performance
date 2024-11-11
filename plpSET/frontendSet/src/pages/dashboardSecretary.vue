@@ -17,6 +17,7 @@ import sectionTagging from "@/components/subject-sectionTagging/sectionTagging.v
 import secretaryNavbar from "@/components/navigation/NavBarSecretary.vue";
 import axios from "axios";
 import { useAuthStore } from "@/store/adminStore";
+import ScrollArea from "@/components/ui/scroll-area/ScrollArea.vue";
 const authStore = useAuthStore();
 authStore.restoreSession();
 const subjectsectionTags = ref<Array<number>>([]);
@@ -173,91 +174,98 @@ onMounted(() => {
 
 <template>
   <secretaryNavbar></secretaryNavbar>
-  <section class="p-20 pt-32 rounded space-y-14 font-raleway">
-    <div class="flex items-center space-x-2">
-      <Avatar class="w-16 h-16">
-        <AvatarImage
-          src="https://i1.sndcdn.com/artworks-NuIfnZ3ZMRhLnlEz-QHsZQA-t500x500.jpg"
-        />
-        <AvatarFallback>PLP</AvatarFallback>
-      </Avatar>
-      <div class="w-full">
-        <Select v-model="selectedProfessor">
-          <SelectTrigger
-            class="sm:max-w-fit ring-0 border-0 focus-visible:ring-offset-0 focus-visible:ring-0 text-3xl font-bold text-darks-500"
-          >
-            <SelectValue placeholder="Select Professor" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>Professors</SelectLabel>
-              <SelectItem
-                v-for="professor in professors"
-                :key="professor.professor_id"
-                :value="professor.professor_id"
-              >
-                <div class="flex items-center gap-2">
-                  <span>{{ professor.full_name }}</span>
-                </div>
-              </SelectItem>
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-
-        <p class="text-base text-darks-400/60 font-medium pl-3.5">
-          {{ selectedCollege }}
-        </p>
-      </div>
-    </div>
-    <div>
-      <div class="text-xs pb-2 text-darks-200/70 font-medium pl-0 pt-8">
-        Assign subjects and sections to this professor for the current semester.
-      </div>
-      <div class="border border-black/25 rounded-md">
-        <div
-          class="flex items-center justify-between border-b border-black/15 text-sm h-14 p-4 pl-5 font-medium text-darks-200/80 hover:bg-darks-50/80 p-2 w-full rounded-t-md"
-        >
-          <p class="w-6/12">Subject</p>
-          <p class="w-6/12 mr-14">Section</p>
-        </div>
-        <div>
-          <div
-            v-for="(tag, index) in subjectsectionTags"
-            :key="tag"
-            class="flex items center pr-12 border-b border-black/15 hover:bg-darks-50/80 space-x-8"
-          >
-            <div class="flex items-center space-x-4 p-2 w-full">
-              <subjectTagging
-                @updateSubjects="(subjects) => updateSubjects(subjects, index)"
-              />
-              <sectionTagging
-                @updateSections="(sections) => updateSections(sections, index)"
-              />
-            </div>
-
-            <button
-              @click="removeSubjectSectionTag(index)"
-              class="text-red-500 hover:text-red-700"
+  <ScrollArea class="h-svh w-full">
+    <section class="p-20 pt-32 rounded space-y-14 font-raleway">
+      <div class="flex items-center space-x-2">
+        <Avatar class="w-16 h-16">
+          <AvatarImage
+            src="https://i1.sndcdn.com/artworks-NuIfnZ3ZMRhLnlEz-QHsZQA-t500x500.jpg"
+          />
+          <AvatarFallback>PLP</AvatarFallback>
+        </Avatar>
+        <div class="w-full">
+          <Select v-model="selectedProfessor">
+            <SelectTrigger
+              class="sm:max-w-fit ring-0 border-0 focus-visible:ring-offset-0 focus-visible:ring-0 text-3xl font-bold text-darks-500"
             >
-              <Trash class="w-4 h-4" />
-            </button>
+              <SelectValue placeholder="Select Professor" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Professors</SelectLabel>
+                <SelectItem
+                  v-for="professor in professors"
+                  :key="professor.professor_id"
+                  :value="professor.professor_id"
+                >
+                  <div class="flex items-center gap-2">
+                    <span>{{ professor.full_name }}</span>
+                  </div>
+                </SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+
+          <p class="text-base text-darks-400/60 font-medium pl-3.5">
+            {{ selectedCollege }}
+          </p>
+        </div>
+      </div>
+      <div>
+        <div class="text-xs pb-2 text-darks-200/70 font-medium pl-0 pt-8">
+          Assign subjects and sections to this professor for the current
+          semester.
+        </div>
+        <div class="border border-black/25 rounded-md">
+          <div
+            class="flex items-center justify-between border-b border-black/15 text-sm h-14 p-4 pl-5 font-medium text-darks-200/80 hover:bg-darks-50/80 p-2 w-full rounded-t-md"
+          >
+            <p class="w-6/12">Subject</p>
+            <p class="w-6/12 mr-14">Section</p>
+          </div>
+          <div>
+            <div
+              v-for="(tag, index) in subjectsectionTags"
+              :key="tag"
+              class="flex items center pr-12 border-b border-black/15 hover:bg-darks-50/80 space-x-8"
+            >
+              <div class="flex items-center space-x-4 p-2 w-full">
+                <subjectTagging
+                  @updateSubjects="
+                    (subjects) => updateSubjects(subjects, index)
+                  "
+                />
+                <sectionTagging
+                  @updateSections="
+                    (sections) => updateSections(sections, index)
+                  "
+                />
+              </div>
+
+              <button
+                @click="removeSubjectSectionTag(index)"
+                class="text-red-500 hover:text-red-700"
+              >
+                <Trash class="w-4 h-4" />
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-      <button
-        @click="addSubjectSectionTag"
-        class="flex items-center h-14 text-sm w-full font-medium text-darks-100 hover:bg-darks-50/80 space-x-1 rounded-md"
-      >
-        <Plus class="w-5 h-5" />
-        <p>New</p>
-      </button>
-      <div class="flex justify-end mt-4">
-        <Button
-          class="bg-plpgreen-200 hover:bg-plpgreen-400"
-          @click="submitData"
-          >Submit</Button
+        <button
+          @click="addSubjectSectionTag"
+          class="flex items-center h-14 text-sm w-full font-medium text-darks-100 hover:bg-darks-50/80 space-x-1 rounded-md"
         >
+          <Plus class="w-5 h-5" />
+          <p>New</p>
+        </button>
+        <div class="flex justify-end mt-4">
+          <Button
+            class="bg-plpgreen-200 hover:bg-plpgreen-400"
+            @click="submitData"
+            >Submit</Button
+          >
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </ScrollArea>
 </template>
