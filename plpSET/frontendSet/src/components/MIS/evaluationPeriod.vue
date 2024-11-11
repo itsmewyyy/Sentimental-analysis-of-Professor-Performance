@@ -15,7 +15,6 @@ import axios from "axios";
 
 const { state, setEvaluationPeriod } = academicTermStore;
 const evaluationPeriod = ref({ start: null, end: null });
-const newlyset_acadyearsem = localStorage.getItem("year_sem");
 
 const date = ref({
   start: new Date(2022, 0, 20),
@@ -29,6 +28,7 @@ async function onSetEvaluationPeriod() {
     try {
       const formattedStart = format(start, "yyyy-MM-dd'T'HH:mm:ssxxx");
       const formattedEnd = format(end, "yyyy-MM-dd'T'HH:mm:ssxxx");
+      const newlyset_acadyearsem = localStorage.getItem("year_sem");
       await axios.post(
         "https://sentiment-professor-feedback-1.onrender.com/api/evaluation-status/",
         {
