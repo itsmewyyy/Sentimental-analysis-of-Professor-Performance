@@ -14,6 +14,7 @@ import { cn } from "@/lib/utils";
 import { useRouter } from "vue-router";
 import { Toaster } from "@/components/ui/toast";
 import { useToast } from "@/components/ui/toast/use-toast";
+import axios from "axios";
 
 const { toast } = useToast();
 const router = useRouter();
@@ -45,6 +46,17 @@ const login = async () => {
       password.value,
       formattedDateOfBirth
     );
+
+    const yearSemResponse = await axios.get(
+      "https://sentiment-professor-feedback-1.onrender.com/api/current-year-sem/",
+      { withCredentials: true }
+    );
+
+    if (yearSemResponse.status === 200) {
+      const currentYearSem = yearSemResponse.data;
+
+      localStorage.setItem("current_year_sem", currentYearSem.year_sem_id);
+    }
     router.push("/StudentDashboard");
   } catch (error) {
     toast({

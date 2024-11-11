@@ -24,10 +24,10 @@ import { X } from "lucide-vue-next";
   <div class="flex items-center justify-between">
     <div class="flex flex-1 items-center space-x-2">
       <Input
-        placeholder="Filter texts..."
-        :model-value="(table.getColumn('text')?.getFilterValue() as string) ?? ''"
+        placeholder="Filter by name..."
+        :model-value="(table.getColumn('name')?.getFilterValue() as string) ?? ''"
         class="h-8 w-[150px] lg:w-[250px]"
-        @input="table.getColumn('text')?.setFilterValue($event.target.value)"
+        @input="table.getColumn('name')?.setFilterValue($event.target.value)"
       />
       <DataTableFacetedFilter
         v-if="table.getColumn('question_id')"

@@ -26,6 +26,7 @@ interface SubjectName {
 
 interface Subject {
   student_enrolled_subj_id: string;
+  prof_subj_id: string;
   prof_info: ProfessorInfo;
   subj_name: SubjectName;
   is_evaluated: boolean;
@@ -43,16 +44,24 @@ const router = useRouter();
 // Fetch student's subjects from API
 const fetchSubjects = async () => {
   try {
-    const student_id = localStorage.getItem("student_id"); // Fetch student ID from localStorage
+    const student_id = localStorage.getItem("student_id");
+    const year_sem = localStorage.getItem("current_year_sem");
+
     const response = await axios.get<Subject[]>(
       `https://sentiment-professor-feedback-1.onrender.com/api/enrolled_subjs/${student_id}`
     );
 
-    // Assign response directly if it's an array of subjects
+    // Filter subjects by current year_sem
+    const filteredSubjects = response.data.filter((subject) => {
+      const subjectYearSem = subject.prof_subj_id.split("_")[0];
+      return subjectYearSem === year_sem;
+    });
+
+    // Assign filtered subjects to enrolledSubjects
     enrolledSubjects.value = [
-      { student_id, section: "", subjects: response.data },
+      { student_id, section: "", subjects: filteredSubjects },
     ];
-    console.log("API response:", response.data);
+    console.log("Filtered API response:", filteredSubjects);
   } catch (error) {
     console.error("Error fetching subjects:", error);
   }
