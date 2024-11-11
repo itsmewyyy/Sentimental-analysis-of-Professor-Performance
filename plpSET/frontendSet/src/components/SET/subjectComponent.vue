@@ -58,7 +58,6 @@ const fetchSubjects = async () => {
   }
 };
 
-// Store the `student_enrolled_subj_id` in localStorage
 function evaluateSubject(subject: Subject) {
   localStorage.setItem(
     "student_enrolled_subj_id",

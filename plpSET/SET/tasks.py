@@ -498,7 +498,7 @@ def count_total_submissions(self):
 
 
         # Update or create a SubmissionSummary entry
-        summary, created = SubmissionSummary.objects.get_or_create(id=1)  # Assuming single summary entry
+        summary, created = SubmissionSummary.objects.get_or_create(id=1) 
         summary.total_submissions = total_submissions
         summary.save()
 

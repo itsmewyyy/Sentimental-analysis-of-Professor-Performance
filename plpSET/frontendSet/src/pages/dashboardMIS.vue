@@ -4,7 +4,6 @@ import MISNavbar from "@/components/navigation/NavBarMIS.vue";
 import year_semester from "@/components/MIS/year_semester.vue";
 import evaluationPeriod from "@/components/MIS/evaluationPeriod.vue";
 import axios from "axios";
-import submissionChart from "@/components/MIS/submissionChart.vue";
 import { useAuthStore } from "@/store/adminStore";
 const authStore = useAuthStore();
 authStore.restoreSession();
@@ -78,14 +77,10 @@ onMounted(fetchCounts);
         </div>
       </div>
       <div
-        class="col-span-4 row-span-5 row-start-3 border border-black/15 rounded-md px-4"
+        class="col-span-6 row-span-5 row-start-3 border border-black/15 rounded-md px-4"
       >
-        <p class="pl-2 pt-4 text-sm text-darks-200/80">Submissions Over Time</p>
-        <submissionChart></submissionChart>
+        <p class="pl-2 pt-4 text-sm text-darks-200/80">Lorem Ipsum</p>
       </div>
-      <div
-        class="col-span-2 row-span-5 col-start-5 row-start-3 border border-black/15 rounded-md"
-      ></div>
     </div>
 
     <div class="grid grid-cols-6 grid-rows-3 gap-4 h-[200px]">
