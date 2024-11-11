@@ -20,17 +20,17 @@ async function getData(): Promise<StudentFeedback[]> {
 
     console.log("API response:", result);
 
-    if (Array.isArray(result)) {
-      return result.map((student) => ({
+    if (Array.isArray(result.students)) {
+      return result.students.map((student) => ({
         studentId: student.student_id,
         name: student.name,
         section: student.section,
         program: student.program,
         incomplete_subject_count: student.incomplete_count,
-        total_subject_count: student.total_count,
+        total_subject_count: student.total_subjects,
       }));
     } else {
-      console.error("API response is not an array:", result);
+      console.error("API response students key is not an array:", result);
       return [];
     }
   } catch (error) {
