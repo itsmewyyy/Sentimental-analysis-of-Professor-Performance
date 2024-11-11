@@ -71,11 +71,16 @@ const storeItems = () => {
               <DropdownMenuItem class="flex justify-between items-center">
                 <EditAdmin></EditAdmin>
               </DropdownMenuItem>
-              <DropdownMenuItem
-                class="flex justify-between items-center cursor-pointer"
-              >
+              <DropdownMenuItem>
                 <AlertDialog>
-                  <AlertDialogTrigger>Delete</AlertDialogTrigger>
+                  <AlertDialogTrigger
+                    ><div
+                      class="flex justify-between items-center cursor-pointer"
+                    >
+                      <p>Delete</p>
+                    </div>
+                    <Trash color="red" width="12"
+                  /></AlertDialogTrigger>
                   <AlertDialogContent>
                     <AlertDialogHeader>
                       <AlertDialogTitle
@@ -95,7 +100,6 @@ const storeItems = () => {
                     </AlertDialogFooter>
                   </AlertDialogContent>
                 </AlertDialog>
-                <Trash color="red" width="12" />
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
