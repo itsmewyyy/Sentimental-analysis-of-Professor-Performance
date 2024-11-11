@@ -816,3 +816,27 @@ def incomplete_evaluations(request):
     ]
 
     return JsonResponse({"students": data})
+
+
+def latest_evaluation_period(request):
+    try:
+       
+        evaluation_period = (
+            EvaluationPeriod.objects.filter(end_date__gte=timezone.now())
+            .order_by('-end_date')
+            .first()
+        )
+        
+        if evaluation_period:
+            data = {
+                "year_semester": evaluation_period.year_semester,
+                "start_date": evaluation_period.start_date.strftime("%Y-%m-%d %H:%M:%S"),
+                "end_date": evaluation_period.end_date.strftime("%Y-%m-%d %H:%M:%S"),
+            }
+        else:
+            data = {"message": "No active evaluation period found."}
+        
+        return JsonResponse(data)
+    
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)

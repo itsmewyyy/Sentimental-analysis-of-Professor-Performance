@@ -38,7 +38,7 @@ async function onSetEvaluationPeriod() {
         }
       );
 
-      setEvaluationPeriod(); // Update your state/store
+      setEvaluationPeriod();
     } catch (error) {
       console.error("Error setting evaluation period:", error);
     }
