@@ -38,7 +38,7 @@ export const useRatingsStore = defineStore("ratings", {
     async submitRatings() {
       try {
         const response = await axios.post(
-          "http://localhost:8000/api/submit-ratings/",
+          "https://sentiment-professor-feedback-1.onrender.com/api/submit-ratings/",
           {
             numericalRatings: this.numericalRatings,
             feedbackRatings: this.feedbackRatings,

@@ -235,7 +235,7 @@ async function submitAll() {
   const data = {
     numericalRatings: ratingsStore.numericalRatings,
     feedbackRatings: ratingsStore.feedbackRatings,
-    student_enrolled_subj_id: ratingsStore.studentEnrolledSubjId, // Use the studentEnrolledSubjId from the store
+    student_enrolled_subj_id: ratingsStore.studentEnrolledSubjId,
   };
 
   console.log("Data being submitted:", data);

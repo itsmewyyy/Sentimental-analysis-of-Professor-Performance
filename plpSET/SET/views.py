@@ -107,7 +107,7 @@ class SubmitRatingsView(APIView):
         if serializer.is_valid():
             validated_data = serializer.save()
 
-            # Trigger the Celery task to process feedback asynchronously
+         
             process_feedback_task.delay(validated_data)
 
             
