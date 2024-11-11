@@ -3,7 +3,7 @@
     class="flex justify-between items-center w-full bg-white h-16 border-b border-black/25 px-4 z-10 top-0 fixed"
   >
     <!-- Left Section: Logo and Text -->
-    <RouterLink to="/DeanDashboard">
+    <RouterLink to="/SecretaryDashboard">
       <div class="flex items-center space-x-2 cursor-pointer">
         <Avatar class="w-9 h-9">
           <AvatarImage

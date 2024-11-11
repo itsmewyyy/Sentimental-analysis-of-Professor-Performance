@@ -30,23 +30,16 @@
         </HoverCardTrigger>
         <HoverCardContent class="w-80 mr-20">
           <div class="flex justify-between space-x-4">
-            <Avatar class="w-9 h-9 mt-2">
-              <AvatarImage src="https://github.com/vuejs.png" />
-              <AvatarFallback>VC</AvatarFallback>
-            </Avatar>
-            <div class="space-y-1">
-              <h4 class="text-sm font-semibold">@vuejs</h4>
-              <p class="text-sm">
-                Progressive JavaScript framework for building modern web
-                interfaces.
-              </p>
+            <div class="space-y-1" v-if="evaluationPeriod">
+              <h4 class="text-sm font-semibold">Evaluation Period</h4>
+              <p class="text-sm">{{ evaluationPeriod.year_semester }}</p>
               <div class="flex items-center pt-2">
                 <CalendarDays class="mr-2 h-4 w-4 opacity-70" />
                 <span class="text-xs text-muted-foreground">
-                  Joined January 2014
+                  {{ evaluationPeriod.start_date }} -
+                  {{ evaluationPeriod.end_date }}
                 </span>
               </div>
-              s
             </div>
           </div>
         </HoverCardContent>
@@ -134,4 +127,17 @@ const logout = async () => {
     console.error("Logout failed:", error);
   }
 };
+
+const evaluationPeriod = ref(null);
+
+onMounted(async () => {
+  try {
+    const response = await axios.get(
+      "https://sentiment-professor-feedback-1.onrender.com/api/latest-evaluation/"
+    );
+    evaluationPeriod.value = response.data;
+  } catch (error) {
+    console.error("Error fetching evaluation period:", error);
+  }
+});
 </script>
