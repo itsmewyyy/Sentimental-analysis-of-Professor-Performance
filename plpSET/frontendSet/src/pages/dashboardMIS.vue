@@ -5,6 +5,7 @@ import year_semester from "@/components/MIS/year_semester.vue";
 import evaluationPeriod from "@/components/MIS/evaluationPeriod.vue";
 import axios from "axios";
 import { useAuthStore } from "@/store/adminStore";
+import studentsubmissionsTable from "@/components/MIS/studentsubmissionsTable/studentsubmissionsTable.vue";
 const authStore = useAuthStore();
 authStore.restoreSession();
 
@@ -79,7 +80,7 @@ onMounted(fetchCounts);
       <div
         class="col-span-6 row-span-5 row-start-3 border border-black/15 rounded-md px-4"
       >
-        <p class="pl-2 pt-4 text-sm text-darks-200/80">Lorem Ipsum</p>
+        <studentsubmissionsTable></studentsubmissionsTable>
       </div>
     </div>
 

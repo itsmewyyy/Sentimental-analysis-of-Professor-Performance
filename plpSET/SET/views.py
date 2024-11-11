@@ -796,3 +796,23 @@ def get_student_profile(request):
     }
 
     return JsonResponse(profile_data)
+
+
+def incomplete_evaluations(request):
+    incomplete_students = student_info.objects.prefetch_related('enrolled_subjects').filter(
+        enrolled_subjects__is_evaluated=False
+    ).distinct()
+
+    data = [
+        {
+            "student_id": student.student_id,
+            "name": f"{student.first_name} {student.surname}",
+            "section": student.section,
+            "program": student.section.program,
+            "incomplete_count": student.enrolled_subjects.filter(is_evaluated=False).count(),
+            "total_subjects": student.enrolled_subjects.count(),
+        }
+        for student in incomplete_students
+    ]
+
+    return JsonResponse({"students": data})
