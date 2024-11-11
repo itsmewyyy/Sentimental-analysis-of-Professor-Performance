@@ -89,11 +89,11 @@ const renderChart = (categoryAvg: CategoryAvg[]) => {
   }, {} as Record<string, number>);
 
   const dataSeries = [
-    averages["A."] || 0,
-    averages["B."] || 0,
-    averages["C."] || 0,
-    averages["D."] || 0,
-    averages["E."] || 0,
+    averages["A"] || 0,
+    averages["B"] || 0,
+    averages["C"] || 0,
+    averages["D"] || 0,
+    averages["E"] || 0,
   ];
 
   const xAxisCategories = categoryAvg.map((category) => category.category_desc);

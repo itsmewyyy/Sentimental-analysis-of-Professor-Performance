@@ -85,11 +85,11 @@ const renderChart = (categoryAvg: CategoryAvg[]) => {
   }, {} as Record<string, number>);
 
   // Assigning values per category
-  const categoryA = averages["A."] || 0;
-  const categoryB = averages["B."] || 0;
-  const categoryC = averages["C."] || 0;
-  const categoryD = averages["D."] || 0;
-  const categoryE = averages["E."] || 0;
+  const categoryA = averages["A"] || 0;
+  const categoryB = averages["B"] || 0;
+  const categoryC = averages["C"] || 0;
+  const categoryD = averages["D"] || 0;
+  const categoryE = averages["E"] || 0;
 
   const xAxisCategories = categoryAvg.map((category) => category.category_desc);
 
