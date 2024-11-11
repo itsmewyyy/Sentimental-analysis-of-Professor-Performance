@@ -197,6 +197,7 @@ def update_college_numerical_summaries(recent_ratings):
             numerical_question_id=rating.numerical_question_id,
             year_sem_id=year_sem,
             department=department,
+            category=category
         )
 
         # Calculate question-level average
