@@ -32,7 +32,10 @@
           <div class="flex justify-between space-x-4">
             <div class="space-y-1" v-if="evaluationPeriod">
               <h4 class="text-sm font-semibold">Evaluation Period</h4>
-              <p class="text-sm">{{ evaluationPeriod.year_semester }}</p>
+              <p class="text-sm">
+                {{ evaluationPeriod.year_semester.acad_year }} -
+                {{ evaluationPeriod.year_semester.semester_desc }}
+              </p>
               <div class="flex items-center pt-2">
                 <CalendarDays class="mr-2 h-4 w-4 opacity-70" />
                 <span class="text-xs text-muted-foreground">
