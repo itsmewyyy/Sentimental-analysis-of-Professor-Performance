@@ -1,14 +1,12 @@
 <script setup lang="ts">
-import type { Feedback } from "./columns";
+import type { StudentFeedback } from "./columns";
 import { onMounted, ref } from "vue";
 import { columns } from "./columns";
 import DataTable from "./DataTable.vue";
 
-const data = ref<Feedback[]>([]);
-const professorIdentifier = localStorage.getItem("professor");
-const yearsemIdentifier = localStorage.getItem("current_year_sem");
+const data = ref<StudentFeedback[]>([]);
 
-async function getData(): Promise<Feedback[]> {
+async function getData(): Promise<StudentFeedback[]> {
   try {
     const response = await fetch(
       `https://sentiment-professor-feedback-1.onrender.com/api/incomplete-evaluations/`
@@ -20,20 +18,14 @@ async function getData(): Promise<Feedback[]> {
 
     const result = await response.json();
 
-    // Extract feedbacks for the specified professor and semester
-    if (result && Array.isArray(result) && result.length > 0) {
-      return result
-        .flatMap((item) => item.professor_feedback_list)
-        .filter((professor) => professor.id === professorIdentifier)
-        .flatMap((professor) =>
-          professor.feedbacks.map((feedback) => ({
-            question_id: feedback.question_id,
-            sentiment: feedback.sentiment,
-            text: feedback.text,
-          }))
-        );
-    }
-    return [];
+    return result.map((student) => ({
+      studentId: student.student_id,
+      name: student.name,
+      section: student.section,
+      program: student.program,
+      incomplete_subject_count: student.incomplete_count,
+      total_subject_count: student.total_count,
+    }));
   } catch (error) {
     console.error("Error fetching data:", error);
     return [];

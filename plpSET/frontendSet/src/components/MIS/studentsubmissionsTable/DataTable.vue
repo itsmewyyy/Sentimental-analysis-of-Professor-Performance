@@ -4,7 +4,7 @@ import type {
   ColumnFiltersState,
   SortingState,
 } from "@tanstack/vue-table";
-import type { Feedback } from "./columns";
+import type { StudentFeedback } from "./columns";
 import {
   Table,
   TableBody,
@@ -31,8 +31,8 @@ import Input from "@/components/ui/input/Input.vue";
 import { valueUpdater } from "@/lib/utils";
 
 interface DataTableProps {
-  columns: ColumnDef<Feedback, any>[];
-  data: Feedback[];
+  columns: ColumnDef<StudentFeedback, any>[];
+  data: StudentFeedback[];
 }
 
 const props = defineProps<DataTableProps>();

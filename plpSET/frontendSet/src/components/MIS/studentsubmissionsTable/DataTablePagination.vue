@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Table } from "@tanstack/vue-table";
-import type { Feedback } from "@/components/feedbacks/columns";
+import type { StudentFeedback } from "./columns";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -18,7 +18,7 @@ import { ChevronsLeft } from "lucide-vue-next";
 import { ChevronsRight } from "lucide-vue-next";
 
 interface DataTablePaginationProps {
-  table: Table<Feedback>;
+  table: Table<StudentFeedback>;
 }
 defineProps<DataTablePaginationProps>();
 </script>

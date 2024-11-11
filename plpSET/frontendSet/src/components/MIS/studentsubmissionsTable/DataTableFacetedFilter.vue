@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Column } from "@tanstack/vue-table";
-import type { Feedback } from "@/components/feedbacks/columns";
+import type { StudentFeedback } from "./columns";
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -25,7 +25,7 @@ import { CirclePlus } from "lucide-vue-next";
 import { computed } from "vue";
 
 interface DataTableFacetedFilter {
-  column?: Column<Feedback, any>;
+  column?: Column<StudentFeedback, any>;
   title?: string;
   options: {
     label: string;

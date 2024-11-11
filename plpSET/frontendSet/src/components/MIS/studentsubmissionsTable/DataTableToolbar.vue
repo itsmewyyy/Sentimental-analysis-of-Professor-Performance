@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import type { Table } from "@tanstack/vue-table";
-import type { Feedback } from "@/components/feedbacks/columns";
+import type { StudentFeedback } from "./columns";
 import Button from "@/components/ui/button/Button.vue";
 import Input from "@/components/ui/input/Input.vue";
 import { computed } from "vue";
-import { question_id, sentiment } from "@/components/feedbacks/data";
-import DataTableFacetedFilter from "@/components/feedbacks/DataTableFacetedFilter.vue";
+import { question_id, sentiment } from "./data";
+import DataTableFacetedFilter from "./DataTableFacetedFilter.vue";
 
 interface DataTableToolbarProps {
-  table: Table<Feedback>;
+  table: Table<StudentFeedback>;
 }
 
 const props = defineProps<DataTableToolbarProps>();

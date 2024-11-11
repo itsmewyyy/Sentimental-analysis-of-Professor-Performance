@@ -1,84 +1,80 @@
 import { h } from "vue";
 import type { ColumnDef } from "@tanstack/vue-table";
 
-// Define the Feedback interface
-export interface Feedback {
-  question_id: string;
-  sentiment: string;
-  text: string;
-}
-
-interface Professors {
-  id: string;
+export interface StudentFeedback {
+  studentId: string;
   name: string;
-  dept_id: string;
-  dept_desc: string;
-  feedbacks: Feedback[];
+  section: string;
+  program: string;
+  incomplete_subject_count: number;
+  total_subject_count: number;
 }
 
-interface Summary {
-  year_sem: string;
-  professor_feedback_list: Professors[];
-}
-
-// Define the columns to reflect each field in Feedback
-export const columns: ColumnDef<Feedback>[] = [
+export const columns: ColumnDef<StudentFeedback>[] = [
   {
-    accessorKey: "question_id",
+    accessorKey: "studentId",
     header: () => h("div", { class: "text-center text-xs" }, "Student ID"),
     cell: ({ row }) => {
       return h(
         "div",
         { class: "text-center font-normal" },
-        row.getValue("question_id")
+        row.getValue("studentId")
       );
     },
   },
   {
-    accessorKey: "text",
+    accessorKey: "name",
     header: () => h("div", { class: "text-center text-xs" }, "Name"),
     cell: ({ row }) => {
       return h(
         "div",
         { class: "text-center font-normal" },
-        row.getValue("text")
+        row.getValue("name")
       );
     },
   },
   {
-    accessorKey: "sentiment",
+    accessorKey: "section",
     header: () => h("div", { class: "text-center text-xs" }, "Section"),
     cell: ({ row }) => {
-      const sentiment = row.getValue("sentiment") as string;
-
-      return h("div", { class: `text-center font-normal` }, sentiment);
+      return h(
+        "div",
+        { class: "text-center font-normal" },
+        row.getValue("section")
+      );
     },
   },
   {
-    accessorKey: "sentiment",
+    accessorKey: "program",
     header: () => h("div", { class: "text-center text-xs" }, "Program"),
     cell: ({ row }) => {
-      const sentiment = row.getValue("sentiment") as string;
-
-      return h("div", { class: `text-center font-normal` }, sentiment);
+      return h(
+        "div",
+        { class: "text-center font-normal" },
+        row.getValue("program")
+      );
     },
   },
   {
-    accessorKey: "sentiment",
+    accessorKey: "incomplete_subject_count",
     header: () => h("div", { class: "text-center text-xs" }, "Pendings"),
     cell: ({ row }) => {
-      const sentiment = row.getValue("sentiment") as string;
-
-      return h("div", { class: `text-center font-normal` }, sentiment);
+      return h(
+        "div",
+        { class: "text-center font-normal" },
+        row.getValue("incomplete_subject_count")
+      );
     },
   },
   {
-    accessorKey: "sentiment",
+    accessorKey: "total_subject_count",
     header: () => h("div", { class: "text-center text-xs" }, "Total Subjects"),
     cell: ({ row }) => {
-      const sentiment = row.getValue("sentiment") as string;
-
-      return h("div", { class: `text-center font-normal` }, sentiment);
+      return h(
+        "div",
+        { class: "text-center font-normal" },
+        row.getValue("total_subject_count")
+      );
     },
   },
 ];
