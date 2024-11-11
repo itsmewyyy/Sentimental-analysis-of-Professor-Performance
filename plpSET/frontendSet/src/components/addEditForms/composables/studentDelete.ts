@@ -7,23 +7,20 @@ export function studentDelete() {
   const { mutate: deleteItem } = useDelete();
 
   const handleDelete = (item: Student) => {
-    if (confirm("Are you sure you want to delete this student?")) {
-      deleteItem(item.student_id, {
-        onSuccess: () => {
-          toast({
-            title: "Success",
-            description: "Student deleted successfully.",
-          });
-        },
-        onError: (error) => {
-          toast({
-            title: "Error",
-            description:
-              error.message || "Failed to delete student information.",
-          });
-        },
-      });
-    }
+    deleteItem(item.student_id, {
+      onSuccess: () => {
+        toast({
+          title: "Success",
+          description: "Student deleted successfully.",
+        });
+      },
+      onError: (error) => {
+        toast({
+          title: "Error",
+          description: error.message || "Failed to delete student information.",
+        });
+      },
+    });
   };
 
   const handleStoreItem = (item: Student) => {

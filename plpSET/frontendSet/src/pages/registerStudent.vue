@@ -12,6 +12,10 @@ import {
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { useRouter } from "vue-router";
+import { Toaster } from "@/components/ui/toast";
+import { useToast } from "@/components/ui/toast/use-toast";
+
+const { toast } = useToast();
 
 const router = useRouter();
 const dateofbirth = ref<Date>();
@@ -46,12 +50,17 @@ const register = async () => {
 
     router.push("/StudentLogin");
   } catch (error) {
-    console.error(error);
+    toast({
+      variant: "destructive",
+      title: "Failed to Register",
+      description: error.error,
+    });
   }
 };
 </script>
 
 <template>
+  <Toaster></Toaster>
   <section class="w-full h-screen flex items-center justify-center p-10">
     <div class="flex rounded-lg max-w-5xl w-full border border-black/15">
       <div

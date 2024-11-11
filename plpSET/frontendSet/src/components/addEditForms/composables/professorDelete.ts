@@ -7,22 +7,20 @@ export function itemDelete() {
   const { mutate: deleteItem } = useDelete();
 
   const handleDelete = (item: Professor) => {
-    if (confirm("Are you sure you want to delete this student?")) {
-      deleteItem(item.professor_id, {
-        onSuccess: () => {
-          toast({
-            title: "Success",
-            description: "Deleted successfully.",
-          });
-        },
-        onError: (error) => {
-          toast({
-            title: "Error",
-            description: error.message || "Failed to delete information.",
-          });
-        },
-      });
-    }
+    deleteItem(item.professor_id, {
+      onSuccess: () => {
+        toast({
+          title: "Success",
+          description: "Deleted successfully.",
+        });
+      },
+      onError: (error) => {
+        toast({
+          title: "Error",
+          description: error.message || "Failed to delete information.",
+        });
+      },
+    });
   };
 
   const handleStoreItem = (item: Professor) => {

@@ -69,6 +69,11 @@ watch(
 
 const fetchCategoriesAndAverages = async () => {
   const professorId = localStorage.getItem("professor");
+  if (!professorId) {
+    console.error("Professor ID not found in localStorage.");
+    return;
+  }
+
   try {
     // Fetch categories and questions
     const categoriesResponse = await axios.get(
@@ -76,36 +81,42 @@ const fetchCategoriesAndAverages = async () => {
     );
     const allCategories = categoriesResponse.data;
 
-    // Fetch professor ratings summary specifically for the professor ID
+    // Fetch professor ratings summary
     const ratingsResponse = await axios.get(
-      `https://sentiment-professor-feedback-1.onrender.com/api/professor-ratings-summary/${professorId}`
+      "https://sentiment-professor-feedback-1.onrender.com/api/professor-ratings-summary/"
     );
-    const professorData = ratingsResponse.data;
+    const professorData = ratingsResponse.data.summary.find(
+      (professor) => professor.id === professorId
+    );
 
-    // Map categories to include averages from professor's ratings summary
-    categories.value = allCategories.map((category) => {
-      // Find matching category from the professor's ratings summary
-      const categorySummary = professorData.numerical_summary.category_avg.find(
-        (avgCategory) => avgCategory.category_desc === category.category_desc
-      );
-
-      return {
-        category_desc: category.category_desc,
-        questions: category.questions.map((question) => {
-          // Find the question's average if it exists in the summary
-          const questionAvg = categorySummary?.question_avg.find(
-            (avgQuestion) =>
-              avgQuestion.question_id === question.numerical_question_id
+    // If the professor has data, map it to categories with averages
+    if (professorData) {
+      categories.value = allCategories.map((category) => {
+        // Find matching category from the professor's ratings summary
+        const categorySummary =
+          professorData.numerical_summary[0].category_avg.find(
+            (avgCategory) =>
+              avgCategory.category_desc === category.category_desc
           );
 
-          return {
-            numerical_question_id: question.numerical_question_id,
-            question: question.question,
-            average: questionAvg ? questionAvg.average : null,
-          };
-        }),
-      };
-    });
+        return {
+          category_desc: category.category_desc,
+          questions: category.questions.map((question) => {
+            // Find the question's average if it exists in the summary
+            const questionAvg = categorySummary?.question_avg.find(
+              (avgQuestion) =>
+                avgQuestion.question_id === question.numerical_question_id
+            );
+
+            return {
+              numerical_question_id: question.numerical_question_id,
+              question: question.question,
+              average: questionAvg ? questionAvg.average : null,
+            };
+          }),
+        };
+      });
+    }
   } catch (error) {
     console.error("Error fetching data:", error);
   }

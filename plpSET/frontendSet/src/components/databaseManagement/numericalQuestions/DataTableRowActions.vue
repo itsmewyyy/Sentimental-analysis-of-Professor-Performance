@@ -17,6 +17,17 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Ellipsis } from "lucide-vue-next";
 import { computed } from "vue";
 import EditNumQues from "@/components/addEditForms/EditNumQues.vue";
@@ -58,12 +69,36 @@ const storeItems = () => {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="center" class="w-[160px]">
               <DropdownMenuItem> <EditNumQues></EditNumQues> </DropdownMenuItem>
-              <DropdownMenuItem
-                class="flex justify-between items-center cursor-pointer"
-                @click="deleteRow"
-              >
-                Delete
-                <Trash color="red" width="12" />
+              <DropdownMenuItem @click.stop>
+                <AlertDialog>
+                  <AlertDialogTrigger @click.stop
+                    ><div
+                      class="flex flex-row justify-between items-center cursor-pointer"
+                    >
+                      <p>Delete</p>
+                      <Trash color="red" width="12" class="ml-20" />
+                    </div>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle
+                        >Are you absolutely sure?</AlertDialogTitle
+                      >
+                      <AlertDialogDescription>
+                        This action cannot be undone. This will delete the
+                        selected Numerical Question.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction
+                        @click="deleteRow"
+                        class="bg-plpgreen-200 hover:bg-plpgreen-300"
+                        >Continue</AlertDialogAction
+                      >
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

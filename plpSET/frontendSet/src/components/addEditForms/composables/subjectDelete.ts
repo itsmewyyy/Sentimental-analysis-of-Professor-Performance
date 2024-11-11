@@ -7,22 +7,20 @@ export function itemDelete() {
   const { mutate: deleteItem } = useDelete();
 
   const handleDelete = (item: Subject) => {
-    if (confirm("Are you sure you want to delete this?")) {
-      deleteItem(item.subject_code, {
-        onSuccess: () => {
-          toast({
-            title: "Success",
-            description: "Deleted successfully.",
-          });
-        },
-        onError: (error) => {
-          toast({
-            title: "Error",
-            description: error.message || "Failed to delete.",
-          });
-        },
-      });
-    }
+    deleteItem(item.subject_code, {
+      onSuccess: () => {
+        toast({
+          title: "Success",
+          description: "Deleted successfully.",
+        });
+      },
+      onError: (error) => {
+        toast({
+          title: "Error",
+          description: error.message || "Failed to delete.",
+        });
+      },
+    });
   };
 
   const handleStoreItem = (item: Subject) => {

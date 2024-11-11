@@ -78,7 +78,7 @@ const storeItems = () => {
                       class="flex flex-row justify-between items-center cursor-pointer"
                     >
                       <p>Delete</p>
-                      <Trash color="red" width="12" />
+                      <Trash color="red" width="12" class="ml-20" />
                     </div>
                   </AlertDialogTrigger>
                   <AlertDialogContent>
@@ -87,14 +87,15 @@ const storeItems = () => {
                         >Are you absolutely sure?</AlertDialogTitle
                       >
                       <AlertDialogDescription>
-                        This action cannot be undone. This will permanently
-                        delete your account and remove your data from our
-                        servers.
+                        This action will delete an admin account and all related
+                        data.
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
                       <AlertDialogCancel>Cancel</AlertDialogCancel>
-                      <AlertDialogAction @click="deleteRow"
+                      <AlertDialogAction
+                        @click="deleteRow"
+                        class="bg-plpgreen-200 hover:bg-plpgreen-300"
                         >Continue</AlertDialogAction
                       >
                     </AlertDialogFooter>

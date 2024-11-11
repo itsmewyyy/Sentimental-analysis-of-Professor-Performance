@@ -26,6 +26,17 @@ import {
 import { Ellipsis } from "lucide-vue-next";
 import { computed } from "vue";
 import EditFeedQues from "@/components/addEditForms/EditFeedQues.vue";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 interface DataTableRowActionsProps {
   row: Row<FeedbackQuestion>;
@@ -60,12 +71,36 @@ const storeItems = () => {
               <DropdownMenuItem>
                 <EditFeedQues></EditFeedQues>
               </DropdownMenuItem>
-              <DropdownMenuItem
-                class="flex justify-between items-center cursor-pointer"
-                @click="deleteRow"
-              >
-                Delete
-                <Trash color="red" width="12" />
+              <DropdownMenuItem @click.stop>
+                <AlertDialog>
+                  <AlertDialogTrigger @click.stop
+                    ><div
+                      class="flex flex-row justify-between items-center cursor-pointer"
+                    >
+                      <p>Delete</p>
+                      <Trash color="red" width="12" class="ml-20" />
+                    </div>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle
+                        >Are you absolutely sure?</AlertDialogTitle
+                      >
+                      <AlertDialogDescription>
+                        This action cannot be undone. This will delete the
+                        selected Feedback Question.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction
+                        @click="deleteRow"
+                        class="bg-plpgreen-200 hover:bg-plpgreen-300"
+                        >Continue</AlertDialogAction
+                      >
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

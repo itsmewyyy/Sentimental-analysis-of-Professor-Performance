@@ -64,7 +64,7 @@ class LoginView(APIView):
         try:
             student_account = student_acc.objects.get(student_acc_number=student_acc_number)
         except student_acc.DoesNotExist:
-            return Response({'error': 'Invalid credentials'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'Student account does not exist.'}, status=status.HTTP_400_BAD_REQUEST)
 
         # Check if the date of birth matches
         if student_account.date_of_birth.strftime('%Y-%m-%d') != dateofbirth:
@@ -84,7 +84,7 @@ class LoginView(APIView):
                 'user_type': 'student',
             }, status=status.HTTP_200_OK)
            
-        return Response({'error': 'Invalid password'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'error': 'Password is incorrect'}, status=status.HTTP_400_BAD_REQUEST)
         
 class LogoutView(APIView):
     def post(self, request):
@@ -104,7 +104,7 @@ class LoginAdmin(APIView):
             # Fetch the admin account based on the provided username
             admin_account = admin_acc.objects.get(admin_username=username)
         except admin_acc.DoesNotExist:
-            return Response({'error': 'Invalid credentials'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'Admin account does not exist.'}, status=status.HTTP_400_BAD_REQUEST)
 
         # Check if the password is correct
         if check_password(password, admin_account.password):

@@ -5,6 +5,9 @@ import { cn } from "@/lib/utils";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "@/store/adminStore";
 import axios from "axios";
+import type { AxiosError } from "axios";
+import { Toaster } from "@/components/ui/toast";
+import { useToast } from "@/components/ui/toast/use-toast";
 
 const authStore = useAuthStore();
 const router = useRouter();
@@ -12,12 +15,12 @@ authStore.restoreSession();
 const adminUsername = ref("");
 const password = ref("");
 const isAuthenticated = computed(() => authStore.isAuthenticated);
+const { toast } = useToast();
 
 onMounted(() => {
   if (isAuthenticated.value) {
     const userType = localStorage.getItem("user_type");
 
-    // Redirect based on user_type
     if (userType === "MIS") {
       router.push("/MISDashboard");
     } else if (userType === "Dean") {
@@ -62,12 +65,17 @@ const login = async () => {
       router.push("/MISDashboard");
     }
   } catch (error) {
-    console.error("Login or fetching current_year_sem failed:", error);
+    toast({
+      variant: "destructive",
+      title: "Failed to Login", // Access the 'error' key directly
+      description: error.error,
+    });
   }
 };
 </script>
 
 <template>
+  <Toaster></Toaster>
   <div
     class="min-h-screen flex items-center justify-center"
     v-if="!isAuthenticated"

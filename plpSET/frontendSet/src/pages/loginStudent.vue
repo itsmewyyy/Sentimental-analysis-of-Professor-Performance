@@ -12,7 +12,10 @@ import {
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { useRouter } from "vue-router";
+import { Toaster } from "@/components/ui/toast";
+import { useToast } from "@/components/ui/toast/use-toast";
 
+const { toast } = useToast();
 const router = useRouter();
 const authStore = useAuthStore();
 authStore.restoreSession();
@@ -44,12 +47,17 @@ const login = async () => {
     );
     router.push("/StudentDashboard");
   } catch (error) {
-    console.error(error);
+    toast({
+      variant: "destructive",
+      title: "Failed to Login",
+      description: error.error,
+    });
   }
 };
 </script>
 
 <template>
+  <Toaster></Toaster>
   <div
     class="min-h-screen flex items-center justify-center"
     v-if="!isAuthenticated"
