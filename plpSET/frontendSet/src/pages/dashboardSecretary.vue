@@ -82,7 +82,7 @@ const removeSubjectSectionTag = (index: number) => {
 const loadProfessors = async () => {
   try {
     const response = await axios.get(
-      "http://127.0.0.1:8000/api/professor-list/"
+      "https://sentiment-professor-feedback-1.onrender.com/api/professor-list/"
     );
     professors.value = response.data.filter(
       (professor: any) => professor.department === selectedCollege
@@ -114,7 +114,7 @@ const submitData = async () => {
     for (const entry of profSubjectsData) {
       try {
         const profSubjectResponse = await axios.post(
-          "http://127.0.0.1:8000/api/prof-subjs/",
+          "https://sentiment-professor-feedback-1.onrender.com/api/prof-subjs/",
           entry
         );
         console.log("Prof subjects response:", profSubjectResponse.data);
@@ -146,7 +146,7 @@ const submitData = async () => {
             console.error("prof_subj_id is null for enrollment:", enrollment);
           } else {
             const response = await axios.post(
-              "http://127.0.0.1:8000/api/enrolled-subjs/",
+              "https://sentiment-professor-feedback-1.onrender.com/api/enrolled-subjs/",
               enrollment
             );
             console.log("Enrollment response:", response.data);

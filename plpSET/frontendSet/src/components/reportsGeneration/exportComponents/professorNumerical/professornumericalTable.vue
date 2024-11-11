@@ -72,13 +72,13 @@ const fetchCategoriesAndAverages = async () => {
   try {
     // Fetch categories and questions
     const categoriesResponse = await axios.get(
-      "http://127.0.0.1:8000/api/categories-and-questions/"
+      "https://sentiment-professor-feedback-1.onrender.com/api/categories-and-questions/"
     );
     const allCategories = categoriesResponse.data;
 
     // Fetch professor ratings summary specifically for the professor ID
     const ratingsResponse = await axios.get(
-      `http://127.0.0.1:8000/api/professor-ratings-summary/${professorId}`
+      `https://sentiment-professor-feedback-1.onrender.com/api/professor-ratings-summary/${professorId}`
     );
     const professorData = ratingsResponse.data;
 

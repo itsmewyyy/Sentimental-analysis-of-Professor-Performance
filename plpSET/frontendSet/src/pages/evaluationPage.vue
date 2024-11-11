@@ -153,7 +153,7 @@ const departmentDesc = computed(() => {
 async function fetchData() {
   try {
     const response = await axios.get(
-      "http://127.0.0.1:8000/api/categories-and-questions/"
+      "https://sentiment-professor-feedback-1.onrender.com/api/categories-and-questions/"
     );
     categories.value = response.data;
     totalCategoryCount.value = categories.value.length;
@@ -190,7 +190,7 @@ function handleRatingSelection({
 async function fetchFeedbackData() {
   try {
     const response = await axios.get(
-      "http://127.0.0.1:8000/api/feedback-questions/"
+      "https://sentiment-professor-feedback-1.onrender.com/api/feedback-questions/"
     );
     questions.value = response.data;
     totalFeedbackQuestionCount.value = questions.value.length;
@@ -241,7 +241,10 @@ async function submitAll() {
   console.log("Data being submitted:", data);
 
   try {
-    await axios.post("http://127.0.0.1:8000/api/submit-ratings/", data);
+    await axios.post(
+      "https://sentiment-professor-feedback-1.onrender.com/api/submit-ratings/",
+      data
+    );
     localStorage.removeItem("student_enrolled_subj_id"); // Remove item
     ratingsStore.clearAllRatings(); // Clear the store after submission
 
