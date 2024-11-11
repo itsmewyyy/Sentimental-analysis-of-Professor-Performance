@@ -294,7 +294,7 @@ function goToPrev() {
 
 <template>
   <Toaster />
-  <navbar></navbar>
+  <navbar />
   <section class="pt-32 pl-32 pr-32 pb-auto">
     <form>
       <div class="sliding-container w-full space-y-2">
