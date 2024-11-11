@@ -55,12 +55,12 @@ def preprocess_text(text):
     return ' '.join(tokens)
 
 @shared_task(bind=True, autoretry_for=(redis.exceptions.ConnectionError,), retry_backoff=True)
-def process_feedback_task(feedback_data):
+def process_feedback_task(self, feedback_data):
     processed_feedback_instances = []
     filtered_feedback_instances = []
 
     for question_id, feedback in feedback_data['feedbackRatings'].items():
-        processed_text = preprocess_text(self, feedback)
+        processed_text = preprocess_text(feedback)
 
         try:
             feedback_question_instance = feedback_questions.objects.get(feedback_question_id=question_id)
