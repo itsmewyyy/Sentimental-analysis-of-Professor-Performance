@@ -31,14 +31,12 @@
         <HoverCardContent class="w-80 mr-20">
           <div class="flex justify-between space-x-4">
             <div class="space-y-1" v-if="evaluationPeriod">
-              <h4 class="text-sm font-semibold">Evaluation Period</h4>
-              <p class="text-sm">
-                {{ evaluationPeriod.year_semester.acad_year }} -
-                {{ evaluationPeriod.year_semester.semester_desc }}
-              </p>
-              <div class="flex items-center pt-2">
+              <div class="flex items-center">
                 <CalendarDays class="mr-2 h-4 w-4 opacity-70" />
-                <span class="text-xs text-muted-foreground">
+                <h4 class="text-sm font-semibold">Evaluation Period</h4>
+              </div>
+              <div class="flex items-center pt-2">
+                <span class="text-xs font-medium">
                   {{ evaluationPeriod.start_date }} -
                   {{ evaluationPeriod.end_date }}
                 </span>
