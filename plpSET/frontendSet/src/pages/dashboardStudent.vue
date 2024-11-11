@@ -1,10 +1,9 @@
 <template>
   <Toaster />
-
+  <navbar />
   <section
     class="relative bg-white min-h-screen overflow-y-auto p-20 pt-32 space-y-16 w-full"
   >
-    <navbar />
     <div class="pl-8">
       <h1 class="font-semibold text-4xl text-darks-500">Enrolled Courses</h1>
       <p class="font-light text-xl text-darks-300">
