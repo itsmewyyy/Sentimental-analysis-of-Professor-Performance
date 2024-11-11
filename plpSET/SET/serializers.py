@@ -65,7 +65,7 @@ class StudentSerializer(serializers.ModelSerializer):
 class SubmitRatingsSerializer(serializers.Serializer):
     numericalRatings = serializers.DictField(child=serializers.IntegerField())
     feedbackRatings = serializers.DictField(child=serializers.CharField())
-    student_enrolled_subj_id = serializers.CharField()  # Add this field to identify the student-subject enrollment
+    student_enrolled_subj_id = serializers.CharField()  
 
     def create(self, validated_data):
         # Process and save numerical ratings

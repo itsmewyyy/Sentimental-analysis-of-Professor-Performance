@@ -23,6 +23,17 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Ellipsis } from "lucide-vue-next";
 import { computed } from "vue";
 import EditAdmin from "@/components/addEditForms/EditAdmin.vue";
@@ -62,9 +73,28 @@ const storeItems = () => {
               </DropdownMenuItem>
               <DropdownMenuItem
                 class="flex justify-between items-center cursor-pointer"
-                @click="deleteRow"
               >
-                Delete
+                <AlertDialog>
+                  <AlertDialogTrigger>Delete</AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle
+                        >Are you absolutely sure?</AlertDialogTitle
+                      >
+                      <AlertDialogDescription>
+                        This action cannot be undone. This will permanently
+                        delete your account and remove your data from our
+                        servers.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction @click="deleteRow"
+                        >Continue</AlertDialogAction
+                      >
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
                 <Trash color="red" width="12" />
               </DropdownMenuItem>
             </DropdownMenuContent>
