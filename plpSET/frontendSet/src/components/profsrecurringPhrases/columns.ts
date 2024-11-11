@@ -50,11 +50,11 @@ export const columns: ColumnDef<Phrase>[] = [
     cell: ({ row }) => {
       const sentiment = row.getValue("sentiment") as string;
       const colorClass =
-        sentiment === "Positive"
+        sentiment === "positive"
           ? "text-plpgreen-400"
-          : sentiment === "Negative"
+          : sentiment === "negative"
           ? "text-reds-800"
-          : sentiment === "Neutral"
+          : sentiment === "neutral"
           ? "text-plpyellow-200"
           : "text-darks-500";
 
