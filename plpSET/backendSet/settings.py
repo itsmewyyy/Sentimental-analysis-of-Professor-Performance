@@ -169,6 +169,7 @@ CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 
 CELERY_BROKER_URL = 'rediss://red-csoq419u0jms738nvmsg:UUjd3PJnwwAakCWdRggOTbmM5mtEzgB1@oregon-redis.render.com:6379/0?ssl_cert_reqs=CERT_NONE'
 CELERY_RESULT_BACKEND = 'rediss://red-csoq419u0jms738nvmsg:UUjd3PJnwwAakCWdRggOTbmM5mtEzgB1@oregon-redis.render.com:6379/0?ssl_cert_reqs=CERT_NONE'
+worker_cancel_long_running_tasks_on_connection_loss = True
 
 
 

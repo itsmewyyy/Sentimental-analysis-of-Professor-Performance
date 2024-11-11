@@ -25,6 +25,7 @@ from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
 from django.conf import settings
+import redis
 
 import nltk
 try:
@@ -53,7 +54,7 @@ def preprocess_text(text):
     tokens = [lemmatizer.lemmatize(token) for token in tokens]
     return ' '.join(tokens)
 
-@shared_task
+@shared_task(bind=True, autoretry_for=(redis.exceptions.ConnectionError,), retry_backoff=True)
 def process_feedback_task(feedback_data):
     processed_feedback_instances = []
     filtered_feedback_instances = []
@@ -99,7 +100,7 @@ def process_feedback_task(feedback_data):
     return "Feedback processed successfully"
 
 
-@shared_task
+@shared_task(bind=True, autoretry_for=(redis.exceptions.ConnectionError,), retry_backoff=True)
 def update_summaries_batch():
     last_update_time = timezone.now() - timedelta(minutes=30)
     
@@ -409,7 +410,7 @@ def update_professor_numerical_summaries(recent_ratings):
         professor_numerical_totals.save()
 
 
-@shared_task
+@shared_task(bind=True, autoretry_for=(redis.exceptions.ConnectionError,), retry_backoff=True)
 @transaction.atomic
 def update_professor_recurring_phrases():
     last_update_time = timezone.now() - timedelta(minutes=30)
@@ -478,7 +479,7 @@ def update_professor_recurring_phrases():
             recurring_phrase.save() 
 
 
-@shared_task
+@shared_task(bind=True, autoretry_for=(redis.exceptions.ConnectionError,), retry_backoff=True)
 def count_total_submissions():
     with transaction.atomic():
         total_submissions = 0
