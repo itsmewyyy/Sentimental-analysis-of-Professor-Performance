@@ -107,7 +107,6 @@ class SubmitRatingsView(APIView):
         if serializer.is_valid():
             validated_data = serializer.save()
 
-         
             process_feedback_task.delay(validated_data)
 
         

@@ -60,7 +60,7 @@ def process_feedback_task(feedback_data):
     filtered_feedback_instances = []
 
     for question_id, feedback in feedback_data['feedbackRatings'].items():
-        processed_text = preprocess_text(feedback)
+        processed_text = preprocess_text(self, feedback)
 
         try:
             feedback_question_instance = feedback_questions.objects.get(feedback_question_id=question_id)
@@ -101,7 +101,7 @@ def process_feedback_task(feedback_data):
 
 
 @shared_task(bind=True, autoretry_for=(redis.exceptions.ConnectionError,), retry_backoff=True)
-def update_summaries_batch():
+def update_summaries_batch(self):
     last_update_time = timezone.now() - timedelta(minutes=30)
     
     recent_filtered_feedbacks = filtered_feedbacks.objects.filter(analysis_date__gte=last_update_time)
@@ -413,7 +413,7 @@ def update_professor_numerical_summaries(recent_ratings):
 
 @shared_task(bind=True, autoretry_for=(redis.exceptions.ConnectionError,), retry_backoff=True)
 @transaction.atomic
-def update_professor_recurring_phrases():
+def update_professor_recurring_phrases(self):
     last_update_time = timezone.now() - timedelta(minutes=30)
     recent_feedbacks = processed_feedbacks.objects.filter(processed_date__gte=last_update_time)
 
@@ -481,7 +481,7 @@ def update_professor_recurring_phrases():
 
 
 @shared_task(bind=True, autoretry_for=(redis.exceptions.ConnectionError,), retry_backoff=True)
-def count_total_submissions():
+def count_total_submissions(self):
     with transaction.atomic():
         total_submissions = 0
 
