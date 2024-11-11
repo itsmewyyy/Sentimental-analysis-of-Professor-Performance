@@ -174,19 +174,15 @@ from celery.schedules import crontab
 
 CELERY_BEAT_SCHEDULE = {
     'update_summaries_every_15mins': {
-        'task': 'SET.tasks.update_summaries_batch',  # Update with your app and task name
-        'schedule': crontab(minute='*/15',),    # Runs every 15 mins
+        'task': 'SET.tasks.update_summaries_batch',  
+        'schedule': crontab(minute='*/15',),    
     },
     'update_professor_recurring_phrases': {
         'task': 'SET.tasks.update_professor_recurring_phrases',
         'schedule': crontab(minute='*/15'),  
     },
-    'count_students_and_accounts': {
-        'task': 'SET.tasks.count_students_and_accounts',
-        'schedule': crontab(minute='*/1'),  
-    },
     'count_total_submissions': {
         'task': 'SET.tasks.count_total_submissions',
-        'schedule': crontab(minute='*/1'),  
+        'schedule': crontab(minute='*/15'),  
     },
 }

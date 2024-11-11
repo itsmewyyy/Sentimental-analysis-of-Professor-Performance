@@ -23,7 +23,7 @@ async function getData(): Promise<Phrase[]> {
     const collegeIdentifier = localStorage.getItem("college");
     const yearsemIdentifier = localStorage.getItem("current_year_sem");
     const response = await fetch(
-      `http://127.0.0.1:8000/api/recurring-college-phrases/?year_sem=${yearsemIdentifier}&dept_id=${collegeIdentifier}`
+      `https://sentiment-professor-feedback-1.onrender.com/api/recurring-college-phrases/?year_sem=${yearsemIdentifier}&dept_id=${collegeIdentifier}`
     );
     if (!response.ok) {
       throw new Error("Failed to fetch feedback data");

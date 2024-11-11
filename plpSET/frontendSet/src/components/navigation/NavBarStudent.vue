@@ -64,8 +64,13 @@
         <DropdownMenuContent class="w-48 mr-7">
           <DropdownMenuLabel>
             <div class="flex flex-col space-y-0 line-clamp-2">
-              <span class="font-medium">Gian Carlo Catalan</span>
-              <span class="text-gray-500 italic text-xs">21-00444</span>
+              <span class="font-medium"
+                >{{ studentProfile.info.first_name }}
+                {{ studentProfile.info.surname }}</span
+              >
+              <span class="text-gray-500 italic text-xs">
+                {{ studentProfile.account.student_acc_number }}</span
+              >
             </div>
           </DropdownMenuLabel>
           <DropdownMenuSeparator class="bg-plpgreen-100 border-0.5" />
@@ -131,4 +136,22 @@ const logout = async () => {
     console.error("Logout failed:", error);
   }
 };
+
+const studentProfile = ref(null); // Start with null
+
+onMounted(async () => {
+  const studentId = localStorage.getItem("student_id");
+  if (studentId) {
+    try {
+      const response = await axios.get(
+        `https://sentiment-professor-feedback-1.onrender.com/api/student-profile?student_id=${studentId}`
+      );
+      studentProfile.value = response.data;
+    } catch (error) {
+      console.error("Error fetching student profile:", error);
+    }
+  } else {
+    console.error("Student ID not found in localStorage.");
+  }
+});
 </script>
