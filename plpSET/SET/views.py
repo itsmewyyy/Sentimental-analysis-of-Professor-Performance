@@ -807,8 +807,8 @@ def incomplete_evaluations(request):
         {
             "student_id": student.student_id,
             "name": f"{student.first_name} {student.surname}",
-            "section": student.section,
-            "program": student.section.program,
+            "section": student.section.section_id,
+            "program": student.section.program.program_id,
             "incomplete_count": student.enrolled_subjects.filter(is_evaluated=False).count(),
             "total_subjects": student.enrolled_subjects.count(),
         }
