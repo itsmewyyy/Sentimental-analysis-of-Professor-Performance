@@ -14,7 +14,6 @@ from pathlib import Path
 import dj_database_url
 from decouple import config
 import os
-import ssl
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -168,18 +167,10 @@ CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 
+CELERY_BROKER_URL = 'rediss://red-csoq419u0jms738nvmsg:UUjd3PJnwwAakCWdRggOTbmM5mtEzgB1@oregon-redis.render.com:6379/0?ssl_cert_reqs=CERT_NONE'
+CELERY_RESULT_BACKEND = 'rediss://red-csoq419u0jms738nvmsg:UUjd3PJnwwAakCWdRggOTbmM5mtEzgB1@oregon-redis.render.com:6379/0?ssl_cert_reqs=CERT_NONE'
 
-CELERY_BROKER_URL = 'rediss://red-csoq419u0jms738nvmsg:UUjd3PJnwwAakCWdRggOTbmM5mtEzgB1@oregon-redis.render.com:6379/0'
-CELERY_RESULT_BACKEND = 'rediss://red-csoq419u0jms738nvmsg:UUjd3PJnwwAakCWdRggOTbmM5mtEzgB1@oregon-redis.render.com:6379/0'
 
-# Configure SSL settings
-CELERY_BROKER_USE_SSL = {
-    'ssl_cert_reqs': ssl.CERT_NONE 
-}
-
-CELERY_RESULT_BACKEND_USE_SSL = {
-    'ssl_cert_reqs': ssl.CERT_NONE  
-}
 
 # Celery Beat
 from celery.schedules import crontab
