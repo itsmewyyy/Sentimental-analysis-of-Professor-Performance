@@ -73,14 +73,14 @@ const storeItems = () => {
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <AlertDialog>
-                  <AlertDialogTrigger
+                  <AlertDialogTrigger @click.stop
                     ><div
                       class="flex justify-between items-center cursor-pointer"
                     >
                       <p>Delete</p>
+                      <Trash color="red" width="12" />
                     </div>
-                    <Trash color="red" width="12"
-                  /></AlertDialogTrigger>
+                  </AlertDialogTrigger>
                   <AlertDialogContent>
                     <AlertDialogHeader>
                       <AlertDialogTitle
