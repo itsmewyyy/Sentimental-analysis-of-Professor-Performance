@@ -105,14 +105,16 @@ class SubmitRatingsView(APIView):
     def post(self, request):
         serializer = SubmitRatingsSerializer(data=request.data)
         if serializer.is_valid():
-            instance = serializer.save()
-            
-            process_feedback_task.delay(serializer.validated_data)
-            
+            validated_data = serializer.save()
+
+         
+            process_feedback_task.delay(validated_data)
+
+        
             return Response({"message": "Ratings and feedback submitted successfully. Processing in background."}, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
+    
 
 class SubjectTaggingView(APIView):
     def get(self, requset):
