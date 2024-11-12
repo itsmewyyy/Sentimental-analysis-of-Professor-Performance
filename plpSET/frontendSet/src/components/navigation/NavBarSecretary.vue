@@ -39,12 +39,14 @@
             </div>
           </DropdownMenuLabel>
           <DropdownMenuSeparator class="bg-plpgreen-100 border-0.5" />
-          <DropdownMenuItem>
-            <div class="flex items-center space-x-2 cursor-pointer w-full">
-              <User size="14" />
-              <span class="text-sm">Profile</span>
-            </div>
-          </DropdownMenuItem>
+          <RouterLink to="/SecretaryProfile">
+            <DropdownMenuItem>
+              <div class="flex items-center space-x-2 cursor-pointer w-full">
+                <User size="14" />
+                <span class="text-sm">Profile</span>
+              </div>
+            </DropdownMenuItem>
+          </RouterLink>
           <DropdownMenuSeparator class="bg-plpgreen-100" />
           <DropdownMenuItem>
             <div

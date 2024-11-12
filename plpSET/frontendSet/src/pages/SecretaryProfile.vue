@@ -3,7 +3,9 @@
   <NavBarDean></NavBarDean>
   <ScrollArea class="h-svh w-full">
     <div class="max-w-3xl mx-auto p-4 space-y-4">
-      <h1 class="text-xl font-semibold mt-4 text-gray-900">Dean Profile</h1>
+      <h1 class="text-xl font-semibold mt-4 text-gray-900">
+        Secretary Profile
+      </h1>
 
       <Card>
         <CardContent class="p-6">
@@ -165,7 +167,7 @@ onMounted(async () => {
       console.log(response.data);
       deanProfile.value = response.data;
     } catch (error) {
-      console.error("Error fetching dean profile:", error);
+      console.error("Error fetching secretary profile:", error);
     }
   } else {
     console.error("Admin ID not found in localStorage.");

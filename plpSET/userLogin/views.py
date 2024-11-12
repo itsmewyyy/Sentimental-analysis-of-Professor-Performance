@@ -7,10 +7,9 @@ from .serializers import AdminAccSerializer
 from django.contrib.auth.hashers import check_password
 from datetime import datetime
 from SET.models import student_info, SubmissionSummary
-from django.contrib.auth import login, logout
 from django.contrib.sessions.models import Session
-from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.hashers import make_password
+from django.shortcuts import get_object_or_404
 
 class RegisterView(APIView):
     def post(self, request):
@@ -54,11 +53,10 @@ class RegisterView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class EditView(APIView):
-      def put(self, request, student_id):
-        student = self.get_object(student_id)
-        if not student:
-            return Response({"error": "Student not found"}, status=status.HTTP_404_NOT_FOUND)
-        
+    def put(self, request, student_id):
+        # Use get_object_or_404 to fetch the student instance
+        student = get_object_or_404(student_acc, student_id=student_id)
+
         data = request.data
         password = data.get("password")
         confirm_password = data.get("confirm_password")
@@ -69,13 +67,11 @@ class EditView(APIView):
         # Hash the password
         data["password"] = make_password(password)
         
-        serializer = StudentAccSerializer(student, data=request.data, partial=True)
+        serializer = StudentAccSerializer(student, data=data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
 class LoginView(APIView):
     def post(self, request):
         student_acc_number = request.data.get('student_acc_number')

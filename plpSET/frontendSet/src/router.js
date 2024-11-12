@@ -16,6 +16,7 @@ import dashboardMISCollegeData from "./pages/dashboardMISCollegeData.vue";
 import dashboardMISProfessorData from "./pages/dashboardMISProfessorData.vue";
 import StudentProfile from "./pages/StudentProfile.vue";
 import DeanProfile from "./pages/DeanProfile.vue";
+import SecretaryProfile from "./pages/SecretaryProfile.vue";
 import { createRouter, createWebHistory } from "vue-router";
 
 const routes = [
@@ -165,6 +166,14 @@ const routes = [
     meta: {
       title:
         "Dean Profile | Pamantasan ng Lungsod ng Pasig Student Evaluation of Teaching",
+    },
+  },
+  {
+    path: "/SecretaryProfile",
+    component: SecretaryProfile,
+    meta: {
+      title:
+        "Secretary Profile | Pamantasan ng Lungsod ng Pasig Student Evaluation of Teaching",
     },
   },
 ];
