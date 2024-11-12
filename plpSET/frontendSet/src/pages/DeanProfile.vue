@@ -1,4 +1,5 @@
 <template>
+  <NavBarDean></NavBarDean>
   <ScrollArea class="h-svh w-full">
     <div class="max-w-3xl mx-auto p-4 space-y-4">
       <h1 class="text-xl font-semibold mt-4 text-gray-900">Dean Profile</h1>
@@ -118,6 +119,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAuthStore } from "@/store/adminStore";
 import ScrollArea from "@/components/ui/scroll-area/ScrollArea.vue";
+import NavBarDean from "@/components/navigation/NavBarDean.vue";
 const authStore = useAuthStore();
 authStore.restoreSession();
 
