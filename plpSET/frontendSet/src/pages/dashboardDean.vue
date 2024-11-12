@@ -68,7 +68,9 @@ const fetchCollegeData = async () => {
       const yearsemIdentifier = localStorage.getItem("current_year_sem");
       const collegeIdentifier = localStorage.getItem("college");
 
-      const selectedYearSem = response.data.year_sem === yearsemIdentifier;
+      const selectedYearSem = response.data.find(
+        (item) => item.year_sem === yearsemIdentifier
+      );
 
       if (selectedYearSem) {
         const selectedCollege = response.data.summary.find(
