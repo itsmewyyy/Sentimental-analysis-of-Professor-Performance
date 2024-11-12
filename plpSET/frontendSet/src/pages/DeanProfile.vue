@@ -113,8 +113,8 @@ import ScrollArea from "@/components/ui/scroll-area/ScrollArea.vue";
 import NavBarDean from "@/components/navigation/NavBarDean.vue";
 import axios from "axios";
 import { ref, onMounted } from "vue";
-import Toaster from "@/components/ui/toast";
-import { useToast } from "@/components/ui/toast";
+import { Toaster } from "@/components/ui/toast";
+import { useToast } from "@/components/ui/toast/use-toast";
 
 const authStore = useAuthStore();
 authStore.restoreSession();
