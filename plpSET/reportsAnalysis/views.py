@@ -11,110 +11,116 @@ class CollegeRatingsSummaryView(APIView):
         if not year_sem_data.exists():
             return Response({"error": "Year-Semester not found"}, status=404)
 
+        # Initialize summary list for the response
+        summary = []
+
+        # Loop through each Year-Semester entry
         for year_sem in year_sem_data:
-            summary = []
+            colleges = department.objects.all()
+            
+            # Create a summary for each college within the Year-Semester
+            for college in colleges:
+                college_summary = {
+                    "name": college.department_id,
+                    "description": college.department_desc,
+                    "numerical_summary": [],
+                    "feedback_summary": [],
+                    "professor_list": []
+                }
 
-        colleges = department.objects.all()
-        
-        for college in colleges:
-            college_summary = {
-                "name": college.department_id,
-                "description": college.department_desc,
-                "numerical_summary": [],
-                "feedback_summary": [],
-                "professor_list": []
-            }
+                # Fetching the numerical summary
+                college_numerical_totals = college_numerical_total.objects.filter(year_sem_id=year_sem, department=college)
+                total_avg = 0
+                category_averages = []
 
-            # Fetching the numerical summary
-            college_numerical_totals = college_numerical_total.objects.filter(year_sem_id=year_sem, department=college)
-            total_avg = 0
-            category_averages = []
+                for total in college_numerical_totals:
+                    total_avg = total.total_average
 
-            for total in college_numerical_totals:
-                total_avg = total.total_average
+                    # Fetching category and question-level averages
+                    category_summaries = college_numerical_summary.objects.filter(year_sem_id=year_sem, department=college)
+                    for category in category_summaries:
+                        question_averages = []
 
-                # Fetching category and question-level averages
-                category_summaries = college_numerical_summary.objects.filter(year_sem_id=year_sem, department=college)
-                for category in category_summaries:
-                    question_averages = []
+                        # Fetching question-level averages for the category
+                        question_summaries = college_numerical_summary_questions.objects.filter(
+                            year_sem_id=year_sem,
+                            department=college,
+                            category=category.category
+                        )
 
-                    # Fetching question-level averages for the category
-                    question_summaries = college_numerical_summary_questions.objects.filter(
-                        year_sem_id=year_sem,
-                        department=college,
-                        category=category.category
-                    )
+                        for question_summary in question_summaries:
+                            question_avg_data = {
+                                "question_id": question_summary.numerical_question_id.numerical_question_id,
+                                "question_desc": question_summary.numerical_question_id.question,
+                                "average": question_summary.college_question_average,
+                            }
+                            question_averages.append(question_avg_data)
 
-                    for question_summary in question_summaries:
-                        question_avg_data = {
-                            "question_id": question_summary.numerical_question_id.numerical_question_id,
-                            "question_desc": question_summary.numerical_question_id.question,
-                            "average": question_summary.college_question_average,
+                        # Add category data with question averages
+                        category_avg_data = {
+                            "category_id": category.category.category_id,
+                            "category_desc": category.category.category_desc,
+                            "average": category.college_average,
+                            "question_avg": question_averages,
                         }
-                        question_averages.append(question_avg_data)
+                        category_averages.append(category_avg_data)
 
-                    # Add category data with question averages
-                    category_avg_data = {
-                        "category_id": category.category.category_id,
-                        "category_desc": category.category.category_desc,
-                        "average": category.college_average,
-                        "question_avg": question_averages,
+                college_summary["numerical_summary"].append({
+                    "total_avg": total_avg,
+                    "category_avg": category_averages
+                })
+
+                # Fetching feedback summary including question-level feedback
+                feedback_totals = college_feedback_total.objects.filter(year_sem_id=year_sem, department=college).first()
+                feedback_summary_data = {
+                    "total_feedbacks": feedback_totals.total_feedbacks if feedback_totals else 0,
+                    "total_positive": feedback_totals.total_positive if feedback_totals else 0,
+                    "total_neutral": feedback_totals.total_neutral if feedback_totals else 0,
+                    "total_negative": feedback_totals.total_negative if feedback_totals else 0,
+                    "question_summary": []
+                }
+
+                # Adding question-level summaries
+                question_summaries = college_feedback_summary.objects.filter(year_sem_id=year_sem, department=college)
+                for question_summary in question_summaries:
+                    question_data = {
+                        "question_id": question_summary.feedback_question_id.feedback_question_id,
+                        "total_feedbacks": question_summary.total_feedbacks,
+                        "total_positive": question_summary.total_positive,
+                        "total_neutral": question_summary.total_neutral,
+                        "total_negative": question_summary.total_negative,
                     }
-                    category_averages.append(category_avg_data)
+                    feedback_summary_data["question_summary"].append(question_data)
 
-            college_summary["numerical_summary"].append({
-                "total_avg": total_avg,
-                "category_avg": category_averages
-            })
+                college_summary["feedback_summary"].append(feedback_summary_data)
 
-            # Fetching feedback summary including question-level feedback
-            feedback_totals = college_feedback_total.objects.filter(year_sem_id=year_sem, department=college).first()
-            feedback_summary_data = {
-                "total_feedbacks": feedback_totals.total_feedbacks if feedback_totals else 0,
-                "total_positive": feedback_totals.total_positive if feedback_totals else 0,
-                "total_neutral": feedback_totals.total_neutral if feedback_totals else 0,
-                "total_negative": feedback_totals.total_negative if feedback_totals else 0,
-                "question_summary": []
-            }
+                # Fetching professors related to the college
+                professor_totals = professor_numerical_total.objects.filter(year_sem_id=year_sem, prof_id__department=college)
+                professor_feedback_totals = professor_feedback_total.objects.filter(year_sem_id=year_sem, prof_id__department=college)
 
-            # Adding question-level summaries
-            question_summaries = college_feedback_summary.objects.filter(year_sem_id=year_sem, department=college)
-            for question_summary in question_summaries:
-                question_data = {
-                    "question_id": question_summary.feedback_question_id.feedback_question_id,
-                    "total_feedbacks": question_summary.total_feedbacks,
-                    "total_positive": question_summary.total_positive,
-                    "total_neutral": question_summary.total_neutral,
-                    "total_negative": question_summary.total_negative,
-                }
-                feedback_summary_data["question_summary"].append(question_data)
+                for prof_total in professor_totals:
+                    full_name = f"{prof_total.prof_id.surname} {prof_total.prof_id.first_name} {prof_total.prof_id.middle_name or ''}".strip()
+                    professor = prof_total.prof_id
+                    
+                    feedback_totals = professor_feedback_totals.filter(prof_id=professor).first()
 
-            college_summary["feedback_summary"].append(feedback_summary_data)
+                    professor_data = {
+                        "id": professor.professor_id,
+                        "name": full_name,
+                        "total_avg": prof_total.total_average,
+                        "total_feedbacks": feedback_totals.total_feedbacks if feedback_totals else 0,
+                        "total_positive": feedback_totals.total_positive if feedback_totals else 0,
+                        "total_neutral": feedback_totals.total_neutral if feedback_totals else 0,
+                        "total_negative": feedback_totals.total_negative if feedback_totals else 0,
+                    }
 
-            # Fetching professors related to the college
-            professor_totals = professor_numerical_total.objects.filter(year_sem_id=year_sem, prof_id__department=college)
-            professor_feedback_totals = professor_feedback_total.objects.filter(year_sem_id=year_sem, prof_id__department=college)
+                    college_summary["professor_list"].append(professor_data)
 
-            for prof_total in professor_totals:
-                full_name = f"{prof_total.prof_id.surname} {prof_total.prof_id.first_name} {prof_total.prof_id.middle_name or ''}".strip()
-                professor = prof_total.prof_id
-                
-                feedback_totals = professor_feedback_totals.filter(prof_id=professor).first()
-
-                professor_data = {
-                "id": professor.professor_id,
-                "name": full_name,
-                "total_avg": prof_total.total_average,
-                "total_feedbacks": feedback_totals.total_feedbacks if feedback_totals else 0,
-                "total_positive": feedback_totals.total_positive if feedback_totals else 0,
-                "total_neutral": feedback_totals.total_neutral if feedback_totals else 0,
-                "total_negative": feedback_totals.total_negative if feedback_totals else 0,
-                }
-
-                college_summary["professor_list"].append(professor_data)
+                # Append each college's summary to the overall summary
+                summary.append(college_summary)
 
         return Response({
-            "year_sem": year_sem.year_sem_id,
+            "year_sem": [year_sem.year_sem_id for year_sem in year_sem_data],  # Returns all year_sem IDs
             "summary": summary
         })
 
