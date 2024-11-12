@@ -180,10 +180,12 @@ import { ref, onMounted } from "vue";
 import axios from "axios";
 import { useAuthStore } from "@/store/student";
 import ScrollArea from "@/components/ui/scroll-area/ScrollArea.vue";
+import { useToast } from "@/components/ui/toast/use-toast";
+import { Toaster } from "@/components/ui/toast";
 
 const authStore = useAuthStore();
 authStore.restoreSession();
-
+const { toast } = useToast();
 const studentProfile = ref(null);
 const password = ref("");
 const confirmPassword = ref("");
@@ -191,7 +193,11 @@ const confirmPassword = ref("");
 // Method to handle password change
 const changePassword = async () => {
   if (password.value !== confirmPassword.value) {
-    alert("Passwords do not match");
+    toast({
+      variant: "destructive",
+      title: "Error updating password",
+      description: "Passwords do not match",
+    });
     return;
   }
 
@@ -204,10 +210,16 @@ const changePassword = async () => {
         confirm_password: confirmPassword.value,
       }
     );
-    alert("Password changed successfully!");
+    toast({
+      title: "Success",
+      description: "Password updated succesfully",
+    });
   } catch (error) {
-    console.error("Error updating password:", error);
-    alert("An error occurred while updating the password.");
+    toast({
+      variant: "destructive",
+      title: "Error updating password",
+      description: error.error,
+    });
   }
 };
 
