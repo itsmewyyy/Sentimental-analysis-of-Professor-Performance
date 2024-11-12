@@ -111,7 +111,7 @@ class CollegeRatingsSummaryView(APIView):
                 "total_negative": feedback_totals.total_negative if feedback_totals else 0,
                 }
 
-            college_summary["professor_list"].append(professor_data)
+                college_summary["professor_list"].append(professor_data)
 
         return Response({
             "year_sem": year_sem.year_sem_id,
