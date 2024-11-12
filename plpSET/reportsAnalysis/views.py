@@ -11,14 +11,15 @@ class CollegeRatingsSummaryView(APIView):
         if not year_sem_data.exists():
             return Response({"error": "Year-Semester not found"}, status=404)
 
-        # Initialize summary list for the response
         summary = []
 
-        # Loop through each Year-Semester entry
         for year_sem in year_sem_data:
             colleges = department.objects.all()
-            
-            # Create a summary for each college within the Year-Semester
+            year_sem_summary = {
+                "year_sem": year_sem.year_sem_id,
+                "colleges": []
+            }
+
             for college in colleges:
                 college_summary = {
                     "name": college.department_id,
@@ -116,13 +117,11 @@ class CollegeRatingsSummaryView(APIView):
 
                     college_summary["professor_list"].append(professor_data)
 
-                # Append each college's summary to the overall summary
-                summary.append(college_summary)
+                year_sem_summary["colleges"].append(college_summary)
 
-        return Response({
-            "year_sem": [year_sem.year_sem_id for year_sem in year_sem_data],  # Returns all year_sem IDs
-            "summary": summary
-        })
+            summary.append(year_sem_summary)
+
+        return Response(summary)
 
     
 class ProfessorRatingsSummaryView(APIView):
