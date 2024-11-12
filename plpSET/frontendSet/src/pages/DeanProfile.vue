@@ -5,7 +5,6 @@
     <div class="max-w-3xl mx-auto p-4 space-y-4">
       <h1 class="text-xl font-semibold mt-4 text-gray-900">Dean Profile</h1>
 
-      <!-- Profile Header -->
       <Card>
         <CardContent class="p-6">
           <div class="flex justify-between items-start">
@@ -34,9 +33,6 @@
         </CardContent>
       </Card>
 
-      <!-- Personal Information -->
-
-      <!-- Account Information -->
       <Card>
         <CardHeader class="flex flex-row items-center justify-between">
           <CardTitle>Change Password</CardTitle>
@@ -138,7 +134,7 @@ async function updatePassword() {
     return;
   }
   try {
-    const adminId = localStorage.getItem("admin_id");
+    const adminId = localStorage.getItem("admin_id")?.toUpperCase();
     await axios.put(
       `https://sentiment-professor-feedback-1.onrender.com/api/admininfocrud/${adminId}`,
       {
