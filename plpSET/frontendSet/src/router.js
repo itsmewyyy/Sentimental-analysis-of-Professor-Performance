@@ -158,6 +158,14 @@ const routes = [
         "Student Profile | Pamantasan ng Lungsod ng Pasig Student Evaluation of Teaching",
     },
   },
+  {
+    path: "/DeanProfile",
+    component: StudentProfile,
+    meta: {
+      title:
+        "Dean Profile | Pamantasan ng Lungsod ng Pasig Student Evaluation of Teaching",
+    },
+  },
 ];
 
 const router = createRouter({
