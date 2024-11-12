@@ -54,7 +54,6 @@ class RegisterView(APIView):
 
 class EditView(APIView):
     def put(self, request, student_id):
-        # Use get_object_or_404 to fetch the student instance
         student = get_object_or_404(student_acc, student_acc_number=student_id)
 
         data = request.data
