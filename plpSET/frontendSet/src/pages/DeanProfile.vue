@@ -33,12 +33,9 @@
         </CardContent>
       </Card>
 
-      <!-- Personal Information -->
-
-      <!-- Account Information -->
       <Card>
         <CardHeader class="flex flex-row items-center justify-between">
-          <CardTitle>Account Information</CardTitle>
+          <CardTitle></CardTitle>
           <Dialog>
             <DialogTrigger as-child>
               <Button variant="ghost" size="sm" class="text-blue-600">
