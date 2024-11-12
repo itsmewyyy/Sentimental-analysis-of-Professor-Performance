@@ -48,6 +48,8 @@ const login = async () => {
       const currentYearSem = yearSemResponse.data;
 
       localStorage.setItem("current_year_sem", currentYearSem.year_sem_id);
+    } else {
+      console.error("Failed to fetch or parse year-sem data.");
     }
 
     // Get user_type from the authenticated user or localStorage
