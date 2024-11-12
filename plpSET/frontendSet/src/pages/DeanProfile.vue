@@ -33,9 +33,12 @@
         </CardContent>
       </Card>
 
+      <!-- Personal Information -->
+
+      <!-- Account Information -->
       <Card>
         <CardHeader class="flex flex-row items-center justify-between">
-          <CardTitle></CardTitle>
+          <CardTitle>Change Password</CardTitle>
           <Dialog>
             <DialogTrigger as-child>
               <Button variant="ghost" size="sm" class="text-blue-600">
