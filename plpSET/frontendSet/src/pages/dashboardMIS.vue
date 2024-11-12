@@ -37,6 +37,19 @@ const fetchCounts = async () => {
     console.error("Failed to fetch counts:", error);
     Count.value = null;
   }
+
+  const yearSemResponse = await axios.get(
+    "https://sentiment-professor-feedback-1.onrender.com/api/current-year-sem/",
+    { withCredentials: true }
+  );
+
+  if (yearSemResponse.status === 200) {
+    const currentYearSem = yearSemResponse.data;
+    console.log("Year-Sem Response:", yearSemResponse.data);
+    localStorage.setItem("current_year_sem", currentYearSem.year_sem_id);
+  } else {
+    console.error("Failed to fetch or parse year-sem data.");
+  }
 };
 
 onMounted(fetchCounts);
