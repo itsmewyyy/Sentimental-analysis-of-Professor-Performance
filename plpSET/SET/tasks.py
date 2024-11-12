@@ -102,7 +102,7 @@ def process_feedback_task(self, feedback_data):
 
 @shared_task(bind=True, autoretry_for=(redis.exceptions.ConnectionError,), retry_backoff=True)
 def update_summaries_batch(self):
-    last_update_time = timezone.now() - timedelta(minutes=30)
+    last_update_time = timezone.now() - timedelta(days=1)
     
     recent_filtered_feedbacks = filtered_feedbacks.objects.filter(analysis_date__gte=last_update_time)
     recent_ratings = numerical_ratings.objects.filter(numerical_rating_date__gte=last_update_time)
