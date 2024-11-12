@@ -65,7 +65,7 @@ const fetchCollegeData = async () => {
         );
       }
     } else {
-      console.error("No data received or invalid year_sem identifier.");
+      console.error("No data received or invalid year_sem identifier");
     }
   } catch (error) {
     console.error("Error fetching college data:", error);
