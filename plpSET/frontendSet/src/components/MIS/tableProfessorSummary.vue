@@ -43,16 +43,27 @@ const fetchCollegeData = async () => {
       "https://sentiment-professor-feedback-1.onrender.com/api/college-ratings-summary/"
     );
 
-    if (response.data && response.data.summary) {
+    console.log("API Response:", response.data); // Check data format
+
+    if (response.data && Array.isArray(response.data)) {
       const yearsemIdentifier = localStorage.getItem("current_year_sem");
       const collegeIdentifier = localStorage.getItem("college");
 
-      const selectedYearSem = response.data.year_sem === yearsemIdentifier;
+      console.log("Year Semester Identifier:", yearsemIdentifier);
+      console.log("College Identifier:", collegeIdentifier);
+
+      const selectedYearSem = response.data.find(
+        (item) => item.year_sem === yearsemIdentifier
+      );
+
+      console.log("Selected Year Sem:", selectedYearSem);
 
       if (selectedYearSem) {
-        const selectedCollege = response.data.summary.find(
-          (collegeSummary: College) => collegeSummary.name === collegeIdentifier
+        const selectedCollege = selectedYearSem.colleges.find(
+          (college) => college.name === collegeIdentifier
         );
+
+        console.log("Selected College:", selectedCollege);
 
         if (selectedCollege) {
           collegeData.value = selectedCollege;
@@ -76,7 +87,6 @@ const fetchCollegeData = async () => {
     console.error("Error fetching college data:", error);
   }
 };
-
 // Function to determine rating label based on average score
 const getRatingLabel = (avg: number) => {
   if (avg >= 4.6) return "Outstanding";
