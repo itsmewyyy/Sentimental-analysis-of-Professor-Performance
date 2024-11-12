@@ -11,8 +11,8 @@ class CollegeRatingsSummaryView(APIView):
         if not year_sem_data.exists():
             return Response({"error": "Year-Semester not found"}, status=404)
 
-        year_sem = year_sem_data.first()
-        summary = []
+        for year_sem in year_sem_data:
+            summary = []
 
         colleges = department.objects.all()
         

@@ -47,7 +47,7 @@ onMounted(fetchCounts);
     <MISNavbar />
 
     <section class="p-20 pt-32 space-y-6">
-      <div class="grid grid-cols-6 grid-rows-7 gap-4 h-[480px]">
+      <div class="grid grid-cols-6 grid-rows-9 gap-4 h-[480px]">
         <div class="col-span-2 row-span-2 border border-black/15 rounded-md">
           <div class="p-7 pt-9">
             <p class="text-sm text-darks-200/50 font-medium">
@@ -83,7 +83,7 @@ onMounted(fetchCounts);
           </div>
         </div>
         <div
-          class="col-span-6 row-span-5 row-start-3 border border-black/15 rounded-md px-4"
+          class="col-span-6 row-span-7 row-start-3 border border-black/15 rounded-md px-4"
         >
           <studentsubmissionsTable></studentsubmissionsTable>
         </div>

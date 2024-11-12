@@ -41,10 +41,10 @@ interface Summary {
 }
 
 const professorData = ref<Professors | null>(null);
-const professorIdentifier = localStorage.getItem("professor");
-const yearsemIdentifier = localStorage.getItem("current_year_sem");
 
 const fetchProfessorData = async () => {
+  const professorIdentifier = localStorage.getItem("professor");
+  const yearsemIdentifier = localStorage.getItem("current_year_sem");
   try {
     const response = await axios.get(
       "https://sentiment-professor-feedback-1.onrender.com/api/professor-ratings-summary/"

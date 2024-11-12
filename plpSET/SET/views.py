@@ -8,6 +8,7 @@ from django.contrib.auth.hashers import make_password
 from .tasks import (process_feedback_task)
 from django.utils import timezone
 from django.shortcuts import get_object_or_404
+from django.db.models import Exists, OuterRef
 from django.http import JsonResponse
 
 
@@ -790,8 +791,8 @@ def get_student_profile(request):
             'first_name': student_details.first_name,
             'middle_name': student_details.middle_name,
             'extension_name': student_details.extension_name,
-            'status': student_details.status.student_status_desc,  # Assuming student_status has a status_name field
-            'section': student_details.section.section_id,  # Assuming section has a section_name field
+            'status': student_details.status.student_status_desc,  
+            'section': student_details.section.section_id, 
         }
     }
 
@@ -819,9 +820,12 @@ def get_dean_profile(request):
     return JsonResponse(profile_data)
 
 
+
 def incomplete_evaluations(request):
     incomplete_students = student_info.objects.prefetch_related('enrolled_subjects').filter(
         enrolled_subjects__is_evaluated=False
+    ).filter(
+        Exists(student_acc.objects.filter(student_id=OuterRef('student_id')))
     ).distinct()
 
     data = [
