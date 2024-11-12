@@ -55,7 +55,7 @@ class RegisterView(APIView):
 class EditView(APIView):
     def put(self, request, student_id):
         # Use get_object_or_404 to fetch the student instance
-        student = get_object_or_404(student_acc, student_id=student_id)
+        student = get_object_or_404(student_acc, student_acc_number=student_id)
 
         data = request.data
         password = data.get("password")
@@ -72,6 +72,7 @@ class EditView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
 class LoginView(APIView):
     def post(self, request):
         student_acc_number = request.data.get('student_acc_number')
