@@ -198,7 +198,7 @@ const changePassword = async () => {
   try {
     const studentId = localStorage.getItem("student_id");
     await axios.put(
-      `https://sentiment-professor-feedback-1.onrender.com/api/student-profile/${studentId}`,
+      `https://sentiment-professor-feedback-1.onrender.com/api/student-acc/${studentId}`,
       {
         password: password.value,
         confirm_password: confirmPassword.value,

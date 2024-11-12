@@ -10,6 +10,7 @@ from SET.models import student_info, SubmissionSummary
 from django.contrib.auth import login, logout
 from django.contrib.sessions.models import Session
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.hashers import make_password
 
 class RegisterView(APIView):
     def post(self, request):
@@ -52,6 +53,27 @@ class RegisterView(APIView):
             return Response({'message': 'Student Account registration successful'}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class EditView(APIView):
+      def put(self, request, student_id):
+        student = self.get_object(student_id)
+        if not student:
+            return Response({"error": "Student not found"}, status=status.HTTP_404_NOT_FOUND)
+        
+        data = request.data
+        password = data.get("password")
+        confirm_password = data.get("confirm_password")
+
+        if password != confirm_password:
+            return Response({"error": "Passwords do not match"}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Hash the password
+        data["password"] = make_password(password)
+        
+        serializer = StudentAccSerializer(student, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class LoginView(APIView):
