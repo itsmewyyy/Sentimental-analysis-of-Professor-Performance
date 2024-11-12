@@ -121,7 +121,7 @@ class CollegeRatingsSummaryView(APIView):
 
             summary.append(year_sem_summary)
 
-        return Response({"summary": summary})
+        return Response(summary)
 
 class ProfessorRatingsSummaryView(APIView):
     def get(self, request, *args, **kwargs):
