@@ -121,9 +121,8 @@ class CollegeRatingsSummaryView(APIView):
 
             summary.append(year_sem_summary)
 
-        return Response(summary)
+        return Response({"summary": summary})
 
-    
 class ProfessorRatingsSummaryView(APIView):
     def get(self, request, *args, **kwargs):
         year_sem_data = academic_yearsem.objects.all()
