@@ -50,40 +50,34 @@
               <DialogHeader>
                 <DialogTitle>Change Password</DialogTitle>
                 <DialogDescription
-                  >Make sure to remember your new password</DialogDescription
+                  >Remember your new password</DialogDescription
                 >
               </DialogHeader>
-              <div class="flex items-center space-x-2">
-                <div class="grid gap-2">
-                  <Label html-for="password" class="text-xs">Password</Label>
-                  <Input
-                    id="password"
-                    type="password"
-                    default-value=""
-                    v-model="passWord"
-                  />
+              <form @submit.prevent="updatePassword">
+                <div class="flex items-center space-x-2">
+                  <div class="grid gap-2">
+                    <Label html-for="password" class="text-xs">Password</Label>
+                    <Input id="password" type="password" v-model="password" />
+                  </div>
+                  <div class="grid gap-2">
+                    <Label html-for="cpassword" class="text-xs"
+                      >Confirm Password</Label
+                    >
+                    <Input
+                      id="cpassword"
+                      type="password"
+                      v-model="confirmPassword"
+                    />
+                  </div>
                 </div>
-                <div class="grid gap-2">
-                  <Label html-for="cpassword" class="text-xs"
-                    >Confirm Password</Label
-                  >
-                  <Input
-                    id="cpassword"
-                    type="password"
-                    default-value=""
-                    v-model="confirmpassword"
-                  />
-                </div>
-              </div>
-              <DialogFooter class="sm:justify-start">
-                <DialogClose as-child>
+                <DialogFooter class="sm:justify-start">
                   <Button
                     type="submit"
-                    class="bg-transparent hover:bg-transparent bg-plpgreen-300 hover:bg-plpgreen-400"
-                    >New Password</Button
+                    class="bg-transparent hover:bg-plpgreen-400"
+                    >Save Password</Button
                   >
-                </DialogClose>
-              </DialogFooter>
+                </DialogFooter>
+              </form>
             </DialogContent>
           </Dialog>
         </CardHeader>
@@ -122,10 +116,47 @@ import ScrollArea from "@/components/ui/scroll-area/ScrollArea.vue";
 import NavBarDean from "@/components/navigation/NavBarDean.vue";
 import axios from "axios";
 import { ref, onMounted } from "vue";
+import Toaster from "@/components/ui/toast/Toast.vue";
+import { useToast } from "@/components/ui/toast";
+
 const authStore = useAuthStore();
 authStore.restoreSession();
-
+const { toast } = useToast();
 const deanProfile = ref(null);
+
+const password = ref("");
+const confirmPassword = ref("");
+
+async function updatePassword() {
+  if (password.value !== confirmPassword.value) {
+    toast({
+      variant: "destructive",
+      title: "Error updating password",
+      description: "Passwords do not match",
+    });
+    return;
+  }
+  try {
+    const adminId = localStorage.getItem("admin_id"); // Assuming `admin_id` is stored in localStorage
+    await axios.put(
+      `https://sentiment-professor-feedback-1.onrender.com/api/admininfocrud/${adminId}`,
+      {
+        password: password.value,
+        confirm_password: confirmPassword.value,
+      }
+    );
+    toast({
+      title: "Success",
+      description: "Password updated succesfully",
+    });
+  } catch (error) {
+    toast({
+      variant: "destructive",
+      title: "Error updating password",
+      description: error.error,
+    });
+  }
+}
 
 onMounted(async () => {
   const adminUsername = localStorage.getItem("admin_id");
