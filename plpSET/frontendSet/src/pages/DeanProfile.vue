@@ -120,6 +120,7 @@ import { Label } from "@/components/ui/label";
 import { useAuthStore } from "@/store/adminStore";
 import ScrollArea from "@/components/ui/scroll-area/ScrollArea.vue";
 import NavBarDean from "@/components/navigation/NavBarDean.vue";
+import axios from "axios";
 import { ref, onMounted } from "vue";
 const authStore = useAuthStore();
 authStore.restoreSession();
