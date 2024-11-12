@@ -112,7 +112,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAuthStore } from "@/store/adminStore";
 import ScrollArea from "@/components/ui/scroll-area/ScrollArea.vue";
-import NavBarDean from "@/components/navigation/NavBarDean.vue";
+import NavBarDean from "@/components/navigation/NavBarSecretary.vue";
 import axios from "axios";
 import { ref, onMounted } from "vue";
 import { useToast } from "@/components/ui/toast/use-toast";

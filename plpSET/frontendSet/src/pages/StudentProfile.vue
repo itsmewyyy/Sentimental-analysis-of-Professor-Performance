@@ -1,7 +1,11 @@
 <template>
+  <Toaster></Toaster>
   <NavBarStudent></NavBarStudent>
   <ScrollArea class="h-svh w-full">
-    <div class="max-w-3xl mx-auto p-4 space-y-6 pt-28" v-if="studentProfile">
+    <div
+      class="max-w-3xl mx-auto p-4 space-y</Toaster>-6 pt-28"
+      v-if="studentProfile"
+    >
       <h1 class="text-xl font-semibold mt-4 text-gray-900">My Profile</h1>
 
       <!-- Profile Header -->
@@ -190,7 +194,6 @@ const studentProfile = ref(null);
 const password = ref("");
 const confirmPassword = ref("");
 
-// Method to handle password change
 const changePassword = async () => {
   if (password.value !== confirmPassword.value) {
     toast({
