@@ -46,7 +46,7 @@ const login = async () => {
 
     if (yearSemResponse.status === 200) {
       const currentYearSem = yearSemResponse.data;
-
+      console.log("Year-Sem Response:", yearSemResponse.data);
       localStorage.setItem("current_year_sem", currentYearSem.year_sem_id);
     } else {
       console.error("Failed to fetch or parse year-sem data.");
