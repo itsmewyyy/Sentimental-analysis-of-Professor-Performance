@@ -1,4 +1,5 @@
 <template>
+  <Toaster></Toaster>
   <NavBarDean></NavBarDean>
   <ScrollArea class="h-svh w-full">
     <div class="max-w-3xl mx-auto p-4 space-y-4">
@@ -137,7 +138,7 @@ async function updatePassword() {
     return;
   }
   try {
-    const adminId = localStorage.getItem("admin_id"); // Assuming `admin_id` is stored in localStorage
+    const adminId = localStorage.getItem("admin_id");
     await axios.put(
       `https://sentiment-professor-feedback-1.onrender.com/api/admininfocrud/${adminId}`,
       {
