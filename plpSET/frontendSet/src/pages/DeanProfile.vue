@@ -50,31 +50,31 @@
                   >Remember your new password</DialogDescription
                 >
               </DialogHeader>
-              <form @submit.prevent="updatePassword">
-                <div class="flex items-center space-x-2">
-                  <div class="grid gap-2">
-                    <Label html-for="password" class="text-xs">Password</Label>
-                    <Input id="password" type="password" v-model="password" />
-                  </div>
-                  <div class="grid gap-2">
-                    <Label html-for="cpassword" class="text-xs"
-                      >Confirm Password</Label
-                    >
-                    <Input
-                      id="cpassword"
-                      type="password"
-                      v-model="confirmPassword"
-                    />
-                  </div>
+
+              <div class="flex items-center space-x-2">
+                <div class="grid gap-2">
+                  <Label html-for="password" class="text-xs">Password</Label>
+                  <Input id="password" type="password" v-model="password" />
                 </div>
-                <DialogFooter class="sm:justify-start">
-                  <Button
-                    type="submit"
-                    class="bg-transparent hover:bg-plpgreen-400"
-                    >Save Password</Button
+                <div class="grid gap-2">
+                  <Label html-for="cpassword" class="text-xs"
+                    >Confirm Password</Label
                   >
-                </DialogFooter>
-              </form>
+                  <Input
+                    id="cpassword"
+                    type="password"
+                    v-model="confirmPassword"
+                  />
+                </div>
+              </div>
+              <DialogFooter class="sm:justify-start">
+                <Button
+                  type="submit"
+                  class="bg-transparent hover:bg-plpgreen-400"
+                  @click="updatePassword"
+                  >Save Password</Button
+                >
+              </DialogFooter>
             </DialogContent>
           </Dialog>
         </CardHeader>
@@ -136,7 +136,7 @@ async function updatePassword() {
   try {
     const adminId = localStorage.getItem("admin_id")?.toUpperCase();
     await axios.put(
-      `https://sentiment-professor-feedback-1.onrender.com/api/admininfocrud/${adminId}`,
+      `https://sentiment-professor-feedback-1.onrender.com/api/admininfocrud/${adminId}/`,
       {
         password: password.value,
         confirm_password: confirmPassword.value,
