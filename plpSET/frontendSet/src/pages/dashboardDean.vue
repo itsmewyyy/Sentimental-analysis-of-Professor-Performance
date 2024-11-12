@@ -73,8 +73,8 @@ const fetchCollegeData = async () => {
       );
 
       if (selectedYearSem) {
-        const selectedCollege = response.data.summary.find(
-          (collegeSummary: College) => collegeSummary.name === collegeIdentifier
+        const selectedCollege = selectedYearSem.colleges.find(
+          (college) => college.name === collegeIdentifier
         );
 
         if (selectedCollege) {
