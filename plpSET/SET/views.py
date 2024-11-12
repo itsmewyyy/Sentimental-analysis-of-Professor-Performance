@@ -799,7 +799,7 @@ def get_student_profile(request):
 
 def get_dean_profile(request):
     # Retrieve the student ID from the query parameters
-    admin_username = request.GET.get('admin_username ')
+    admin_username = request.GET.get('admin_username')
 
     if not admin_username :
         return JsonResponse({'error': 'Admin ID not provided'}, status=400)

@@ -133,6 +133,7 @@ onMounted(async () => {
       const response = await axios.get(
         `https://sentiment-professor-feedback-1.onrender.com/api/dean-profile?admin_username=${adminUsername}`
       );
+      console.log(response.data);
       deanProfile.value = response.data;
     } catch (error) {
       console.error("Error fetching dean profile:", error);
