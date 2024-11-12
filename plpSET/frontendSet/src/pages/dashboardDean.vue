@@ -64,7 +64,7 @@ const fetchCollegeData = async () => {
       "https://sentiment-professor-feedback-1.onrender.com/api/college-ratings-summary/"
     );
 
-    if (response.data && response.data.summary) {
+    if (response.data && Array.isArray(response.data)) {
       const yearsemIdentifier = localStorage.getItem("current_year_sem");
       const collegeIdentifier = localStorage.getItem("college");
 
