@@ -797,6 +797,27 @@ def get_student_profile(request):
 
     return JsonResponse(profile_data)
 
+def get_dean_profile(request):
+    # Retrieve the student ID from the query parameters
+    admin_username = request.GET.get('admin_username ')
+
+    if not admin_username :
+        return JsonResponse({'error': 'Admin ID not provided'}, status=400)
+
+    # Fetch data from the models
+    admin_account = get_object_or_404(admin_acc, admin_username=admin_username )
+
+    # Construct response data
+    profile_data = {
+        'account': {
+            'admin_username': admin_account.admin_username,
+            'college': admin_account.dept_id.department_desc,
+            
+        },
+    }
+
+    return JsonResponse(profile_data)
+
 
 def incomplete_evaluations(request):
     incomplete_students = student_info.objects.prefetch_related('enrolled_subjects').filter(

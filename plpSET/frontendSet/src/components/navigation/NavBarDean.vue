@@ -107,7 +107,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { CalendarDays, Clock, LogOut, User, Download } from "lucide-vue-next";
 import generateReports from "../reportsGeneration/deanExports/generateReports.vue";
-
+import { ref, onMounted } from "vue";
 import { RouterLink } from "vue-router";
 import axios from "axios";
 import { useAuthStore } from "@/store/adminStore";

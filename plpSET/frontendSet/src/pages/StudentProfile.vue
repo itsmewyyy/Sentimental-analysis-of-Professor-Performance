@@ -185,11 +185,11 @@ import NavBarStudent from "@/components/navigation/NavBarStudent.vue";
 import { ref, onMounted } from "vue";
 import axios from "axios";
 import { useAuthStore } from "@/store/student";
-import { ScrollAreaScrollbar } from "radix-vue";
+import ScrollArea from "@/components/ui/scroll-area/ScrollArea.vue";
 const authStore = useAuthStore();
 authStore.restoreSession();
 
-const studentProfile = ref(null); // Start with null
+const studentProfile = ref(null);
 
 onMounted(async () => {
   const studentId = localStorage.getItem("student_id");

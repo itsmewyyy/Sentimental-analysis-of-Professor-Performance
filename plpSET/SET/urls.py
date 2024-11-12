@@ -48,6 +48,7 @@ urlpatterns = [
     path('evaluation-status/', EvaluationStatusView.as_view(), name='evaluation_status'),
     path('current-year-sem/', views.get_current_year_sem, name='current-year-sem'),
     path('student-profile/', views.get_student_profile, name='get_student_profile'),
+    path('dean-profile/', views.get_dean_profile, name='get_dean_profile'),
     path('incomplete-evaluations/', views.incomplete_evaluations),
      path('latest-evaluation/', views.latest_evaluation_period, name='latest_evaluation_period'),
 

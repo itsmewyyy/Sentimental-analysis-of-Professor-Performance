@@ -16,8 +16,12 @@
                 <AvatarFallback>JA</AvatarFallback>
               </Avatar>
               <div>
-                <h2 class="text-lg font-semibold">DeanCCS</h2>
-                <p class="text-gray-500 italic text-xs">CCS</p>
+                <h2 class="text-lg font-semibold">
+                  {{ deanProfile.account.admin_username }}
+                </h2>
+                <p class="text-gray-500 italic text-xs">
+                  {{ deanProfile.account.college }}
+                </p>
               </div>
             </div>
             <Button variant="ghost" size="sm" class="text-blue-600">
@@ -116,4 +120,22 @@ import { useAuthStore } from "@/store/adminStore";
 import ScrollArea from "@/components/ui/scroll-area/ScrollArea.vue";
 const authStore = useAuthStore();
 authStore.restoreSession();
+
+const deanProfile = ref(null);
+
+onMounted(async () => {
+  const adminUsername = localStorage.getItem("admin_id");
+  if (adminUsername) {
+    try {
+      const response = await axios.get(
+        `https://sentiment-professor-feedback-1.onrender.com/api/dean-profile?admin_username=${adminUsername}`
+      );
+      deanProfile.value = response.data;
+    } catch (error) {
+      console.error("Error fetching dean profile:", error);
+    }
+  } else {
+    console.error("Admin ID not found in localStorage.");
+  }
+});
 </script>
