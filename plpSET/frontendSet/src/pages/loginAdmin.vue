@@ -67,7 +67,7 @@ const login = async () => {
   } catch (error) {
     toast({
       variant: "destructive",
-      title: "Failed to Login", // Access the 'error' key directly
+      title: "Failed to Login",
       description: error.error,
     });
   }

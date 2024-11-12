@@ -825,7 +825,7 @@ def incomplete_evaluations(request):
     incomplete_students = student_info.objects.prefetch_related('enrolled_subjects').filter(
         enrolled_subjects__is_evaluated=False
     ).filter(
-        Exists(student_acc.objects.filter(student_id=OuterRef('student_id')))
+        Exists(student_acc.objects.filter(student_id=OuterRef('student_acc_number')))
     ).distinct()
 
     data = [

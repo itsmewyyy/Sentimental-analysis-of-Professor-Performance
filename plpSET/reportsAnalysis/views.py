@@ -93,21 +93,26 @@ class CollegeRatingsSummaryView(APIView):
 
             # Fetching professors related to the college
             professor_totals = professor_numerical_total.objects.filter(year_sem_id=year_sem, prof_id__department=college)
+            professor_feedback_totals = professor_feedback_total.objects.filter(year_sem_id=year_sem, prof_id__department=college)
+
             for prof_total in professor_totals:
                 full_name = f"{prof_total.prof_id.surname} {prof_total.prof_id.first_name} {prof_total.prof_id.middle_name or ''}".strip()
                 professor = prof_total.prof_id
-                professor_data = {
-                    "id": professor.professor_id,
-                    "name": full_name,
-                    "total_avg": prof_total.total_average,
-                    "total_feedbacks": feedback_totals.total_feedbacks if feedback_totals else 0,
-                    "total_positive": feedback_totals.total_positive if feedback_totals else 0,
-                    "total_neutral": feedback_totals.total_neutral if feedback_totals else 0,
-                    "total_negative": feedback_totals.total_negative if feedback_totals else 0,
-                }
-                college_summary["professor_list"].append(professor_data)
 
-            summary.append(college_summary)
+    # Retrieve feedback totals for the specific professor
+            feedback_totals = professor_feedback_totals.filter(prof_id=professor).first()
+
+            professor_data = {
+        "id": professor.professor_id,
+        "name": full_name,
+        "total_avg": prof_total.total_average,
+        "total_feedbacks": feedback_totals.total_feedbacks if feedback_totals else 0,
+        "total_positive": feedback_totals.total_positive if feedback_totals else 0,
+        "total_neutral": feedback_totals.total_neutral if feedback_totals else 0,
+        "total_negative": feedback_totals.total_negative if feedback_totals else 0,
+    }
+
+        college_summary["professor_list"].append(professor_data)
 
         return Response({
             "year_sem": year_sem.year_sem_id,
