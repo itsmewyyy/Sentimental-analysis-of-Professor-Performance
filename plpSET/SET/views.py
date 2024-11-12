@@ -289,16 +289,6 @@ class StudentDetailView(APIView):
         student = self.get_object(student_id)
         if not student:
             return Response({"error": "Student not found"}, status=status.HTTP_404_NOT_FOUND)
-
-        data = request.data
-        password = data.get("password")
-        confirm_password = data.get("confirm_password")
-
-        if password != confirm_password:
-            return Response({"error": "Passwords do not match"}, status=status.HTTP_400_BAD_REQUEST)
-
-        # Hash the password
-        data["password"] = make_password(password)
         
         serializer = StudentSerializer(student, data=request.data, partial=True)
         if serializer.is_valid():

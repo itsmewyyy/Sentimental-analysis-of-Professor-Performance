@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from datetime import datetime
 from .models import section, programs, year_level, academic_year, academic_yearsem, professor_status, department, student_info, numerical_ratings, feedbacks, student_enrolled_subjs, numerical_questions, feedback_questions, professor_subjs, professor_info, subjects, categories, student_status
-from userLogin.models import admin_acc
+from userLogin.models import admin_acc, student_acc
 from django.utils import timezone
 
 class SectionSerializer(serializers.ModelSerializer):
@@ -235,7 +235,6 @@ class AcademicYearSemSerializer(serializers.ModelSerializer):
         
         return super().create(validated_data)
     
-
 from .models import EvaluationPeriod
 
 class EvaluationPeriodSerializer(serializers.ModelSerializer):

@@ -113,12 +113,7 @@
               <div class="flex items-center space-x-2">
                 <div class="grid gap-2">
                   <Label html-for="password" class="text-xs">Password</Label>
-                  <Input
-                    id="password"
-                    type="password"
-                    default-value=""
-                    v-model="passWord"
-                  />
+                  <Input id="password" type="password" v-model="password" />
                 </div>
                 <div class="grid gap-2">
                   <Label html-for="cpassword" class="text-xs"
@@ -127,8 +122,7 @@
                   <Input
                     id="cpassword"
                     type="password"
-                    default-value=""
-                    v-model="confirmpassword"
+                    v-model="confirmPassword"
                   />
                 </div>
               </div>
@@ -136,6 +130,7 @@
                 <DialogClose as-child>
                   <Button
                     type="submit"
+                    @click="changePassword"
                     class="bg-transparent hover:bg-transparent bg-plpgreen-300 hover:bg-plpgreen-400"
                     >New Password</Button
                   >
@@ -190,6 +185,31 @@ const authStore = useAuthStore();
 authStore.restoreSession();
 
 const studentProfile = ref(null);
+const password = ref("");
+const confirmPassword = ref("");
+
+// Method to handle password change
+const changePassword = async () => {
+  if (password.value !== confirmPassword.value) {
+    alert("Passwords do not match");
+    return;
+  }
+
+  try {
+    const studentId = localStorage.getItem("student_id");
+    await axios.put(
+      `https://sentiment-professor-feedback-1.onrender.com/api/student-profile/${studentId}`,
+      {
+        password: password.value,
+        confirm_password: confirmPassword.value,
+      }
+    );
+    alert("Password changed successfully!");
+  } catch (error) {
+    console.error("Error updating password:", error);
+    alert("An error occurred while updating the password.");
+  }
+};
 
 onMounted(async () => {
   const studentId = localStorage.getItem("student_id");
