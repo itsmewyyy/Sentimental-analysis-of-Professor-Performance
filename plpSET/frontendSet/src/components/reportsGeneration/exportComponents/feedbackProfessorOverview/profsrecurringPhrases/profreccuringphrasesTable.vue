@@ -20,7 +20,7 @@ watch(
 
 async function getData(): Promise<Phrase[]> {
   const professorIdentifier = localStorage.getItem("professor");
-  const yearsemIdentifier = "24-25-1";
+  const yearsemIdentifier = localStorage.getItem("current_year_sem");
   const collegeIdentifier = localStorage.getItem("college");
 
   if (!professorIdentifier) {
