@@ -89,10 +89,9 @@ const fetchCategoriesAndAverages = async () => {
       "https://sentiment-professor-feedback-1.onrender.com/api/college-ratings-summary/"
     );
 
-    const collegeData = ratingsResponse.data.colleges.find(
+    const collegeData = ratingsResponse.data?.colleges?.find(
       (college) => college.name === selectedCollege
     );
-
     // Check if collegeData and numerical_summary exist
     if (collegeData && collegeData.numerical_summary?.[0]?.category_avg) {
       categories.value = allCategories.map((category) => {

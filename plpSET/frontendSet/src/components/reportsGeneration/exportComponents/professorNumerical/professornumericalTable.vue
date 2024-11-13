@@ -85,14 +85,13 @@ const fetchCategoriesAndAverages = async () => {
     const ratingsResponse = await axios.get(
       "https://sentiment-professor-feedback-1.onrender.com/api/professor-ratings-summary/"
     );
-    const professorData = ratingsResponse.data.professors.find(
+    const professorData = ratingsResponse.data?.professors?.find(
       (professor) => professor.id === professorId
     );
 
     // If the professor has data, map it to categories with averages
     if (professorData) {
       categories.value = allCategories.map((category) => {
-        // Find matching category from the professor's ratings summary
         const categorySummary =
           professorData.numerical_summary[0]?.category_avg.find(
             (avgCategory) =>
