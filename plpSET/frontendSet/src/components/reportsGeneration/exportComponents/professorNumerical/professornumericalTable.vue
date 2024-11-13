@@ -85,6 +85,7 @@ const fetchCategoriesAndAverages = async () => {
     const ratingsResponse = await axios.get(
       "https://sentiment-professor-feedback-1.onrender.com/api/professor-ratings-summary/"
     );
+    console.log(ratingsResponse);
     const professorData = ratingsResponse.data?.summary?.find(
       (professor) => professor.id === professorId
     );
@@ -111,7 +112,7 @@ const fetchCategoriesAndAverages = async () => {
             return {
               numerical_question_id: question.numerical_question_id,
               question: question.question,
-              average: questionAvg?.average ?? "N/A", // Use a default value if average is not found
+              average: questionAvg?.average ?? "N/A",
             };
           }),
         };

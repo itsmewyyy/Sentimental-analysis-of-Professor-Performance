@@ -88,7 +88,7 @@ const fetchCategoriesAndAverages = async () => {
     const ratingsResponse = await axios.get(
       "https://sentiment-professor-feedback-1.onrender.com/api/college-ratings-summary/"
     );
-
+    console.log(ratingsResponse);
     const collegeData = ratingsResponse.data?.summary?.find(
       (college) => college.name === selectedCollege
     );
@@ -106,7 +106,6 @@ const fetchCategoriesAndAverages = async () => {
         return {
           category_desc: category.category_desc,
           questions: category.questions.map((question) => {
-            // Find the question's average if it exists in the summary
             const questionAvg = categorySummary?.question_avg.find(
               (avgQuestion) =>
                 avgQuestion.question_id === question.numerical_question_id
