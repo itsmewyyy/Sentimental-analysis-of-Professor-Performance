@@ -22,11 +22,27 @@
     <div class="flex items-center space-x-4">
       <DropdownMenu>
         <DropdownMenuTrigger>
-          <Avatar class="mt-2 w-9 h-9">
-            <AvatarImage
-              src="https://i.pinimg.com/564x/da/2a/20/da2a208141d20d42434ef3d4ae9c5d88.jpg"
-            />
-            <AvatarFallback>PLP</AvatarFallback>
+          <Avatar class="mt-2 w-8 h-8">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="36"
+              height="36"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#595959"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="lucide lucide-circle-user-round"
+            >
+              <path d="M18 20a6 6 0 0 0-12 0" />
+              <circle cx="12" cy="10" r="4" />
+              <circle cx="12" cy="12" r="10" />
+            </svg>
+            <!-- <AvatarImage
+            src="https://plpasig.edu.ph/wp-content/uploads/2023/01/cropped-logo120.png"
+          />
+          <AvatarFallback>PLP</AvatarFallback> -->
           </Avatar>
         </DropdownMenuTrigger>
         <DropdownMenuContent class="w-48 mr-8 z-10">
