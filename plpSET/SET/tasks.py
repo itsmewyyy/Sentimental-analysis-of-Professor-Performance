@@ -272,7 +272,6 @@ def update_college_numerical_summaries(recent_ratings):
 def update_professor_feedback_summaries(recent_filtered_feedbacks):
     with transaction.atomic():
         for filtered_feedback in recent_filtered_feedbacks:
-
             if filtered_feedback.processed:
                 continue  
 

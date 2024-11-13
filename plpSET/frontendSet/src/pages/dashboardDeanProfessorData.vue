@@ -254,9 +254,7 @@ onMounted(() => {
                     "
                     :class="`text-2xl font-bold ${ratingColor}`"
                   >
-                    {{
-                      professorData.numerical_summary.category_avg[0]?.average
-                    }}
+                    {{ professorData.numerical_summary.total_avg.toFixed(2) }}
                     -
                     {{ ratingLabel }}
                   </p></TooltipTrigger
