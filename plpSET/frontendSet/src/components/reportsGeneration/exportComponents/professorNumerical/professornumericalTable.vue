@@ -85,7 +85,7 @@ const fetchCategoriesAndAverages = async () => {
     const ratingsResponse = await axios.get(
       "https://sentiment-professor-feedback-1.onrender.com/api/professor-ratings-summary/"
     );
-    const professorData = ratingsResponse.data.summary.find(
+    const professorData = ratingsResponse.data.professors.find(
       (professor) => professor.id === professorId
     );
 
@@ -94,7 +94,7 @@ const fetchCategoriesAndAverages = async () => {
       categories.value = allCategories.map((category) => {
         // Find matching category from the professor's ratings summary
         const categorySummary =
-          professorData.numerical_summary[0].category_avg.find(
+          professorData.numerical_summary[0]?.category_avg.find(
             (avgCategory) =>
               avgCategory.category_desc === category.category_desc
           );
@@ -111,11 +111,13 @@ const fetchCategoriesAndAverages = async () => {
             return {
               numerical_question_id: question.numerical_question_id,
               question: question.question,
-              average: questionAvg ? questionAvg.average : null,
+              average: questionAvg?.average ?? "N/A", // Use a default value if average is not found
             };
           }),
         };
       });
+    } else {
+      console.warn(`No data found for professor ID: ${professorId}`);
     }
   } catch (error) {
     console.error("Error fetching data:", error);

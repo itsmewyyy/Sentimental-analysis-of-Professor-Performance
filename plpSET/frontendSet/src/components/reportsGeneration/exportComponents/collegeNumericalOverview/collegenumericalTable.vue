@@ -70,10 +70,13 @@ watch(
   }
 );
 
-// Get selected college from localStorage
-
 const fetchCategoriesAndAverages = async () => {
   const selectedCollege = localStorage.getItem("college");
+  if (!selectedCollege) {
+    console.warn("No college selected in localStorage.");
+    return;
+  }
+
   try {
     // Fetch categories and questions
     const categoriesResponse = await axios.get(
@@ -85,12 +88,13 @@ const fetchCategoriesAndAverages = async () => {
     const ratingsResponse = await axios.get(
       "https://sentiment-professor-feedback-1.onrender.com/api/college-ratings-summary/"
     );
+
     const collegeData = ratingsResponse.data.colleges.find(
       (college) => college.name === selectedCollege
     );
 
-    // If the selected college has data, map it to categories with averages
-    if (collegeData) {
+    // Check if collegeData and numerical_summary exist
+    if (collegeData && collegeData.numerical_summary?.[0]?.category_avg) {
       categories.value = allCategories.map((category) => {
         // Find matching category from the college ratings summary
         const categorySummary =
@@ -116,6 +120,10 @@ const fetchCategoriesAndAverages = async () => {
           }),
         };
       });
+    } else {
+      console.warn(
+        "No data found for selected college or missing numerical_summary."
+      );
     }
   } catch (error) {
     console.error("Error fetching data:", error);
