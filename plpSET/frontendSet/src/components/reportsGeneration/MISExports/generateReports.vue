@@ -320,24 +320,51 @@ function exportPDF(): void {
   const element = document.getElementById("contentToExport");
   if (element) {
     html2canvas(element).then((canvas) => {
-      const imgData = canvas.toDataURL("image/png");
       const pdf = new jsPDF();
-      const imgWidth = 190; // Width of the image in PDF
-      const pageHeight = pdf.internal.pageSize.height; // Height of the PDF page
-      const imgHeight = (canvas.height * imgWidth) / canvas.width; // Calculate image height maintaining aspect ratio
-      let heightLeft = imgHeight; // Remaining height to add pages
-      let position = 0; // Initial position for the image
+      const imgWidth = 190;
+      const pageHeight = pdf.internal.pageSize.height;
+      const padding = 10;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      let heightLeft = imgHeight;
+      let position = padding;
 
-      // Add the first image to the PDF
-      pdf.addImage(imgData, "PNG", 10, position, imgWidth, imgHeight);
-      heightLeft -= pageHeight; // Update height left after adding the first page
-
-      // Loop to add additional pages if necessary
       while (heightLeft > 0) {
-        pdf.addPage(); // Add a new page
-        position = 0; // Reset position to the top of the new page
-        pdf.addImage(imgData, "PNG", 10, position, imgWidth, imgHeight); // Add the image
-        heightLeft -= pageHeight; // Update height left
+        const pageCanvas = document.createElement("canvas");
+        const pageContext = pageCanvas.getContext("2d");
+
+        pageCanvas.width = canvas.width;
+        pageCanvas.height =
+          (pageHeight - 2 * padding) * (canvas.width / imgWidth);
+
+        pageContext.drawImage(
+          canvas,
+          0,
+          (position - padding) * (canvas.width / imgWidth),
+          canvas.width,
+          pageCanvas.height,
+          0,
+          0,
+          canvas.width,
+          pageCanvas.height
+        );
+
+        const imgData = pageCanvas.toDataURL("image/png");
+
+        pdf.addImage(
+          imgData,
+          "PNG",
+          10,
+          padding,
+          imgWidth,
+          pageHeight - 2 * padding
+        );
+
+        heightLeft -= pageHeight - 2 * padding;
+        position += pageHeight - 2 * padding;
+
+        if (heightLeft > 0) {
+          pdf.addPage();
+        }
       }
 
       pdf.save("exported-content.pdf");
