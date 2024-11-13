@@ -1,6 +1,6 @@
 import portal from "./pages/portal.vue";
 import loginStudent_page from "./pages/loginStudent.vue";
-import registerStudent_page from "./pages/registerStudent.vue";
+import registerStudent_page from "./pages/SignUp.vue";
 import loginAdmin_page from "./pages/loginAdmin.vue";
 import dashboardStudent from "./pages/dashboardStudent.vue";
 import studentList from "./pages/studentList.vue";
