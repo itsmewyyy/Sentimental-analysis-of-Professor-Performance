@@ -89,7 +89,7 @@ const fetchCategoriesAndAverages = async () => {
       "https://sentiment-professor-feedback-1.onrender.com/api/college-ratings-summary/"
     );
 
-    const collegeData = ratingsResponse.data?.summary?.colleges?.find(
+    const collegeData = ratingsResponse.data?.summary?.find(
       (college) => college.name === selectedCollege
     );
     console.log(collegeData);
