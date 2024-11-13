@@ -174,7 +174,6 @@ watch(
   }
 );
 
-// Handle rating selection from question components
 function handleRatingSelection({
   questionId,
   rating,
@@ -183,7 +182,7 @@ function handleRatingSelection({
   rating: number | null;
 }) {
   const ratingsStore = useRatingsStore();
-  // Update the rating in the store using the question ID as the key
+
   ratingsStore.setNumericalRating(questionId, rating);
 }
 
@@ -209,7 +208,6 @@ function handleFeedback(questionId, feedback) {
 }
 // Submit both numerical ratings and feedback
 async function submitAll() {
-  // Get the student_enrolled_subj_id from the localstorage
   const student_enrolled_subj_id = localStorage.getItem(
     "student_enrolled_subj_id"
   );
@@ -228,7 +226,11 @@ async function submitAll() {
   });
 
   if (!allFeedbackAnswered) {
-    alert("Please answer all feedback questions before submitting.");
+    toast({
+      variant: "destructive",
+      title: "Submission error",
+      description: "Please answer all feedback questions before submitting!",
+    });
     return;
   }
 
@@ -265,24 +267,25 @@ async function submitAll() {
 const currentStep = ref(1);
 const isNext = ref(true);
 
-// Move to feedback
+const allRated = categories.value.every((category) =>
+  category.questions.every((question) =>
+    ratingsStore.numericalRatings.hasOwnProperty(question.numerical_question_id)
+  )
+);
+
 function goToNext() {
   const ratingsStore = useRatingsStore();
-
-  // Check if all questions have been rated
-  const allRated = categories.value.every((category) =>
-    category.questions.every((question) =>
-      ratingsStore.numericalRatings.hasOwnProperty(
-        question.numerical_question_id
-      )
-    )
-  );
 
   if (allRated) {
     isNext.value = true;
     currentStep.value++;
   } else {
-    alert("Please rate all the questions before proceeding.");
+    toast({
+      variant: "destructive",
+      title: "Error",
+      description:
+        "Please rate all the questions before proceeding to the next page!",
+    });
   }
 }
 
@@ -297,7 +300,7 @@ function goToPrev() {
   <Toaster />
   <navbar />
   <ScrollArea class="h-svh w-full">
-    <section class="pt-32 pl-32 pr-32 pb-auto">
+    <section class="pt-32 pl-32 pr-32 pb-20">
       <form>
         <div class="sliding-container w-full space-y-2">
           <transition
@@ -368,7 +371,7 @@ function goToPrev() {
                       <CarouselPrevious @click.prevent />
                       <CarouselNext @click.prevent />
                     </Carousel>
-                    <div class="text-center text-sm text-darks-100">
+                    <div class="text-center text-sm text-darks-400">
                       Category {{ currentCategory }} of {{ totalCategoryCount }}
                     </div>
                   </div>
@@ -434,7 +437,7 @@ function goToPrev() {
                       <CarouselPrevious @click.prevent />
                       <CarouselNext @click.prevent />
                     </Carousel>
-                    <div class="text-center text-sm text-darks-100">
+                    <div class="text-center text-sm text-darks-400">
                       Question {{ currentFeedback }} of
                       {{ totalFeedbackQuestionCount }}
                     </div>
@@ -464,7 +467,7 @@ function goToPrev() {
               </button>
             </div>
             <button
-              v-if="currentStep === 1"
+              v-if="currentStep === 1 && allRated"
               @click.prevent="goToNext"
               class="text-plpgreen-400 bg-white border border-plpgreen-100 focus:outline-none hover:bg-plpgreen-400 hover:text-white focus:ring-4 focus:ring-gray-100 font-semibold rounded text-sm px-12 py-2.5 me-2 mb-2"
             >

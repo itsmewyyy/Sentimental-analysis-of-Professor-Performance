@@ -42,9 +42,7 @@
                         "
                       >
                         <span>{{
-                          dateofbirth
-                            ? format(dateofbirth, "PPP")
-                            : "Date of Birth"
+                          dateofbirth ? format(dateofbirth, "PPP") : ""
                         }}</span>
                       </Button>
                     </PopoverTrigger>
