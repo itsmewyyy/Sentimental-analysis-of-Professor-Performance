@@ -139,7 +139,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { format } from "date-fns";
 import SignInHelper from "@/components/SignInHelper.vue";
 import { Button } from "@/components/ui/button";
@@ -151,32 +151,66 @@ import {
   PopoverContent,
 } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/v-calendar";
-import { Calendar as CalendarIcon } from "lucide-vue-next";
-import { cn } from "@/lib/utils";
 import { useAuthStore } from "@/store/student";
 import { useRouter } from "vue-router";
 import { Toaster } from "@/components/ui/toast";
 import { useToast } from "@/components/ui/toast/use-toast";
+import { cn } from "@/lib/utils";
 
 const { toast } = useToast();
-
 const router = useRouter();
 const dateofbirth = ref<Date>();
 
-// Define reactive variables
 const student_id = ref("");
 const password = ref("");
 const confirm_password = ref("");
 const student_email = ref("");
 
-// Register function
+const isEmailValid = computed(() =>
+  /^[a-zA-Z0-9._%+-]+@plpasig\.edu\.ph$/.test(student_email.value)
+);
+
+const isPasswordValid = computed(() =>
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(
+    password.value
+  )
+);
+
+// Register function with validation checks
 const register = async () => {
   const formattedDateOfBirth = dateofbirth.value
     ? format(dateofbirth.value, "yyyy-MM-dd")
     : "";
 
-  const authStudentRegister = useAuthStore();
+  if (!isEmailValid.value) {
+    toast({
+      variant: "destructive",
+      title: "Invalid Email",
+      description: "Email must be in the format @plpasig.edu.ph",
+    });
+    return;
+  }
 
+  if (!isPasswordValid.value) {
+    toast({
+      variant: "destructive",
+      title: "Invalid Password",
+      description:
+        "Password must contain uppercase, lowercase, number, and special character",
+    });
+    return;
+  }
+
+  if (password.value !== confirm_password.value) {
+    toast({
+      variant: "destructive",
+      title: "Password Mismatch",
+      description: "Passwords do not match",
+    });
+    return;
+  }
+
+  const authStudentRegister = useAuthStore();
   try {
     await authStudentRegister.register(
       student_id.value,
