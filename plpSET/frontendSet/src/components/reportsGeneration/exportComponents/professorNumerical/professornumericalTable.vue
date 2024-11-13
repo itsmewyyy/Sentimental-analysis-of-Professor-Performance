@@ -88,6 +88,7 @@ const fetchCategoriesAndAverages = async () => {
     const professorData = ratingsResponse.data?.professors?.find(
       (professor) => professor.id === professorId
     );
+    console.log(professorData);
 
     // If the professor has data, map it to categories with averages
     if (professorData) {

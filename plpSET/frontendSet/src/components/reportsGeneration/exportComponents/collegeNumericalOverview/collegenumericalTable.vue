@@ -92,6 +92,7 @@ const fetchCategoriesAndAverages = async () => {
     const collegeData = ratingsResponse.data?.colleges?.find(
       (college) => college.name === selectedCollege
     );
+    console.log(collegeData);
     // Check if collegeData and numerical_summary exist
     if (collegeData && collegeData.numerical_summary?.[0]?.category_avg) {
       categories.value = allCategories.map((category) => {
