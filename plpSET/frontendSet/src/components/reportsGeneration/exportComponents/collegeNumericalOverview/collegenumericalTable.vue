@@ -85,7 +85,7 @@ const fetchCategoriesAndAverages = async () => {
     const ratingsResponse = await axios.get(
       "https://sentiment-professor-feedback-1.onrender.com/api/college-ratings-summary/"
     );
-    const collegeData = ratingsResponse.data.summary.find(
+    const collegeData = ratingsResponse.data.colleges.find(
       (college) => college.name === selectedCollege
     );
 

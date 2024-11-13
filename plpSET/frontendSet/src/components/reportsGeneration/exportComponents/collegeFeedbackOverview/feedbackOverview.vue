@@ -91,15 +91,17 @@ const fetchCollegeData = async () => {
       "https://sentiment-professor-feedback-1.onrender.com/api/college-ratings-summary/"
     );
 
-    if (response.data && response.data.summary) {
+    if (response.data && Array.isArray(response.data)) {
       const yearsemIdentifier = localStorage.getItem("current_year_sem");
       const collegeIdentifier = localStorage.getItem("college");
 
-      const selectedYearSem = response.data.year_sem === yearsemIdentifier;
+      const selectedYearSem = response.data.find(
+        (item) => item.year_sem === yearsemIdentifier
+      );
 
       if (selectedYearSem) {
-        const selectedCollege = response.data.summary.find(
-          (collegeSummary: College) => collegeSummary.name === collegeIdentifier
+        const selectedCollege = selectedYearSem.colleges.find(
+          (college) => college.name === collegeIdentifier
         );
 
         if (selectedCollege) {
