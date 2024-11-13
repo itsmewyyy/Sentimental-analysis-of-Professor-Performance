@@ -190,13 +190,6 @@ onMounted(() => {
               </p>
             </div>
           </div>
-          <div class="flex space-x-2">
-            <Button
-              class="px-4 h-10 rounded-md font-medium text-sm bg-plpgreen-100 text-gray-800 hover:bg-plpgreen-200/80 hover:text-white"
-            >
-              Compare
-            </Button>
-          </div>
         </div>
 
         <!---Summary---->
