@@ -21,8 +21,6 @@ import { useRatingsStore } from "@/store/ratingStore";
 import axios from "axios";
 import { useAuthStore } from "@/store/student";
 import ScrollArea from "@/components/ui/scroll-area/ScrollArea.vue";
-import EvaluationHelper from "@/components/EvaluationHelper.vue";
-
 const authStore = useAuthStore();
 authStore.restoreSession();
 
@@ -184,7 +182,6 @@ function handleRatingSelection({
   rating: number | null;
 }) {
   const ratingsStore = useRatingsStore();
-
   ratingsStore.setNumericalRating(questionId, rating);
 }
 
@@ -210,6 +207,7 @@ function handleFeedback(questionId, feedback) {
 }
 // Submit both numerical ratings and feedback
 async function submitAll() {
+  // Get the student_enrolled_subj_id from the localstorage
   const student_enrolled_subj_id = localStorage.getItem(
     "student_enrolled_subj_id"
   );
@@ -269,14 +267,29 @@ async function submitAll() {
 const currentStep = ref(1);
 const isNext = ref(true);
 
-const allRated = categories.value.every((category) =>
-  category.questions.every((question) =>
-    ratingsStore.numericalRatings.hasOwnProperty(question.numerical_question_id)
-  )
-);
+const allRated = computed(() => {
+  return categories.value.every((category) =>
+    category.questions.every((question) =>
+      ratingsStore.numericalRatings.hasOwnProperty(
+        question.numerical_question_id
+      )
+    )
+  );
+});
 
+// Move to feedback
 function goToNext() {
   const ratingsStore = useRatingsStore();
+
+  const allRated = computed(() => {
+    return categories.value.every((category) =>
+      category.questions.every((question) =>
+        ratingsStore.numericalRatings.hasOwnProperty(
+          question.numerical_question_id
+        )
+      )
+    );
+  });
 
   if (allRated) {
     isNext.value = true;
@@ -373,7 +386,7 @@ function goToPrev() {
                       <CarouselPrevious @click.prevent />
                       <CarouselNext @click.prevent />
                     </Carousel>
-                    <div class="text-center text-sm text-darks-400">
+                    <div class="text-center text-sm text-darks-100">
                       Category {{ currentCategory }} of {{ totalCategoryCount }}
                     </div>
                   </div>
@@ -439,7 +452,7 @@ function goToPrev() {
                       <CarouselPrevious @click.prevent />
                       <CarouselNext @click.prevent />
                     </Carousel>
-                    <div class="text-center text-sm text-darks-400">
+                    <div class="text-center text-sm text-darks-100">
                       Question {{ currentFeedback }} of
                       {{ totalFeedbackQuestionCount }}
                     </div>
@@ -478,9 +491,6 @@ function goToPrev() {
           </div>
         </div>
       </form>
-      <div class="absolute bottom-4 right-4">
-        <EvaluationHelper></EvaluationHelper>
-      </div>
     </section>
   </ScrollArea>
 </template>
