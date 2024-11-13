@@ -9,13 +9,28 @@
       <div class="flex flex-row font-bold">
         <div class="flex-1"></div>
         <div
-          class="flex items-center space-x-3 sm:space-x-8 lg:space-x-16 pr-4 sm:pr-6 lg:pr-9 pb-2 text-darks-500 text-xs sm:text-sm"
+          class="flex items-center space-x-4 sm:space-x-8 lg:space-x-16 pr-4 sm:pr-6 lg:pr-5 pb-2 text-darks-500 text-lg"
         >
-          <p id="5">5</p>
-          <p id="4">4</p>
-          <p id="3">3</p>
-          <p id="2">2</p>
-          <p id="1">1</p>
+          <div class="items-center flex flex-col">
+            <p class="text-xs">SA</p>
+            <p id="5">5</p>
+          </div>
+          <div class="items-center flex flex-col">
+            <p class="text-xs">A</p>
+            <p id="4">4</p>
+          </div>
+          <div class="items-center flex flex-col">
+            <p class="text-xs">N</p>
+            <p id="3">3</p>
+          </div>
+          <div class="items-center flex flex-col">
+            <p class="text-xs">D</p>
+            <p id="2">2</p>
+          </div>
+          <div class="items-center flex flex-col">
+            <p class="text-xs">SD</p>
+            <p id="1">1</p>
+          </div>
         </div>
       </div>
     </div>

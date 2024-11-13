@@ -21,6 +21,8 @@ import { useRatingsStore } from "@/store/ratingStore";
 import axios from "axios";
 import { useAuthStore } from "@/store/student";
 import ScrollArea from "@/components/ui/scroll-area/ScrollArea.vue";
+import EvaluationHelper from "@/components/EvaluationHelper.vue";
+
 const authStore = useAuthStore();
 authStore.restoreSession();
 
@@ -476,6 +478,9 @@ function goToPrev() {
           </div>
         </div>
       </form>
+      <div class="absolute bottom-4 right-4">
+        <EvaluationHelper></EvaluationHelper>
+      </div>
     </section>
   </ScrollArea>
 </template>
