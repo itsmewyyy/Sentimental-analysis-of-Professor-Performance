@@ -72,8 +72,9 @@ watch(
 
 const fetchCategoriesAndAverages = async () => {
   const selectedCollege = localStorage.getItem("college");
-  if (!selectedCollege) {
-    console.warn("No college selected in localStorage.");
+  const yearsemIdentifier = localStorage.getItem("current_year_sem");
+  if (!selectedCollege || !yearsemIdentifier) {
+    console.warn("No college or year/sem selected in localStorage.");
     return;
   }
 
@@ -88,12 +89,22 @@ const fetchCategoriesAndAverages = async () => {
     const ratingsResponse = await axios.get(
       "https://sentiment-professor-feedback-1.onrender.com/api/college-ratings-summary/"
     );
-    console.log(ratingsResponse);
-    const collegeData = ratingsResponse.data?.summary?.find(
+
+    // Find the data for the specified year and semester
+    const yearSemData = ratingsResponse.data.find(
+      (item) => item.year_sem === yearsemIdentifier
+    );
+
+    if (!yearSemData) {
+      console.warn(`No data found for year/sem ${yearsemIdentifier}.`);
+      return;
+    }
+
+    // Find the college data within the selected year/sem data
+    const collegeData = yearSemData.colleges.find(
       (college) => college.name === selectedCollege
     );
-    console.log(collegeData);
-    // Check if collegeData and numerical_summary exist
+
     if (collegeData && collegeData.numerical_summary?.[0]?.category_avg) {
       categories.value = allCategories.map((category) => {
         // Find matching category from the college ratings summary
@@ -114,7 +125,9 @@ const fetchCategoriesAndAverages = async () => {
             return {
               numerical_question_id: question.numerical_question_id,
               question: question.question,
-              average: questionAvg ? questionAvg.average : null,
+              average: questionAvg
+                ? parseFloat(questionAvg.average.toFixed(2))
+                : null,
             };
           }),
         };

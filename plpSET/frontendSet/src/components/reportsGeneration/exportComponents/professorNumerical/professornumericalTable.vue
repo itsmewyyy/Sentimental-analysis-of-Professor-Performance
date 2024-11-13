@@ -69,8 +69,12 @@ watch(
 
 const fetchCategoriesAndAverages = async () => {
   const professorId = localStorage.getItem("professor");
-  if (!professorId) {
-    console.error("Professor ID not found in localStorage.");
+  const yearsemIdentifier = localStorage.getItem("current_year_sem");
+
+  if (!professorId || !yearsemIdentifier) {
+    console.error(
+      "Professor ID or year/semester identifier not found in localStorage."
+    );
     return;
   }
 
@@ -86,16 +90,16 @@ const fetchCategoriesAndAverages = async () => {
       "https://sentiment-professor-feedback-1.onrender.com/api/professor-ratings-summary/"
     );
     console.log(ratingsResponse);
-    const professorData = ratingsResponse.data?.summary?.find(
-      (professor) => professor.id === professorId
-    );
-    console.log(professorData);
 
-    // If the professor has data, map it to categories with averages
+    // Filter by year/semester and professor ID
+    const professorData = ratingsResponse.data
+      .find((item) => item.year_sem === yearsemIdentifier)
+      ?.professors.find((professor) => professor.id === professorId);
+
     if (professorData) {
       categories.value = allCategories.map((category) => {
         const categorySummary =
-          professorData.numerical_summary[0]?.category_avg.find(
+          professorData.numerical_summary.category_avg.find(
             (avgCategory) =>
               avgCategory.category_desc === category.category_desc
           );
@@ -103,7 +107,6 @@ const fetchCategoriesAndAverages = async () => {
         return {
           category_desc: category.category_desc,
           questions: category.questions.map((question) => {
-            // Find the question's average if it exists in the summary
             const questionAvg = categorySummary?.question_avg.find(
               (avgQuestion) =>
                 avgQuestion.question_id === question.numerical_question_id
@@ -112,13 +115,17 @@ const fetchCategoriesAndAverages = async () => {
             return {
               numerical_question_id: question.numerical_question_id,
               question: question.question,
-              average: questionAvg?.average ?? "N/A",
+              average: questionAvg
+                ? parseFloat(questionAvg.average.toFixed(2))
+                : "N/A",
             };
           }),
         };
       });
     } else {
-      console.warn(`No data found for professor ID: ${professorId}`);
+      console.warn(
+        `No data found for professor ID: ${professorId} and year/semester: ${yearsemIdentifier}`
+      );
     }
   } catch (error) {
     console.error("Error fetching data:", error);

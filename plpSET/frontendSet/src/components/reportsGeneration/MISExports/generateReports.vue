@@ -3,7 +3,7 @@
     <div class="flex w-full h-full">
       <!-- Sidebar for Export Options -->
       <div
-        class="w-1/5 min-w-[250px] h-full bg-gray-100 rounded-l-md grid grid-rows-5 pt-8 pl-6 pr-4 gap-6"
+        class="w-1/5 min-w-[250px] h-full bg-gray-100 rounded-l-md grid grid-rows-5 pt-8 pl-6 pr-4"
       >
         <div class="text-2xl font-bold row-start-1 pl-9">Export Reports</div>
 
@@ -20,25 +20,6 @@
               </SelectGroup>
             </SelectContent>
           </Select>
-
-          <!-- Conditional Question Select -->
-          <div v-if="rating === 'feedback' && !selectedProfessor">
-            <Select v-model="selectedQuestion">
-              <SelectTrigger>
-                <SelectValue placeholder="Select Question" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>Question</SelectLabel>
-                  <SelectItem value="1">Question 1</SelectItem>
-                  <SelectItem value="2">Question 2</SelectItem>
-                  <SelectItem value="3">Question 3</SelectItem>
-                  <SelectItem value="4">Question 4</SelectItem>
-                  <SelectItem value="5">Question 5</SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-          </div>
         </div>
 
         <!-- College and Professor Selection -->
@@ -261,7 +242,6 @@ import feedbackOverview from "@/components/reportsGeneration/exportComponents/co
 import numericalOverview from "@/components/reportsGeneration/exportComponents/collegeNumericalOverview/numericalOverview.vue";
 import numericalProfessor from "@/components/reportsGeneration/exportComponents/professorNumerical/numericalProfessor.vue";
 import feedbackProfessor from "@/components/reportsGeneration/exportComponents/feedbackProfessorOverview/feedbackProfessor.vue";
-import feedbackQuestionOverview from "@/components/reportsGeneration/exportComponents/collegeFeedbackQuestionOverview/feedbackQuestionOverview.vue";
 
 const [UseTemplate, GridForm] = createReusableTemplate();
 const isDesktop = useMediaQuery("(min-width: 768px)");
@@ -320,9 +300,7 @@ const selectedReportComponent = computed(() => {
       return numericalOverview;
     }
   } else if (rating.value === "feedback") {
-    if (selectedCollege.value && selectedQuestion.value) {
-      return feedbackQuestionOverview;
-    } else if (selectedCollege.value && selectedProfessor.value) {
+    if (selectedCollege.value && selectedProfessor.value) {
       return feedbackProfessor;
     } else if (selectedCollege.value) {
       return feedbackOverview;

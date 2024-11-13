@@ -220,7 +220,6 @@ import feedbackOverview from "@/components/reportsGeneration/exportComponents/co
 import numericalOverview from "@/components/reportsGeneration/exportComponents/collegeNumericalOverview/numericalOverview.vue";
 import numericalProfessor from "@/components/reportsGeneration/exportComponents/professorNumerical/numericalProfessor.vue";
 import feedbackProfessor from "@/components/reportsGeneration/exportComponents/feedbackProfessorOverview/feedbackProfessor.vue";
-import feedbackQuestionOverview from "@/components/reportsGeneration/exportComponents/collegeFeedbackQuestionOverview/feedbackQuestionOverview.vue";
 
 const [UseTemplate, GridForm] = createReusableTemplate();
 const isDesktop = useMediaQuery("(min-width: 768px)");
@@ -279,9 +278,7 @@ const selectedReportComponent = computed(() => {
       return numericalOverview;
     }
   } else if (rating.value === "feedback") {
-    if (selectedCollege && selectedQuestion.value) {
-      return feedbackQuestionOverview;
-    } else if (selectedCollege && selectedProfessor.value) {
+    if (selectedCollege && selectedProfessor.value) {
       return feedbackProfessor;
     } else if (selectedCollege) {
       return feedbackOverview;
