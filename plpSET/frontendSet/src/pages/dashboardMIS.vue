@@ -114,7 +114,7 @@ onMounted(fetchCounts);
           <evaluationPeriod :refreshData="refreshData"></evaluationPeriod>
         </div>
         <div class="col-span-6 col-start-1 row-start-1">
-          <p class="font-semibold text-xl pt-4">Lorem Ipsum</p>
+          <p class="font-semibold text-xl pt-4">SET schedule</p>
         </div>
       </div>
     </section>
