@@ -7,6 +7,7 @@ import { useToast } from "@/components/ui/toast/use-toast";
 import cardComponent from "@/components/SET/cardNumerical.vue";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import questioncomponent from "@/components/SET/questionComponent.vue";
+import EvaluationHelper from "@/components/EvaluationHelper.vue";
 // @ts-ignore
 import type { CarouselApi } from "@/components/ui/carousel";
 import {
@@ -491,6 +492,9 @@ function goToPrev() {
           </div>
         </div>
       </form>
+      <div class="absolute bottom-4 right-4">
+        <EvaluationHelper />
+      </div>
     </section>
   </ScrollArea>
 </template>
