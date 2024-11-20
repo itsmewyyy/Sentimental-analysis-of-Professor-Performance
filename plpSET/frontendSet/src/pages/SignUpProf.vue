@@ -15,12 +15,12 @@
           <form @submit.prevent="register" class="w-full mx-auto">
             <div class="grid gap-4">
               <div>
-                <Label for="student-id" class="text-xs">Professor Id</Label>
+                <Label for="professor_id" class="text-xs">Professor Id</Label>
                 <Input
                   type="text"
-                  name="student_id"
-                  id="student_id"
-                  v-model="student_id"
+                  name="professor_id"
+                  id="professor_id"
+                  v-model="professor_id"
                   default-value="21-00444"
                   class="w-full"
                   placeholder=" "
@@ -31,12 +31,12 @@
               <!-- Email, Password & Confirm Password -->
               <div class="grid gap-4">
                 <div>
-                  <Label for="student_email" class="text-xs">Email</Label>
+                  <Label for="profesor_email" class="text-xs">Email</Label>
                   <Input
                     type="text"
-                    name="student_email"
-                    id="student_email"
-                    v-model="student_email"
+                    name="profesor_email"
+                    id="profesor_email"
+                    v-model="professor_email"
                     class="w-full"
                     placeholder=""
                     required
@@ -126,7 +126,7 @@ import {
   PopoverContent,
 } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/v-calendar";
-import { useAuthStore } from "@/store/student";
+import { useAuthStoreProf } from "@/store/prof";
 import { useRouter } from "vue-router";
 import { Toaster } from "@/components/ui/toast";
 import { useToast } from "@/components/ui/toast/use-toast";
@@ -136,14 +136,10 @@ const { toast } = useToast();
 const router = useRouter();
 const dateofbirth = ref<Date>();
 
-const student_id = ref("");
+const professor_id = ref("");
 const password = ref("");
 const confirm_password = ref("");
-const student_email = ref("");
-
-const isEmailValid = computed(() =>
-  /^[a-zA-Z0-9._%+-]+@plpasig\.edu\.ph$/.test(student_email.value)
-);
+const professor_email = ref("");
 
 const isPasswordValid = computed(() =>
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(
@@ -156,15 +152,6 @@ const register = async () => {
   const formattedDateOfBirth = dateofbirth.value
     ? format(dateofbirth.value, "yyyy-MM-dd")
     : "";
-
-  if (!isEmailValid.value) {
-    toast({
-      variant: "destructive",
-      title: "Invalid Email",
-      description: "Email must be in the format @plpasig.edu.ph",
-    });
-    return;
-  }
 
   if (!isPasswordValid.value) {
     toast({
@@ -185,14 +172,13 @@ const register = async () => {
     return;
   }
 
-  const authStudentRegister = useAuthStore();
+  const authRegister = useAuthStoreProf();
   try {
-    await authStudentRegister.register(
-      student_id.value,
+    await authRegister.register(
+      professor_id.value,
       password.value,
       confirm_password.value,
-      formattedDateOfBirth,
-      student_email.value
+      professor_email.value
     );
 
     router.push("/StudentLogin");
