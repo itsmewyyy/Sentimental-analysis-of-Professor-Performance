@@ -164,7 +164,7 @@ const proflogin = async () => {
                 <h2 class="text-2xl font-bold text-plpyellow-200">
                   Admin Login
                 </h2>
-                <form @submit.prevent="proflogin" class="mt-8 space-y-6">
+                <form @submit.prevent="login" class="mt-8 space-y-6">
                   <div>
                     <label
                       for="adminUsername"
@@ -211,7 +211,7 @@ const proflogin = async () => {
                 <h2 class="text-2xl font-bold text-plpyellow-200">
                   Professor Login
                 </h2>
-                <form @submit.prevent="login" class="mt-8 space-y-6">
+                <form @submit.prevent="proflogin" class="mt-8 space-y-6">
                   <div>
                     <label
                       for="professorID"
