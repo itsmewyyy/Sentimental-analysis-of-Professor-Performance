@@ -196,7 +196,7 @@ class LoginProf(APIView):
 
         try:
             # Fetch the admin account based on the provided username
-            professor_account = prof_acc.objects.get(professor_id=professor_id)
+            professor_account = prof_acc.objects.get(prof_acc_number=professor_id)
         except prof_acc.DoesNotExist:
             return Response({'error': 'Admin account does not exist.'}, status=status.HTTP_400_BAD_REQUEST)
 
