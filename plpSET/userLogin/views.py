@@ -203,7 +203,7 @@ class LoginProf(APIView):
         # Check if the password is correct
         if check_password(password, professor_account.password):
             # Create session for the admin
-            request.session['prof_id'] = professor_account.professor_id
+            request.session['prof_id'] = professor_account.prof_acc_number
             return Response({
                 'message': 'Login successful',
                 'prof_id': professor_account.professor_id,
