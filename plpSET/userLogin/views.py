@@ -206,8 +206,8 @@ class LoginProf(APIView):
             request.session['prof_id'] = professor_account.prof_acc_number
             return Response({
                 'message': 'Login successful',
-                'prof_id': professor_account.professor_id,
-                "college": professor_account.department.department_id
+                'prof_id': professor_account.prof_acc_number,
+                "college": professor_account.prof_acc_number
             }, status=status.HTTP_200_OK)
 
         return Response({'error': 'Invalid credentials'}, status=status.HTTP_400_BAD_REQUEST)
