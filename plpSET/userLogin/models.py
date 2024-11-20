@@ -23,3 +23,10 @@ class admin_acc(models.Model):
     def __str__(self):
         return f'{self.admin_acc_id} - {self.admin_username}'
 
+class prof_acc(models.Model):
+    prof_acc_number = models.CharField(max_length=8, primary_key=True)
+    plp_email = models.EmailField(default='example_example@plpasig.edu.ph')
+    password = models.CharField(max_length=100)
+
+    def __str__(self):
+        return f'{self.prof_acc_number}'

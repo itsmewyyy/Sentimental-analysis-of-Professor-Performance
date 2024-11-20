@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from SET.models import student_info
-from .models import student_acc, admin_acc
+from .models import student_acc, admin_acc, prof_acc
 from django.contrib.auth.hashers import make_password
 
 class StudentInfoSerializer(serializers.ModelSerializer):
@@ -17,7 +17,17 @@ class StudentAccSerializer(serializers.ModelSerializer):
         fields = ['student_acc_number', 'plp_email', 'date_of_birth', 'password']
 
     def create(self, validated_data):
-        # Hash the password before saving
+        validated_data['password'] = make_password(validated_data.get('password'))
+        return super().create(validated_data)
+    
+class ProfAccSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
+
+    class Meta:
+        model = prof_acc
+        fields = ['prof_acc_number', 'plp_email', 'password']
+
+    def create(self, validated_data):
         validated_data['password'] = make_password(validated_data.get('password'))
         return super().create(validated_data)
 

@@ -17,6 +17,8 @@ import dashboardMISProfessorData from "./pages/dashboardMISProfessorData.vue";
 import StudentProfile from "./pages/StudentProfile.vue";
 import DeanProfile from "./pages/DeanProfile.vue";
 import SecretaryProfile from "./pages/SecretaryProfile.vue";
+import SignUpProf from "./pages/SignUpProf.vue";
+import dashboardProfessor from "./pages/dashboardProfessor.vue";
 import { createRouter, createWebHistory } from "vue-router";
 
 const routes = [
@@ -145,6 +147,14 @@ const routes = [
     },
   },
   {
+    path: "/professorDashboard",
+    component: dashboardProfessor,
+    meta: {
+      title:
+        "Professor Dashboard | Pamantasan ng Lungsod ng Pasig Student Evaluation of Teaching",
+    },
+  },
+  {
     path: "/MISDashboardAnalytics",
     component: dashboardMISAnalytics,
     meta: {
@@ -174,6 +184,14 @@ const routes = [
     meta: {
       title:
         "Secretary Profile | Pamantasan ng Lungsod ng Pasig Student Evaluation of Teaching",
+    },
+  },
+  {
+    path: "/SignupProf",
+    component: SignUpProf,
+    meta: {
+      title:
+        "Register Professor | Pamantasan ng Lungsod ng Pasig Student Evaluation of Teaching",
     },
   },
 ];

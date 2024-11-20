@@ -57,6 +57,10 @@ const login = async () => {
 
       localStorage.setItem("current_year_sem", currentYearSem.year_sem_id);
     }
+    toast({
+      title: "Login Success",
+      description: `Student with account number ${student_acc_number.value} has logged in successfully.`,
+    });
     router.push("/StudentDashboard");
   } catch (error) {
     toast({

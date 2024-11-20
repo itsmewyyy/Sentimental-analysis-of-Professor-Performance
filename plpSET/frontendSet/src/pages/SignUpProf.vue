@@ -8,49 +8,24 @@
             <h1 class="text-3xl font-bold">Sign Up</h1>
             <p class="text-muted-foreground">
               Enter your details to
-              <span class="text-plpgreen-400 font-bold">evaluate</span> now
+              <span class="text-plpgreen-400 font-bold">view reports</span>
             </p>
           </div>
 
           <form @submit.prevent="register" class="w-full mx-auto">
             <div class="grid gap-4">
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <Label for="student-id" class="text-xs">Student Number</Label>
-                  <Input
-                    type="text"
-                    name="student_id"
-                    id="student_id"
-                    v-model="student_id"
-                    default-value="21-00444"
-                    class="w-full"
-                    placeholder=" "
-                    required
-                  />
-                </div>
-                <div>
-                  <Label for="birthday" class="text-xs">Birthday</Label>
-                  <Popover>
-                    <PopoverTrigger as-child>
-                      <Button
-                        :variant="'outline'"
-                        :class="
-                          cn(
-                            'w-full justify-start text-left font-normal',
-                            !dateofbirth && 'text-muted-foreground'
-                          )
-                        "
-                      >
-                        <span>{{
-                          dateofbirth ? format(dateofbirth, "PPP") : ""
-                        }}</span>
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent class="w-auto p-0">
-                      <Calendar v-model="dateofbirth" />
-                    </PopoverContent>
-                  </Popover>
-                </div>
+              <div>
+                <Label for="student-id" class="text-xs">Professor Id</Label>
+                <Input
+                  type="text"
+                  name="student_id"
+                  id="student_id"
+                  v-model="student_id"
+                  default-value="21-00444"
+                  class="w-full"
+                  placeholder=" "
+                  required
+                />
               </div>
 
               <!-- Email, Password & Confirm Password -->
@@ -219,10 +194,6 @@ const register = async () => {
       formattedDateOfBirth,
       student_email.value
     );
-    toast({
-      title: "Registration Succesful",
-      description: "Student Account registration successful",
-    });
 
     router.push("/StudentLogin");
   } catch (error) {

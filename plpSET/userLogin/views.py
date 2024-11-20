@@ -1,12 +1,11 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .models import student_acc, admin_acc
-from .serializers import StudentAccSerializer
-from .serializers import AdminAccSerializer
+from .models import student_acc, admin_acc, prof_acc
+from .serializers import StudentAccSerializer, ProfAccSerializer
 from django.contrib.auth.hashers import check_password
 from datetime import datetime
-from SET.models import student_info, SubmissionSummary
+from SET.models import student_info, SubmissionSummary, professor_info
 from django.contrib.sessions.models import Session
 from django.contrib.auth.hashers import make_password
 from django.shortcuts import get_object_or_404
@@ -156,6 +155,70 @@ class LogoutAdmin(APIView):
             request.session.flush()
             return Response({'message': 'Logout successful'}, status=status.HTTP_200_OK)
         return Response({'error': 'Not logged in'}, status=status.HTTP_400_BAD_REQUEST)
+    
+
+class ProfRegisterView(APIView):
+    def post(self, request):
+
+        professor_id = request.data.get('professor_id')
+        professor_email = request.data.get('professor_email')
+        password = request.data.get('password')
+        confirm_password = request.data.get('confirm_password')
+        
+
+        if password != confirm_password:
+            return Response({'error': 'Passwords do not match'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            professor = professor_info.objects.get(professor_id=professor_id)
+        except professor_info.DoesNotExist:
+            return Response({'error': 'Professro ID does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+        prof_acc_data = {
+            'prof_acc_number': professor_id, 
+            'password': password, 
+            'plp_email': professor_email}
+        serializer = ProfAccSerializer(data=prof_acc_data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'message': 'Professor Account registration successful'}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class LoginProf(APIView):
+    def post(self, request):
+        professor_id = request.data.get('professor_id')
+        password = request.data.get('password')
+        request.session.save() 
+        print(request.session.items())
+
+        try:
+            # Fetch the admin account based on the provided username
+            professor_account = professor_info.objects.get(professor_id=professor_id)
+        except prof_acc.DoesNotExist:
+            return Response({'error': 'Admin account does not exist.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Check if the password is correct
+        if check_password(password, professor_account.password):
+            # Create session for the admin
+            request.session['prof_id'] = professor_account.professor_id
+            return Response({
+                'message': 'Login successful',
+                'prof_id': professor_account.professor_id,
+                "college": professor_account.department.department_id
+            }, status=status.HTTP_200_OK)
+
+        return Response({'error': 'Invalid credentials'}, status=status.HTTP_400_BAD_REQUEST)
+
+class LogoutProf(APIView):
+    def post(self, request):
+        if 'prof_id' in request.session:
+            request.session.flush()
+            return Response({'message': 'Logout successful'}, status=status.HTTP_200_OK)
+        return Response({'error': 'Not logged in'}, status=status.HTTP_400_BAD_REQUEST)
+    
 
 class StudentsCount(APIView):
     def get(self, request):

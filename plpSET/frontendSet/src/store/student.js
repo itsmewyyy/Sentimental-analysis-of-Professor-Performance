@@ -5,8 +5,6 @@ export const useAuthStore = defineStore("student", {
   state: () => ({
     isAuthenticated: false,
     user: null,
-    alertMessage: "", //message from register and login apis
-    alertType: "", //success or error, will use for alert component
   }),
   actions: {
     async register(
@@ -44,10 +42,9 @@ export const useAuthStore = defineStore("student", {
             password,
             dateofbirth,
           },
-          { withCredentials: true } // Add this to include cookies
+          { withCredentials: true }
         );
 
-        // Check if the response contains expected data
         if (
           response.data &&
           response.data.student_id &&
@@ -56,20 +53,18 @@ export const useAuthStore = defineStore("student", {
           this.isAuthenticated = true;
           this.user = response.data;
 
-          // Store relevant user info in LocalStorage
           localStorage.setItem("student_id", response.data.student_id);
           localStorage.setItem("user_type", response.data.user_type);
 
-          return response.data; // Return the response for further use
+          return response.data;
         } else {
           throw new Error("Login response did not contain expected data.");
         }
       } catch (error) {
-        // Handle login failure
         this.isAuthenticated = false;
         this.alertMessage = error.response?.data?.error || "Login failed";
         this.alertType = "error";
-        throw error.response?.data; // Throw error for handling in the component
+        throw error.response?.data;
       }
     },
 
@@ -79,9 +74,8 @@ export const useAuthStore = defineStore("student", {
           "https://sentiment-professor-feedback-1.onrender.com/api/studentLogout/",
           {},
           { withCredentials: true }
-        ) // Add withCredentials here
+        )
         .then((response) => {
-          // If the logout request succeeds, clear the state and local storage
           if (response.status === 200) {
             this.isAuthenticated = false;
             this.user = null;
@@ -90,7 +84,6 @@ export const useAuthStore = defineStore("student", {
             this.alertMessage = "Logged out successfully";
             this.alertType = "success";
           } else {
-            // Handle cases where logout was not successful
             console.error("Logout response was not successful:", response);
             this.alertMessage = "Logout failed. Please try again.";
             this.alertType = "error";
