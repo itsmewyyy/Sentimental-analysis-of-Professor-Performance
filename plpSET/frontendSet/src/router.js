@@ -19,6 +19,7 @@ import DeanProfile from "./pages/DeanProfile.vue";
 import SecretaryProfile from "./pages/SecretaryProfile.vue";
 import SignUpProf from "./pages/SignUpProf.vue";
 import dashboardProfessor from "./pages/dashboardProfessor.vue";
+import ProfessorProfile from "./pages/ProfessorProfile.vue";
 import { createRouter, createWebHistory } from "vue-router";
 
 const routes = [
@@ -176,6 +177,14 @@ const routes = [
     meta: {
       title:
         "Dean Profile | Pamantasan ng Lungsod ng Pasig Student Evaluation of Teaching",
+    },
+  },
+  {
+    path: "/ProfProfile",
+    component: ProfessorProfile,
+    meta: {
+      title:
+        "Professor Profile | Pamantasan ng Lungsod ng Pasig Student Evaluation of Teaching",
     },
   },
   {

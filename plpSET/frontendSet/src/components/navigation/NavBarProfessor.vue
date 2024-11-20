@@ -1,9 +1,10 @@
 <template>
   <div
     class="flex justify-between items-center w-full bg-white h-16 border-b border-black/25 px-4 z-10 top-0 fixed"
+    v-if="profProfile"
   >
     <!-- Left Section: Logo and Text -->
-    <RouterLink to="/DeanDashboard">
+    <RouterLink to="/ProfessorDashboard">
       <div class="flex items-center space-x-2 cursor-pointer">
         <Avatar class="w-9 h-9">
           <AvatarImage
@@ -19,67 +20,27 @@
       </div>
     </RouterLink>
 
-    <!-- Right Section: Calendar Icon with HoverCard and Avatar Dropdown -->
     <div class="flex items-center space-x-1">
-      <!-- Calendar Icon with HoverCard -->
-      <HoverCard>
-        <HoverCardTrigger as-child>
-          <Button variant="link">
-            <Clock color="#2e5244" stroke-width="2" size="18" />
-          </Button>
-        </HoverCardTrigger>
-        <HoverCardContent class="w-80 mr-20">
-          <div class="flex justify-between space-x-4">
-            <div class="space-y-1" v-if="evaluationPeriod">
-              <div class="flex items-center">
-                <CalendarDays class="mr-2 h-4 w-4 opacity-70" />
-                <h4 class="text-sm font-semibold">Evaluation Period</h4>
-              </div>
-              <div class="flex items-center pt-2">
-                <span class="text-xs font-medium">
-                  {{ evaluationPeriod.start_date }} -
-                  {{ evaluationPeriod.end_date }}
-                </span>
-              </div>
-            </div>
-          </div>
-        </HoverCardContent>
-      </HoverCard>
-
       <DropdownMenu>
         <DropdownMenuTrigger>
           <Avatar class="w-8 h-8 mt-2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="36"
-              height="36"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="#595959"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="lucide lucide-circle-user-round"
-            >
-              <path d="M18 20a6 6 0 0 0-12 0" />
-              <circle cx="12" cy="10" r="4" />
-              <circle cx="12" cy="12" r="10" />
-            </svg>
-            <!-- <AvatarImage
-            src="https://plpasig.edu.ph/wp-content/uploads/2023/01/cropped-logo120.png"
-          />
-          <AvatarFallback>PLP</AvatarFallback> -->
+            <AvatarImage
+              src="https://plus.unsplash.com/premium_photo-1661942126259-fb08e7cce1e2?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            />
+            <AvatarFallback>PLP</AvatarFallback>
           </Avatar>
         </DropdownMenuTrigger>
         <DropdownMenuContent class="w-50 mr-7">
           <DropdownMenuLabel>
             <div class="flex flex-col space-y-0 line-clamp-2">
-              <span class="font-medium">{{ Admin }}</span>
+              <span class="font-medium"
+                >{{ profProfile.first_name }} {{ profProfile.surname }}
+              </span>
               <span class="text-gray-500 italic text-xs">{{ College }}</span>
             </div>
           </DropdownMenuLabel>
           <DropdownMenuSeparator class="bg-plpgreen-100 border-0.5" />
-          <RouterLink to="/DeanProfile">
+          <RouterLink to="/ProfProfile">
             <DropdownMenuItem>
               <div class="flex items-center space-x-2 cursor-pointer w-full">
                 <User size="14" />
@@ -87,9 +48,6 @@
               </div>
             </DropdownMenuItem>
           </RouterLink>
-          <DropdownMenuItem>
-            <generateReports></generateReports>
-          </DropdownMenuItem>
           <DropdownMenuSeparator class="bg-plpgreen-100" />
           <DropdownMenuItem>
             <div
@@ -156,6 +114,33 @@ onMounted(async () => {
     evaluationPeriod.value = response.data;
   } catch (error) {
     console.error("Error fetching evaluation period:", error);
+  }
+});
+
+const profProfile = ref(null);
+
+onMounted(async () => {
+  const profID = localStorage.getItem("professor");
+  if (profID) {
+    try {
+      const response = await axios.get(
+        "https://sentiment-professor-feedback-1.onrender.com/api/professor-list/",
+        { withCredentials: true }
+      );
+
+      const professor = response.data.find(
+        (prof) => prof.professor_id === profID
+      );
+      if (professor) {
+        profProfile.value = professor;
+      } else {
+        errorMessage.value = "Professor not found. Please contact support.";
+      }
+    } catch (error) {
+      console.error("Error fetching professor profile:", error);
+    }
+  } else {
+    console.error("Professor ID not found in localStorage.");
   }
 });
 </script>

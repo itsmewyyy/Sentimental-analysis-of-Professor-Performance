@@ -128,7 +128,7 @@ onMounted(() => {
             class="absolute right-2 sm:right-4 top-1/2 transform -translate-y-1/2 w-10 sm:w-14 h-10 sm:h-14 rounded-full"
           >
             <AvatarImage
-              src="https://i.pinimg.com/564x/da/2a/20/da2a208141d20d42434ef3d4ae9c5d88.jpg"
+              src="https://plus.unsplash.com/premium_photo-1661942126259-fb08e7cce1e2?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             />
             <AvatarFallback>PLP</AvatarFallback>
           </Avatar>
