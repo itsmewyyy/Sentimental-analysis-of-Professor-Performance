@@ -134,7 +134,6 @@ import { cn } from "@/lib/utils";
 
 const { toast } = useToast();
 const router = useRouter();
-const dateofbirth = ref<Date>();
 
 const professor_id = ref("");
 const password = ref("");
@@ -149,10 +148,6 @@ const isPasswordValid = computed(() =>
 
 // Register function with validation checks
 const register = async () => {
-  const formattedDateOfBirth = dateofbirth.value
-    ? format(dateofbirth.value, "yyyy-MM-dd")
-    : "";
-
   if (!isPasswordValid.value) {
     toast({
       variant: "destructive",
@@ -172,16 +167,16 @@ const register = async () => {
     return;
   }
 
-  const authRegister = useAuthStoreProf();
+  const authRegisterProf = useAuthStoreProf();
   try {
-    await authRegister.register(
+    await authRegisterProf.register(
       professor_id.value,
       password.value,
       confirm_password.value,
       professor_email.value
     );
 
-    router.push("/StudentLogin");
+    router.push("/AdminLogin");
   } catch (error) {
     toast({
       variant: "destructive",

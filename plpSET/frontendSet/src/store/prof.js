@@ -7,15 +7,15 @@ export const useAuthStoreProf = defineStore("prof", {
     user: null,
   }),
   actions: {
-    async register(professor_id, password, confirm_password, professor_email) {
+    async register(professor_id, professor_email, password, confirm_password) {
       try {
         const response = await axios.post(
           "https://sentiment-professor-feedback-1.onrender.com/api/profregister/",
           {
             professor_id,
+            professor_email,
             password,
             confirm_password,
-            professor_email,
           },
           { withCredentials: true }
         );
@@ -77,11 +77,10 @@ export const useAuthStoreProf = defineStore("prof", {
       const profId = localStorage.getItem("professor");
       const deptId = localStorage.getItem("college");
 
-      if (adminId && userType) {
+      if (profId && userType) {
         this.isAuthenticated = true;
         this.user = {
           professor_id: profId,
-          user_type: userType,
           dept_id: deptId,
         };
       }
