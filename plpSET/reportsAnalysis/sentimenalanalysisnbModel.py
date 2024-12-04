@@ -60,14 +60,13 @@ x_train, X_test, y_train, y_test = train_test_split(features_res, label_res, tes
 model = MultinomialNB(alpha=1.0)
 model.fit(x_train, y_train)
 
-# Define the directory for saving files
-save_directory = os.path.dirname(os.path.abspath(__file__))  # Get the current script directory
 
-# Save the model and vectorizer using joblib in the same directory
+save_directory = os.path.dirname(os.path.abspath(__file__))  
+
+
 joblib.dump(model, os.path.join(save_directory, 'model.pkl'))
 joblib.dump(vectorizer, os.path.join(save_directory, 'vectorizer.pkl'))
 
-# Save any additional configurations or objects using pickle
 config = {"model_type": "Naive Bayes", "vectorizer_type": "TF-IDF"}
 with open(os.path.join(save_directory, 'config.pkl'), 'wb') as config_file:
     pickle.dump(config, config_file)

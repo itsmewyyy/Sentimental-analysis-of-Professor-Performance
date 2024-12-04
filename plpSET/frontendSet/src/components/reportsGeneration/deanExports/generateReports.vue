@@ -305,6 +305,22 @@ function exportPDF(): void {
       let heightLeft = imgHeight;
       let position = padding;
 
+      // Construct the filename
+      const now = new Date();
+      const formattedDate = `${now.getFullYear()}-${String(
+        now.getMonth() + 1
+      ).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+      const formattedTime = `${String(now.getHours()).padStart(
+        2,
+        "0"
+      )}-${String(now.getMinutes()).padStart(2, "0")}-${String(
+        now.getSeconds()
+      ).padStart(2, "0")}`;
+      const baseFilename = selectedProfessor.value
+        ? `${selectedProfessorFullName.value}_${selectedCollege}_${rating.value}`
+        : `${selectedCollege}_${rating.value}`;
+      const filename = `${baseFilename}_${formattedDate}_${formattedTime}.pdf`;
+
       while (heightLeft > 0) {
         const pageCanvas = document.createElement("canvas");
         const pageContext = pageCanvas.getContext("2d");
@@ -344,7 +360,7 @@ function exportPDF(): void {
         }
       }
 
-      pdf.save("exported-content.pdf");
+      pdf.save(filename);
     });
   } else {
     console.error('Element with id "contentToExport" not found.');

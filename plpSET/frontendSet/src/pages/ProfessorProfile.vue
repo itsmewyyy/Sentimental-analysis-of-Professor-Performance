@@ -1,7 +1,7 @@
 <template>
   <NavBarProfessor></NavBarProfessor>
   <ScrollArea class="h-svh w-full">
-    <div class="max-w-3xl mx-auto p-4 space-y-6" v-if="profProfile">
+    <div class="max-w-3xl mx-auto p-4 space-y-6 pt-28" v-if="profProfile">
       <h1 class="text-xl font-semibold mt-4 text-gray-900">My Profile</h1>
       <!-- Profile Header -->
       <Card>
